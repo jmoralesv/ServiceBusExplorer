@@ -3985,7 +3985,7 @@ namespace ServiceBusExplorer.Forms
                         ok = true;
                     }
                     var width = panelMain.Width - 4;
-                    var height = panelMain.Height - /*26;*/ (LogicalToDeviceUnits(panelMain.HeaderHeight) + 6);
+                    var height = panelMain.Height - (LogicalToDeviceUnits(panelMain.HeaderHeight) + 6);
                     control.Width = width < ControlMinWidth ? ControlMinWidth : width;
                     control.Height = height < ControlMinHeight ? ControlMinHeight : height;
                 }
