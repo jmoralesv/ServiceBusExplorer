@@ -124,7 +124,7 @@
   <data name="pictFindMessages.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EQAACxEBf2RfkQAAAAd0SU1FB90LGg8kOha4XJIAAAMOSURBVDhPrdHrS1NxGMDx/ohehVnWi4gKur4I
+        EAAACxABrSO9dQAAAAd0SU1FB90LGg8kOha4XJIAAAMOSURBVDhPrdHrS1NxGMDx/ohehVnWi4gKur4I
         e5ck0cSiTMWE0HI6dWq7oGLTOfO2edyW052zzc3LtKl43TlnNzRteEvNzbMp5aUsE+dlXpIi0l9HCLcO
         QwWFL+fV83w4PL9jsN52mCoNhHFo1vF17bAQmQKzt/fNHAFEhuhtPqAaM1GgG77GQS+ltQfxjQzYKmkZ
         rjUTKtxOmfSOClUaxp6VWQMSUZqQeCqfCxLMBGZN3Ejvv5vXVdQ4vIf1H0Qqj4Rvz7O6Mxs2s3QgUQno
@@ -161,7 +161,7 @@
   <data name="pictFindDeadletter.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EQAACxEBf2RfkQAAAAd0SU1FB90LGg8kOha4XJIAAAMOSURBVDhPrdHrS1NxGMDx/ohehVnWi4gKur4I
+        EAAACxABrSO9dQAAAAd0SU1FB90LGg8kOha4XJIAAAMOSURBVDhPrdHrS1NxGMDx/ohehVnWi4gKur4I
         e5ck0cSiTMWE0HI6dWq7oGLTOfO2edyW052zzc3LtKl43TlnNzRteEvNzbMp5aUsE+dlXpIi0l9HCLcO
         QwWFL+fV83w4PL9jsN52mCoNhHFo1vF17bAQmQKzt/fNHAFEhuhtPqAaM1GgG77GQS+ltQfxjQzYKmkZ
         rjUTKtxOmfSOClUaxp6VWQMSUZqQeCqfCxLMBGZN3Ejvv5vXVdQ4vIf1H0Qqj4Rvz7O6Mxs2s3QgUQno
@@ -205,13 +205,13 @@
     <value>460, 20</value>
   </metadata>
   <metadata name="authorizationRulesBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>657, 20</value>
+    <value>646, 20</value>
   </metadata>
   <metadata name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1700, 25</value>
+    <value>1285, 23</value>
   </metadata>
   <metadata name="deadletterContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1101, 18</value>
+    <value>1078, 23</value>
   </metadata>
   <metadata name="messagesContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>874, 23</value>
