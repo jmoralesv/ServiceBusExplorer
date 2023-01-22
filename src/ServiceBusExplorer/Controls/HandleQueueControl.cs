@@ -681,14 +681,14 @@ namespace ServiceBusExplorer.Controls
 
             if (queueDescription != null)
             {
-               if (duplicateQueue)
-               {
-                   ConfigureDuplicateUserInterface();
-               }
-               else
-               {
-                   ConfigureReadUserInterface();
-               }
+                if (duplicateQueue)
+                {
+                    ConfigureDuplicateUserInterface();
+                }
+                else
+                {
+                    ConfigureReadUserInterface();
+                }
             }
             else
             {
@@ -1049,7 +1049,7 @@ namespace ServiceBusExplorer.Controls
 
             // special handling for max size if partitioning is enabled
             trackBarMaxQueueSize.Maximum = serviceBusHelper.IsCloudNamespace ? 5 : 11;
-            trackBarMaxQueueSize.Value = queueDescription.EnablePartitioning ? queueDescription.MaxSizeInGigabytes() / 16 
+            trackBarMaxQueueSize.Value = queueDescription.EnablePartitioning ? queueDescription.MaxSizeInGigabytes() / 16
                 : queueDescription.MaxSizeInGigabytes();
 
             ConfigureCreateUserInterface();
@@ -1467,7 +1467,7 @@ namespace ServiceBusExplorer.Controls
                 else
                 {
                     var messageReceiver = BuildMessageReceiver(ReceiveMode.ReceiveAndDelete, fromSession);
-                    
+
                     var totalRetrieved = 0;
                     int retrieved;
                     do
@@ -2535,19 +2535,17 @@ namespace ServiceBusExplorer.Controls
             e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(215, 228, 242)), startX, -1, e.Bounds.Width + 1,
                 e.Bounds.Height + 1);
             // Left vertical line
-            e.Graphics.DrawLine(new Pen(SystemColors.ControlLightLight), startX, -1, startX,
+            e.Graphics.DrawLine(SystemPens.ControlLightLight, startX, -1, startX,
                 e.Bounds.Y + e.Bounds.Height + 1);
             // TopCount horizontal line
-            e.Graphics.DrawLine(new Pen(SystemColors.ControlLightLight), startX, -1, endX, -1);
+            e.Graphics.DrawLine(SystemPens.ControlLightLight, startX, -1, endX, -1);
             // Bottom horizontal line
-            e.Graphics.DrawLine(new Pen(SystemColors.ControlDark), startX, e.Bounds.Height - 1, endX,
+            e.Graphics.DrawLine(SystemPens.ControlDark, startX, e.Bounds.Height - 1, endX,
                 e.Bounds.Height - 1);
             // Right vertical line
-            e.Graphics.DrawLine(new Pen(SystemColors.ControlDark), endX, -1, endX, e.Bounds.Height + 1);
-            var roundedFontSize = (float)Math.Round(e.Font.SizeInPoints);
-            var bounds = new RectangleF(e.Bounds.X + 4, (e.Bounds.Height - 8 - roundedFontSize) / 2, e.Bounds.Width,
-                roundedFontSize + 6);
-            e.Graphics.DrawString(e.Header.Text, e.Font, new SolidBrush(SystemColors.ControlText), bounds);
+            e.Graphics.DrawLine(SystemPens.ControlDark, endX, -1, endX, e.Bounds.Height + 1);
+
+            e.DrawText();
         }
 
         private void listView_DrawItem(object sender, DrawListViewItemEventArgs e)
@@ -2678,7 +2676,7 @@ namespace ServiceBusExplorer.Controls
                     // If we have images, process them.
                     if (images != null)
                     {
-                        // Get sice and image.
+                        // Get size and image.
                         var size = images.ImageSize;
                         Image icon = default!;
                         if (page.ImageIndex > -1)
