@@ -94,31 +94,7 @@ namespace ServiceBusExplorer.Controls
         #region Private Methods
         private void InitializeControls()
         {
-            // Set Grid style
-            authorizationRulesDataGridView.EnableHeadersVisualStyles = false;
-
-            // Set the selection background color for all the cells.
-            authorizationRulesDataGridView.DefaultCellStyle.SelectionBackColor = Color.FromArgb(92, 125, 150);
-            authorizationRulesDataGridView.DefaultCellStyle.SelectionForeColor = SystemColors.Window;
-
-            // Set RowHeadersDefaultCellStyle.SelectionBackColor so that its default 
-            // value won't override DataGridView.DefaultCellStyle.SelectionBackColor.
-            authorizationRulesDataGridView.RowHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(153, 180, 209);
-
-            // Set the background color for all rows and for alternating rows.  
-            // The value for alternating rows overrides the value for all rows. 
-            authorizationRulesDataGridView.RowsDefaultCellStyle.BackColor = SystemColors.Window;
-            authorizationRulesDataGridView.RowsDefaultCellStyle.ForeColor = SystemColors.ControlText;
-            //authorizationRulesDataGridView.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
-            //authorizationRulesDataGridView.AlternatingRowsDefaultCellStyle.ForeColor = SystemColors.ControlText;
-
-            // Set the row and column header styles.
-            authorizationRulesDataGridView.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(215, 228, 242);
-            authorizationRulesDataGridView.RowHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
-            authorizationRulesDataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(215, 228, 242);
-            authorizationRulesDataGridView.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
-
-            authorizationRulesDataGridView.AutoGenerateColumns = false;
+            AuthorizationRulesDataGridViewHelper.InitializeDataGridView(authorizationRulesDataGridView);
             if (authorizationRulesDataGridView.Columns.Count == 0)
             {
                 authorizationRulesDataGridView.Columns.Add(new DataGridViewTextBoxColumn { Name = "Property Name", DataPropertyName = "Name" });

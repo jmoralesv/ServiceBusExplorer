@@ -166,47 +166,8 @@ namespace ServiceBusExplorer.Controls
                 }
             }
 
-            // Set Grid style
-            authorizationRulesDataGridView.EnableHeadersVisualStyles = false;
-
-            // Set the selection background color for all the cells.
-            authorizationRulesDataGridView.DefaultCellStyle.SelectionBackColor = Color.FromArgb(92, 125, 150);
-            authorizationRulesDataGridView.DefaultCellStyle.SelectionForeColor = SystemColors.Window;
-
-            // Set RowHeadersDefaultCellStyle.SelectionBackColor so that its default 
-            // value won't override DataGridView.DefaultCellStyle.SelectionBackColor.
-            authorizationRulesDataGridView.RowHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(153, 180, 209);
-
-            // Set the background color for all rows and for alternating rows.  
-            // The value for alternating rows overrides the value for all rows. 
-            authorizationRulesDataGridView.RowsDefaultCellStyle.BackColor = SystemColors.Window;
-            authorizationRulesDataGridView.RowsDefaultCellStyle.ForeColor = SystemColors.ControlText;
-
-            // Set the row and column header styles.
-            authorizationRulesDataGridView.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(215, 228, 242);
-            authorizationRulesDataGridView.RowHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
-            authorizationRulesDataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(215, 228, 242);
-            authorizationRulesDataGridView.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
-
-            authorizationRulesDataGridView.AutoGenerateColumns = false;
-            if (authorizationRulesDataGridView.Columns.Count == 0)
-            {
-                authorizationRulesDataGridView.Columns.Add(new DataGridViewTextBoxColumn { Name = "IssuerName", DataPropertyName = "IssuerName" });
-                authorizationRulesDataGridView.Columns.Add(new DataGridViewComboBoxColumn { Name = "ClaimType", DataPropertyName = "ClaimType", DataSource = claimTypes, FlatStyle = FlatStyle.Flat });
-                authorizationRulesDataGridView.Columns.Add(new DataGridViewTextBoxColumn { Name = "ClaimValue", DataPropertyName = "ClaimValue" });
-                if (serviceBusHelper.IsCloudNamespace)
-                {
-                    authorizationRulesDataGridView.Columns.Add(new DataGridViewTextBoxColumn { Name = "KeyName", DataPropertyName = "KeyName" });
-                    authorizationRulesDataGridView.Columns.Add(new DataGridViewTextBoxColumn { Name = "PrimaryKey", DataPropertyName = "PrimaryKey" });
-                    authorizationRulesDataGridView.Columns.Add(new DataGridViewTextBoxColumn { Name = "SecondaryKey", DataPropertyName = "SecondaryKey" });
-                }
-                authorizationRulesDataGridView.Columns.Add(new DataGridViewCheckBoxColumn { Name = "Manage", DataPropertyName = "Manage", Width = 50 });
-                authorizationRulesDataGridView.Columns.Add(new DataGridViewCheckBoxColumn { Name = "Send", DataPropertyName = "Send", Width = 50 });
-                authorizationRulesDataGridView.Columns.Add(new DataGridViewCheckBoxColumn { Name = "Listen", DataPropertyName = "Listen", Width = 50 });
-                authorizationRulesDataGridView.Columns.Add(new DataGridViewTextBoxColumn { Name = "Revision", DataPropertyName = "Revision", Width = 50, ReadOnly = true });
-                authorizationRulesDataGridView.Columns.Add(new DataGridViewTextBoxColumn { Name = "CreatedTime", DataPropertyName = "CreatedTime", ReadOnly = true });
-                authorizationRulesDataGridView.Columns.Add(new DataGridViewTextBoxColumn { Name = "ModifiedTime", DataPropertyName = "ModifiedTime", ReadOnly = true });
-            }
+            AuthorizationRulesDataGridViewHelper.InitializeDataGridView(authorizationRulesDataGridView);
+            AuthorizationRulesDataGridViewHelper.AddAuthorizationRulesColumns(authorizationRulesDataGridView, serviceBusHelper.IsCloudNamespace, LogicalToDeviceUnits);
 
             if (relayDescription != null)
             {
