@@ -3797,7 +3797,10 @@ namespace ServiceBusExplorer.Forms
             {
                 treeViewFontSize = tempTreeViewFontSize;
                 serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)treeViewFontSize);
-                serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
+                if (serviceBusTreeView.ItemHeight < serviceBusTreeView.Font.Height)
+                {
+                    serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
+                }
             }
 
             RetryHelper.RetryCount = readSettings.RetryCount;
