@@ -49,7 +49,7 @@ namespace ServiceBusExplorer.Forms
             txtContent.Text = string.IsNullOrWhiteSpace(Content) ? string.Empty : Content;
         }
 
-        public TextForm(string text, string label, string content)
+        public TextForm(string text, string label, string content, Size size)
         {
             InitializeComponent();
             if (!string.IsNullOrWhiteSpace(text))
@@ -59,9 +59,10 @@ namespace ServiceBusExplorer.Forms
             grouperCaption.GroupTitle = string.IsNullOrWhiteSpace(label) ? DefaultLabel : label;
             Content = XmlHelper.Indent(content);
             txtContent.Text = string.IsNullOrWhiteSpace(Content) ? string.Empty : Content;
+            Size = new Size(LogicalToDeviceUnits(size.Width), LogicalToDeviceUnits(size.Height));
         }
 
-        public TextForm(string text, string label, string content, bool hideOpen = false)
+        public TextForm(string text, string label, string content, Size size, bool hideOpen = false)
         {
             InitializeComponent();
             if (!string.IsNullOrWhiteSpace(text))
@@ -72,6 +73,7 @@ namespace ServiceBusExplorer.Forms
             grouperCaption.GroupTitle = string.IsNullOrWhiteSpace(label) ? DefaultLabel : label;
             Content = XmlHelper.Indent(content);
             txtContent.Text = string.IsNullOrWhiteSpace(Content) ? string.Empty : Content;
+            Size = new Size(LogicalToDeviceUnits(size.Width), LogicalToDeviceUnits(size.Height));
         }
         #endregion
 

@@ -21,6 +21,7 @@
 
 #region Using Directives
 
+using ServiceBusExplorer.Forms;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -28,7 +29,6 @@ using System.Drawing.Design;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using ServiceBusExplorer.Forms;
 
 #endregion
 
@@ -48,12 +48,12 @@ namespace ServiceBusExplorer.UIHelpers
             if (service != null && context.Instance is CustomObject)
             {
                 var customObject = context.Instance as CustomObject;
-                
+
                 var valueAsString = value as string;
                 // ReSharper disable SuspiciousTypeConversion.Global
                 var gridItem = provider as GridItem;
                 // ReSharper restore SuspiciousTypeConversion.Global
-                
+
 
                 var propertyName = "Value";
                 if (gridItem != null)
@@ -64,9 +64,8 @@ namespace ServiceBusExplorer.UIHelpers
                         return string.Empty;
                     }
                 }
-                using (var form = new TextForm(string.Format("Edit {0}", propertyName), propertyName, valueAsString, true))
+                using (var form = new TextForm(string.Format("Edit {0}", propertyName), propertyName, valueAsString, new Size(600, 200), true))
                 {
-                    form.Size = new Size(600, 320);
                     if (service.ShowDialog(form) == DialogResult.OK)
                     {
                         value = form.Content;
@@ -76,7 +75,7 @@ namespace ServiceBusExplorer.UIHelpers
             // ReSharper disable AssignNullToNotNullAttribute
             return value;
             // ReSharper restore AssignNullToNotNullAttribute
-        } 
+        }
         #endregion
     }
 }

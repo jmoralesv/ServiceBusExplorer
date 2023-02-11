@@ -3383,9 +3383,8 @@ namespace ServiceBusExplorer.Controls
                 {
                     return;
                 }
-                using (var form = new TextForm(FilterExpressionTitle, FilterExpressionLabel, messagesFilterExpression))
+                using (var form = new TextForm(FilterExpressionTitle, FilterExpressionLabel, messagesFilterExpression, new Size(600, 200)))
                 {
-                    form.Size = new Size(600, 200);
                     if (form.ShowDialog() != DialogResult.OK)
                     {
                         return;
@@ -3630,10 +3629,8 @@ namespace ServiceBusExplorer.Controls
                 {
                     return;
                 }
-                using (var form = new TextForm(FilterExpressionTitle, FilterExpressionLabel, deadletterFilterExpression)
-                )
+                using (var form = new TextForm(FilterExpressionTitle, FilterExpressionLabel, deadletterFilterExpression, new Size(600, 200)))
                 {
-                    form.Size = new Size(600, 200);
                     if (form.ShowDialog() != DialogResult.OK)
                     {
                         return;

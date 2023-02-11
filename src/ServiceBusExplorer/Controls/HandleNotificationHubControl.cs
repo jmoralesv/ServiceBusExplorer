@@ -3392,9 +3392,8 @@ namespace ServiceBusExplorer.Controls
                 {
                     return;
                 }
-                using (var form = new TextForm(FilterExpressionTitle, FilterExpressionLabel, registrationsFilterExpression))
+                using (var form = new TextForm(FilterExpressionTitle, FilterExpressionLabel, registrationsFilterExpression, new Size(600, 200)))
                 {
-                    form.Size = new Size(600, 200);
                     if (form.ShowDialog() != DialogResult.OK)
                     {
                         return;
