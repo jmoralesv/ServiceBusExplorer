@@ -846,7 +846,16 @@ namespace ServiceBusExplorer.Controls
             // Right vertical line
             e.Graphics.DrawLine(SystemPens.ControlDark, endX, -1, endX, e.Bounds.Height + 1);
 
-            e.DrawText();
+            if (DeviceDpi <= 96)
+            {
+                var roundedFontSize = (float)Math.Round(e.Font.SizeInPoints);
+                var bounds = new RectangleF(e.Bounds.X + 4, (e.Bounds.Height - 8 - roundedFontSize) / 2, e.Bounds.Width, roundedFontSize + 6);
+                e.Graphics.DrawString(e.Header.Text, e.Font, SystemBrushes.ControlText, bounds);
+            }
+            else
+            {
+                e.DrawText();
+            }
         }
 
         private void propertyListView_DrawItem(object sender, DrawListViewItemEventArgs e)
