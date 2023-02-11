@@ -26,7 +26,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using ServiceBusExplorer.Helpers;
 using ServiceBusExplorer.UIHelpers;
 using ServiceBusExplorer.Utilities.Helpers;
 

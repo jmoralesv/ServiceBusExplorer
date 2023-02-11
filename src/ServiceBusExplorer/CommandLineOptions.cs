@@ -1,7 +1,6 @@
 ﻿namespace ServiceBusExplorer
 {
     using System.Collections.Generic;
-    using System.Windows.Forms.Design;
     using CommandLine;
     using CommandLine.Text;
     using Helpers;

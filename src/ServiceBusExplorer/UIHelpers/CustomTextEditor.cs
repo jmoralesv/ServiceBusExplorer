@@ -29,7 +29,6 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using ServiceBusExplorer.Forms;
-using ServiceBusExplorer.Helpers;
 
 #endregion
 

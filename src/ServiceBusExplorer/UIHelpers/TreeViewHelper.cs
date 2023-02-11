@@ -25,7 +25,6 @@ using System;
 using System.Collections;
 using System.Windows.Forms;
 using ServiceBusExplorer.Forms;
-using ServiceBusExplorer.Helpers;
 
 #endregion
 

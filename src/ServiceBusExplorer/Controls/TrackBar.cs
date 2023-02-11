@@ -26,7 +26,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
-using ServiceBusExplorer.Helpers;
 using ServiceBusExplorer.UIHelpers;
 
 #endregion
@@ -34,12 +33,12 @@ using ServiceBusExplorer.UIHelpers;
 namespace ServiceBusExplorer.Controls
 {
 
-	#region Declaration
+    #region Declaration
 
-	/// <summary>
-	/// Represents the method that will handle a change in value.
-	/// </summary>
-	public delegate void ValueChangedHandler(object sender, decimal value);
+    /// <summary>
+    /// Represents the method that will handle a change in value.
+    /// </summary>
+    public delegate void ValueChangedHandler(object sender, decimal value);
 
     public enum BrushStyle
     {

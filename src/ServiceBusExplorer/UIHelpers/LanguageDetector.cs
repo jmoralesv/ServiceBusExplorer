@@ -26,7 +26,6 @@
 using System;
 using FastColoredTextBoxNS;
 using Microsoft.ServiceBus.Messaging;
-using ServiceBusExplorer.Helpers;
 using ServiceBusExplorer.Forms;
 using ServiceBusExplorer.Utilities.Helpers;
 

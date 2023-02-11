@@ -40,7 +40,6 @@ using ServiceBusExplorer.UIHelpers;
 namespace ServiceBusExplorer.Forms
 {
     using System.ComponentModel;
-    using System.Configuration;
     using Utilities.Helpers;
 
     public partial class OptionForm : Form

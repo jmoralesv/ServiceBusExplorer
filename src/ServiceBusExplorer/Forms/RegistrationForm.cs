@@ -29,7 +29,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Azure.NotificationHubs;
-using ServiceBusExplorer.Helpers;
 using ServiceBusExplorer.NotificationHubs.Helpers;
 using ServiceBusExplorer.UIHelpers;
 using ServiceBusExplorer.Utilities.Helpers;

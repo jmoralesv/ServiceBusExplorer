@@ -27,7 +27,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
-using ServiceBusExplorer.Helpers;
 using ServiceBusExplorer.UIHelpers;
 using ServiceBusExplorer.Utilities.Helpers;
 using Microsoft.ServiceBus.Messaging;
@@ -167,23 +166,7 @@ namespace ServiceBusExplorer.Controls
             }
         }
 
-        private void propertyListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-        {
-            var startX = e.ColumnIndex == 0 ? -1 : e.Bounds.X;
-            var endX = e.Bounds.X + e.Bounds.Width - 1;
-            // Background
-            e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(215, 228, 242)), startX, -1, e.Bounds.Width + 1, e.Bounds.Height + 1);
-            // Left vertical line
-            e.Graphics.DrawLine(SystemPens.ControlLightLight, startX, -1, startX, e.Bounds.Y + e.Bounds.Height + 1);
-            // TopCount horizontal line
-            e.Graphics.DrawLine(SystemPens.ControlLightLight, startX, -1, endX, -1);
-            // Bottom horizontal line
-            e.Graphics.DrawLine(SystemPens.ControlDark, startX, e.Bounds.Height - 1, endX, e.Bounds.Height - 1);
-            // Right vertical line
-            e.Graphics.DrawLine(SystemPens.ControlDark, endX, -1, endX, e.Bounds.Height + 1);
-
-            e.DrawText();
-        }
+        private void propertyListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e) => ListViewHelper.DrawListViewHeaders(e, DeviceDpi);
 
         private void propertyListView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {

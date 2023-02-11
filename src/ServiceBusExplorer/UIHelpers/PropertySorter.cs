@@ -23,7 +23,6 @@
 
 using System;
 using System.Collections.Generic;
-using ServiceBusExplorer.Helpers;
 using ServiceBusExplorer.Utilities.Helpers;
 
 #endregion
