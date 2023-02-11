@@ -263,16 +263,7 @@ namespace ServiceBusExplorer.Controls
 
         #region Private Static Fields
 
-        private static readonly List<string> ClaimTypes = new List<string>
-        {
-            "NameIdentifier",
-            "Upn",
-            "Role",
-            "SharedAccessKey"
-        };
-
-
-        private static List<string> QueueSettingsList = new List<string>()
+        private static readonly List<string> QueueSettingsList = new List<string>()
         {
             EnableBatchedOperationsItemText,
             EnableDeadLetteringOnMessageExpirationItemText,

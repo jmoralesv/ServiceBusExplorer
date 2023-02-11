@@ -132,7 +132,7 @@ namespace ServiceBusExplorer.Controls
         #endregion
 
         #region Private Static Fields
-        private static List<string> topicSettingsList = new List<string>()
+        private static readonly List<string> topicSettingsList = new List<string>()
         {
             EnableBatchedOperationsItemText,
             EnableFilteringMessagesBeforePublishingItemText,
@@ -143,7 +143,6 @@ namespace ServiceBusExplorer.Controls
             IsAnonymousAccessibleItemText
         };
 
-        private static readonly List<string> claimTypes = new List<string> { "NameIdentifier", "Upn", "Role", "SharedAccessKey" };
         private static readonly List<string> operators = new List<string> { "ge", "gt", "le", "lt", "eq", "ne" };
         private static readonly List<string> timeGranularityList = new List<string> { "PT5M", "PT1H", "P1D", "P7D" };
         #endregion
