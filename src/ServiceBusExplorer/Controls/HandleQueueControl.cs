@@ -35,6 +35,7 @@ using ServiceBusExplorer.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -234,7 +235,6 @@ namespace ServiceBusExplorer.Controls
 
         private QueueDescription queueDescription = default!;
         private readonly ServiceBusHelper serviceBusHelper = default!;
-        private readonly ServiceBusHelper2 serviceBusHelper2 = default!;
         private readonly WriteToLogDelegate writeToLog = default!;
         private readonly string path = default!;
         private readonly List<TabPage> hiddenPages = new List<TabPage>();
@@ -287,9 +287,9 @@ namespace ServiceBusExplorer.Controls
         {
             this.writeToLog = writeToLog;
             this.serviceBusHelper = serviceBusHelper;
-            this.serviceBusHelper2 = serviceBusHelper.GetServiceBusHelper2();
             this.path = path;
             this.queueDescription = queueDescription;
+            var serviceBusHelper2 = serviceBusHelper.GetServiceBusHelper2();
 
             if (!serviceBusHelper2.ConnectionStringContainsEntityPath())
             {
@@ -1896,6 +1896,17 @@ namespace ServiceBusExplorer.Controls
                 {
                     using (var deleteForm = new DeleteForm(queueDescription.Path, QueueEntity.ToLower()))
                     {
+                        var configuration = TwoFilesConfiguration.Create(TwoFilesConfiguration.GetCurrentConfigFileUse(), writeToLog);
+
+                        bool disableAccidentalDeletionPrevention = configuration.GetBoolValue(
+                                                               ConfigurationParameters.DisableAccidentalDeletionPrevention,
+                                                               defaultValue: false);
+
+                        if (!disableAccidentalDeletionPrevention)
+                        {
+                            deleteForm.ShowAccidentalDeletionPreventionCheck(configuration, $"Delete {queueDescription.Path} {QueueEntity.ToLower()}");
+                        }
+
                         if (deleteForm.ShowDialog() == DialogResult.OK)
                         {
                             await serviceBusHelper.DeleteQueue(queueDescription);
@@ -2619,6 +2630,29 @@ namespace ServiceBusExplorer.Controls
             CalculateLastColumnWidth(sender);
         }
 
+        private void dataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            var grid = sender as DataGridView ?? throw new ArgumentNullException(nameof(sender));
+            var rowIdx = (e.RowIndex + 1).ToString();
+
+            var centerFormat = new StringFormat()
+            {
+                Alignment = StringAlignment.Far,
+
+                LineAlignment = StringAlignment.Center
+            };
+
+            Size textSize = TextRenderer.MeasureText(rowIdx, this.Font);
+
+            if (grid.RowHeadersWidth < textSize.Width + 20)
+            {
+                grid.RowHeadersWidth = textSize.Width + 20;
+            }
+
+            var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth - 4, e.RowBounds.Height);
+            e.Graphics.DrawString(rowIdx, this.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
+        }
+
         private void dataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             //var textBox = (TextBox)e.Control;
@@ -3165,6 +3199,7 @@ namespace ServiceBusExplorer.Controls
             messagesDataGridView.Rows[e.RowIndex].Selected = true;
             var multipleSelectedRows = messagesDataGridView.SelectedRows.Count > 1;
             repairAndResubmitMessageToolStripMenuItem.Visible = !multipleSelectedRows;
+            resubmitMessageToolStripMenuItem.Visible = !multipleSelectedRows;
             saveSelectedMessageToolStripMenuItem.Visible = !multipleSelectedRows;
             saveSelectedMessageBodyAsFileToolStripMenuItem.Visible = !multipleSelectedRows;
             resubmitSelectedMessagesInBatchModeToolStripMenuItem.Visible = multipleSelectedRows;
@@ -3179,7 +3214,17 @@ namespace ServiceBusExplorer.Controls
                 new DataGridViewCellEventArgs(0, currentMessageRowIndex));
         }
 
+        private void resubmitMessageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResubmitSelectedMessages();
+        }
+
         private void resubmitSelectedMessagesInBatchModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResubmitSelectedMessages();
+        }
+
+        private void ResubmitSelectedMessages()
         {
             try
             {
@@ -3187,8 +3232,9 @@ namespace ServiceBusExplorer.Controls
                 {
                     return;
                 }
+
                 using (var form = new MessageForm(queueDescription, messagesDataGridView.SelectedRows.Cast<DataGridViewRow>()
-                    .Select(r => (BrokeredMessage)r.DataBoundItem), serviceBusHelper, writeToLog))
+                           .Select(r => (BrokeredMessage)r.DataBoundItem), serviceBusHelper, writeToLog))
                 {
                     form.ShowDialog();
                 }
@@ -3281,6 +3327,7 @@ namespace ServiceBusExplorer.Controls
             var multipleSelectedRows = deadletterDataGridView.SelectedRows.Count > 1;
 
             repairAndResubmitDeadletterToolStripMenuItem.Visible = !multipleSelectedRows;
+            resubmitDeadletterToolStripMenuItem.Visible = !multipleSelectedRows;
             saveSelectedDeadletteredMessageToolStripMenuItem.Visible = !multipleSelectedRows;
             saveSelectedDeadletteredMessageBodyAsFileToolStripMenuItem.Visible = !multipleSelectedRows;
             deleteSelectedMessageToolStripMenuItem.Visible = !multipleSelectedRows;
@@ -3316,8 +3363,18 @@ namespace ServiceBusExplorer.Controls
                 new DataGridViewCellEventArgs(0, currentDeadletterMessageRowIndex));
         }
 
+        private async void resubmitDeadletterMessageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await ResubmitSelectedDeadletterMessages();
+        }
+
         private async void resubmitSelectedDeadletterMessagesInBatchModeToolStripMenuItem_Click(object sender,
             EventArgs e)
+        {
+            await ResubmitSelectedDeadletterMessages();
+        }
+
+        async Task ResubmitSelectedDeadletterMessages()
         {
             try
             {
@@ -3325,8 +3382,9 @@ namespace ServiceBusExplorer.Controls
                 {
                     return;
                 }
+
                 using (var form = new MessageForm(queueDescription, deadletterDataGridView.SelectedRows.Cast<DataGridViewRow>()
-                    .Select(r => (BrokeredMessage)r.DataBoundItem), serviceBusHelper, writeToLog))
+                           .Select(r => (BrokeredMessage)r.DataBoundItem), serviceBusHelper, writeToLog))
                 {
                     form.ShowDialog();
                     if (form.RemovedSequenceNumbers != null && form.RemovedSequenceNumbers.Any())
