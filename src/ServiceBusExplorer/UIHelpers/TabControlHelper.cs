@@ -22,8 +22,8 @@
 #region Using Directives
 
 using System.Drawing;
-using System.Windows.Forms;
 using System.Drawing.Text;
+using System.Windows.Forms;
 
 #endregion
 
@@ -84,8 +84,7 @@ namespace ServiceBusExplorer.UIHelpers
                     }
                     else
                     {
-                        tabBackgroundRect = new Rectangle(e.Bounds.X, e.Bounds.Y - 2, e.Bounds.Width,
-                                                          e.Bounds.Height + 4);
+                        tabBackgroundRect = new Rectangle(e.Bounds.X, e.Bounds.Y - 2, e.Bounds.Width, e.Bounds.Height + 4);
                         e.Graphics.FillRectangle(backBrush, tabBackgroundRect);
                         var rect = new Rectangle(e.Bounds.X - 2, e.Bounds.Y - 2, 1, 2);
                         e.Graphics.FillRectangle(backBrush, rect);
@@ -128,23 +127,6 @@ namespace ServiceBusExplorer.UIHelpers
                     }
                 }
             }
-        }
-
-        static void DrawTitles(TabControl tabControl, DrawItemEventArgs e)
-        {
-            var sf = new StringFormat();
-            sf.Alignment = StringAlignment.Center;
-            sf.LineAlignment = StringAlignment.Center;
-            sf.HotkeyPrefix = HotkeyPrefix.Show;
-
-            if (tabControl.SelectedIndex == e.Index)
-            { 
-                e.Graphics.FillRectangle(SystemBrushes.Control, e.Bounds);
-            }
-
-            e.Graphics.DrawString(tabControl.TabPages[e.Index].Text, tabControl.Font, 
-                SystemBrushes.ControlText, e.Bounds, sf);
-            sf.Dispose();
         }
     }
 }
