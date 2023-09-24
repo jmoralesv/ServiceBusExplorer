@@ -343,6 +343,7 @@ namespace ServiceBusExplorer.Forms
             this.tabOptionsControl.Controls.Add(this.tabPageProxy);
             this.tabOptionsControl.Controls.Add(this.tabPageColors);
             this.tabOptionsControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.tabOptionsControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabOptionsControl.Location = new System.Drawing.Point(16, 39);
             this.tabOptionsControl.Name = "tabOptionsControl";
             this.tabOptionsControl.SelectedIndex = 0;
@@ -375,6 +376,7 @@ namespace ServiceBusExplorer.Forms
             this.tabPageGeneral.Controls.Add(this.lblTreeViewFontSize);
             this.tabPageGeneral.Controls.Add(this.logNumericUpDown);
             this.tabPageGeneral.Controls.Add(this.lblLogFontSize);
+            this.tabPageGeneral.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabPageGeneral.Name = "tabPageGeneral";
             this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3);
@@ -667,6 +669,7 @@ namespace ServiceBusExplorer.Forms
             this.tabPageReceiving.Controls.Add(this.lblRetryTimeout);
             this.tabPageReceiving.Controls.Add(this.retryCountNumericUpDown);
             this.tabPageReceiving.Controls.Add(this.lblRetryCount);
+            this.tabPageReceiving.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tabPageReceiving.Location = new System.Drawing.Point(4, 22);
             this.tabPageReceiving.Name = "tabPageReceiving";
             this.tabPageReceiving.Padding = new System.Windows.Forms.Padding(3);
@@ -872,6 +875,7 @@ namespace ServiceBusExplorer.Forms
             this.tabPageSending.Controls.Add(this.lblSavePropertiesOnExit);
             this.tabPageSending.Controls.Add(this.lblSaveMessageOnExit);
             this.tabPageSending.Controls.Add(this.savePropertiesToFileCheckBox);
+            this.tabPageSending.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tabPageSending.Location = new System.Drawing.Point(4, 22);
             this.tabPageSending.Name = "tabPageSending";
             this.tabPageSending.Size = new System.Drawing.Size(576, 360);
@@ -1089,6 +1093,7 @@ namespace ServiceBusExplorer.Forms
             this.tabPageConnectivity.Controls.Add(this.label4);
             this.tabPageConnectivity.Controls.Add(this.cboConnectivityMode);
             this.tabPageConnectivity.Controls.Add(this.lblConnectivityMode);
+            this.tabPageConnectivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tabPageConnectivity.Location = new System.Drawing.Point(4, 22);
             this.tabPageConnectivity.Name = "tabPageConnectivity";
             this.tabPageConnectivity.Size = new System.Drawing.Size(576, 360);
@@ -1155,6 +1160,7 @@ namespace ServiceBusExplorer.Forms
             this.tabPageProxy.Controls.Add(this.lblOverrideProxy);
             this.tabPageProxy.Controls.Add(this.txtProxyAddress);
             this.tabPageProxy.Controls.Add(this.lblProxyAddress);
+            this.tabPageProxy.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tabPageProxy.Location = new System.Drawing.Point(4, 22);
             this.tabPageProxy.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageProxy.Name = "tabPageProxy";
@@ -1329,6 +1335,7 @@ namespace ServiceBusExplorer.Forms
             this.tabPageColors.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
             this.tabPageColors.Controls.Add(this.label5);
             this.tabPageColors.Controls.Add(this.dgNodeColors);
+            this.tabPageColors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tabPageColors.Location = new System.Drawing.Point(4, 22);
             this.tabPageColors.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageColors.Name = "tabPageColors";
