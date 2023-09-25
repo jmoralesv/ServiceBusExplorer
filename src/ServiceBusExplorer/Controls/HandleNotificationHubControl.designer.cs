@@ -376,7 +376,6 @@
             this.mainTabControl.Controls.Add(this.tabPageGoogleNativeNotification);
             this.mainTabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.mainTabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mainTabControl.ItemSize = new System.Drawing.Size(76, 18);
             this.mainTabControl.Location = new System.Drawing.Point(16, 16);
             this.mainTabControl.Multiline = true;
             this.mainTabControl.Name = "mainTabControl";
