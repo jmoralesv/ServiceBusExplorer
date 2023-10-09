@@ -1067,6 +1067,7 @@
             this.grouperMessageText.ShadowThickness = 1;
             this.grouperMessageText.Size = new System.Drawing.Size(606, 213);
             this.grouperMessageText.TabIndex = 26;
+            this.grouperMessageText.CustomPaint += new System.Action<System.Windows.Forms.PaintEventArgs>(this.grouperMessageText_CustomPaint);
             // 
             // txtMessageText
             // 
@@ -1145,6 +1146,7 @@
             this.grouperMessageProperties.ShadowThickness = 1;
             this.grouperMessageProperties.Size = new System.Drawing.Size(314, 211);
             this.grouperMessageProperties.TabIndex = 20;
+            this.grouperMessageProperties.CustomPaint += new System.Action<System.Windows.Forms.PaintEventArgs>(this.grouperMessageProperties_CustomPaint);
             // 
             // messagePropertyGrid
             // 
@@ -1184,6 +1186,7 @@
             this.grouperMessageCustomProperties.ShadowThickness = 1;
             this.grouperMessageCustomProperties.Size = new System.Drawing.Size(314, 213);
             this.grouperMessageCustomProperties.TabIndex = 27;
+            this.grouperMessageCustomProperties.CustomPaint += new System.Action<System.Windows.Forms.PaintEventArgs>(this.grouperMessageCustomProperties_CustomPaint);
             // 
             // messageCustomPropertyGrid
             // 

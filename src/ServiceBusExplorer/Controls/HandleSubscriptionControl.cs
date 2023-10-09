@@ -165,7 +165,7 @@ namespace ServiceBusExplorer.Controls
 
 
         //***************************
-        // Sunscription Constants
+        // Subscription Constants
         //***************************
         private const string SubscriptionEntity = "Subscription";
         private const string SubscriptionPathFormat = "{0}/Subscriptions/{1}";
@@ -342,10 +342,9 @@ namespace ServiceBusExplorer.Controls
                 sessionsDataGridView.DataSource = sessionsBindingSource;
 
                 sessionsSplitContainer.SplitterDistance = sessionsSplitContainer.Width -
-                                                          GrouperMessagePropertiesWith -
-                                                          sessionsSplitContainer.SplitterWidth;
-                sessionMainSplitContainer.SplitterDistance =
-                    sessionMainSplitContainer.Size.Height / 2 - 8;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    sessionsSplitContainer.SplitterWidth;
+                sessionMainSplitContainer.SplitterDistance = sessionMainSplitContainer.Size.Height / 2 - 8;
 
                 if (mainTabControl.TabPages[SessionsTabPage] != null)
                 {
@@ -366,19 +365,19 @@ namespace ServiceBusExplorer.Controls
             }
         }
 
-        public async Task PurgeMessagesAsync()
+        public Task PurgeMessagesAsync()
         {
-            await this.DoPurge(PurgeStrategies.Messages, $"Would you like to purge the {subscriptionWrapper.SubscriptionDescription.Name} subscription?");
+            return this.DoPurge(PurgeStrategies.Messages, $"Would you like to purge the {subscriptionWrapper.SubscriptionDescription.Name} subscription?");
         }
 
-        public async Task PurgeDeadletterQueueMessagesAsync()
+        public Task PurgeDeadletterQueueMessagesAsync()
         {
-            await this.DoPurge(PurgeStrategies.DeadletteredMessages, $"Would you like to purge the dead-letter queue of the {subscriptionWrapper.SubscriptionDescription.Name} subscription?");
+            return this.DoPurge(PurgeStrategies.DeadletteredMessages, $"Would you like to purge the dead-letter queue of the {subscriptionWrapper.SubscriptionDescription.Name} subscription?");
         }
 
-        public async Task PurgeAllMessagesAsync()
+        public Task PurgeAllMessagesAsync()
         {
-            await this.DoPurge(PurgeStrategies.All, $"Would you like to purge all (messages and dead-lettered messages) from the {subscriptionWrapper.SubscriptionDescription.Name} subscription?");
+            return this.DoPurge(PurgeStrategies.All, $"Would you like to purge all (messages and dead-lettered messages) from the {subscriptionWrapper.SubscriptionDescription.Name} subscription?");
         }
 
         private async Task DoPurge(PurgeStrategies purgeStrategy, string deleteConfirmation)
@@ -414,7 +413,7 @@ namespace ServiceBusExplorer.Controls
 
             messagePropertiesSplitContainer.SplitterWidth = 8;
 
-            // Tabe pages
+            // Tab pages
             DisablePage(MessagesTabPage);
             DisablePage(SessionsTabPage);
             DisablePage(DeadletterTabPage);
@@ -859,9 +858,10 @@ namespace ServiceBusExplorer.Controls
                 var brokeredMessages = new List<BrokeredMessage>();
                 if (peek)
                 {
-                    var subscriptionClient = serviceBusHelper.MessagingFactory.CreateSubscriptionClient(subscriptionWrapper.SubscriptionDescription.TopicPath,
-                                                                                                        subscriptionWrapper.SubscriptionDescription.Name,
-                                                                                                        ReceiveMode.PeekLock);
+                    var subscriptionClient = serviceBusHelper.MessagingFactory
+                        .CreateSubscriptionClient(subscriptionWrapper.SubscriptionDescription.TopicPath,
+                            subscriptionWrapper.SubscriptionDescription.Name,
+                            ReceiveMode.PeekLock);
                     var totalRetrieved = 0;
                     while (totalRetrieved < count)
                     {
@@ -898,17 +898,19 @@ namespace ServiceBusExplorer.Controls
                     MessageReceiver messageReceiver;
                     if (subscriptionWrapper.SubscriptionDescription.RequiresSession)
                     {
-                        var subscriptionClient = serviceBusHelper.MessagingFactory.CreateSubscriptionClient(subscriptionWrapper.SubscriptionDescription.TopicPath,
-                                                                                                            subscriptionWrapper.SubscriptionDescription.Name,
-                                                                                                            ReceiveMode.ReceiveAndDelete);
+                        var subscriptionClient = serviceBusHelper.MessagingFactory
+                            .CreateSubscriptionClient(subscriptionWrapper.SubscriptionDescription.TopicPath,
+                                subscriptionWrapper.SubscriptionDescription.Name,
+                                ReceiveMode.ReceiveAndDelete);
                         messageReceiver = subscriptionClient.AcceptMessageSession(TimeSpan.FromSeconds(MainForm.SingletonMainForm.ReceiveTimeout));
                     }
                     else
                     {
-                        messageReceiver = serviceBusHelper.MessagingFactory.CreateMessageReceiver(SubscriptionClient.FormatSubscriptionPath(
-                                                                                                  subscriptionWrapper.SubscriptionDescription.TopicPath,
-                                                                                                  subscriptionWrapper.SubscriptionDescription.Name),
-                                                                                                  ReceiveMode.ReceiveAndDelete);
+                        messageReceiver = serviceBusHelper.MessagingFactory
+                            .CreateMessageReceiver(SubscriptionClient.FormatSubscriptionPath(
+                                subscriptionWrapper.SubscriptionDescription.TopicPath,
+                                subscriptionWrapper.SubscriptionDescription.Name),
+                                ReceiveMode.ReceiveAndDelete);
                     }
                     var totalRetrieved = 0;
                     int retrieved;
@@ -926,7 +928,8 @@ namespace ServiceBusExplorer.Controls
                         }
                         totalRetrieved += retrieved;
                         brokeredMessages.AddRange(messageInspector != null ? enumerable.Select(b => messageInspector.AfterReceiveMessage(b)) : enumerable);
-                    } while (retrieved > 0 && (all || count > totalRetrieved));
+                    }
+                    while (retrieved > 0 && (all || count > totalRetrieved));
                     writeToLog(string.Format(MessagesReceivedFromTheSubscription, brokeredMessages.Count, subscriptionWrapper.SubscriptionDescription.Name));
                 }
                 messageBindingList = new SortableBindingList<BrokeredMessage>(brokeredMessages)
@@ -939,9 +942,10 @@ namespace ServiceBusExplorer.Controls
                 messagesDataGridView.DataSource = messagesBindingSource;
 
                 messagesSplitContainer.SplitterDistance = messagesSplitContainer.Width -
-                                                          GrouperMessagePropertiesWith -
-                                                          messagesSplitContainer.SplitterWidth;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    messagesSplitContainer.SplitterWidth;
                 messageMainSplitContainer.SplitterDistance = messageMainSplitContainer.Size.Height / 2 - 8;
+                messagePropertiesSplitContainer.SplitterDistance = messageMainSplitContainer.SplitterDistance;
 
                 if (!peek)
                 {
@@ -962,8 +966,8 @@ namespace ServiceBusExplorer.Controls
             catch (TimeoutException)
             {
                 writeToLog(string.Format(NoMessageReceivedFromTheSubscription,
-                                         MainForm.SingletonMainForm.ReceiveTimeout,
-                                         subscriptionWrapper.SubscriptionDescription.Name));
+                    MainForm.SingletonMainForm.ReceiveTimeout,
+                    subscriptionWrapper.SubscriptionDescription.Name));
             }
             catch (NotSupportedException)
             {
@@ -990,9 +994,10 @@ namespace ServiceBusExplorer.Controls
                 var brokeredMessages = new List<BrokeredMessage>();
                 if (peek)
                 {
-                    var subscriptionClient = serviceBusHelper.MessagingFactory.CreateSubscriptionClient(subscriptionWrapper.SubscriptionDescription.TopicPath,
-                                                                                                 subscriptionWrapper.SubscriptionDescription.Name,
-                                                                                                 ReceiveMode.PeekLock);
+                    var subscriptionClient = serviceBusHelper.MessagingFactory
+                        .CreateSubscriptionClient(subscriptionWrapper.SubscriptionDescription.TopicPath,
+                            subscriptionWrapper.SubscriptionDescription.Name,
+                            ReceiveMode.PeekLock);
                     for (var i = 0; i < count; i++)
                     {
                         BrokeredMessage message;
@@ -1026,16 +1031,19 @@ namespace ServiceBusExplorer.Controls
                     MessageReceiver messageReceiver;
                     if (subscriptionWrapper.SubscriptionDescription.RequiresSession)
                     {
-                        var subscriptionClient = serviceBusHelper.MessagingFactory.CreateSubscriptionClient(subscriptionWrapper.SubscriptionDescription.TopicPath,
-                                                                                           subscriptionWrapper.SubscriptionDescription.Name,
-                                                                                           ReceiveMode.ReceiveAndDelete);
+                        var subscriptionClient = serviceBusHelper.MessagingFactory
+                            .CreateSubscriptionClient(subscriptionWrapper.SubscriptionDescription.TopicPath,
+                                subscriptionWrapper.SubscriptionDescription.Name,
+                                ReceiveMode.ReceiveAndDelete);
                         messageReceiver = subscriptionClient.AcceptMessageSession(TimeSpan.FromSeconds(MainForm.SingletonMainForm.ReceiveTimeout));
                     }
                     else
                     {
-                        messageReceiver = serviceBusHelper.MessagingFactory.CreateMessageReceiver(SubscriptionClient.FormatSubscriptionPath(subscriptionWrapper.SubscriptionDescription.TopicPath,
-                                                                                                                                            subscriptionWrapper.SubscriptionDescription.Name),
-                                                                                                  ReceiveMode.ReceiveAndDelete);
+                        messageReceiver = serviceBusHelper.MessagingFactory
+                            .CreateMessageReceiver(SubscriptionClient.FormatSubscriptionPath(
+                                subscriptionWrapper.SubscriptionDescription.TopicPath,
+                                subscriptionWrapper.SubscriptionDescription.Name),
+                                ReceiveMode.ReceiveAndDelete);
                     }
 
                     var totalRetrieved = 0;
@@ -1064,9 +1072,10 @@ namespace ServiceBusExplorer.Controls
                 messagesDataGridView.DataSource = messagesBindingSource;
 
                 messagesSplitContainer.SplitterDistance = messagesSplitContainer.Width -
-                                                          GrouperMessagePropertiesWith -
-                                                          messagesSplitContainer.SplitterWidth;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    messagesSplitContainer.SplitterWidth;
                 messageMainSplitContainer.SplitterDistance = messageMainSplitContainer.Size.Height / 2 - 8;
+                messagePropertiesSplitContainer.SplitterDistance = messageMainSplitContainer.SplitterDistance;
 
                 if (!peek)
                 {
@@ -1147,17 +1156,19 @@ namespace ServiceBusExplorer.Controls
                 }
                 else
                 {
-                    var messageReceiver = serviceBusHelper.MessagingFactory.CreateMessageReceiver(SubscriptionClient.FormatDeadLetterPath(subscriptionWrapper.SubscriptionDescription.TopicPath,
-                                                                                                                              subscriptionWrapper.SubscriptionDescription.Name),
-                                                                                              ReceiveMode.ReceiveAndDelete);
+                    var messageReceiver = serviceBusHelper.MessagingFactory
+                        .CreateMessageReceiver(SubscriptionClient.FormatDeadLetterPath(
+                            subscriptionWrapper.SubscriptionDescription.TopicPath,
+                            subscriptionWrapper.SubscriptionDescription.Name),
+                            ReceiveMode.ReceiveAndDelete);
                     var totalRetrieved = 0;
                     int retrieved;
                     do
                     {
                         var messages = messageReceiver.ReceiveBatch(all ?
-                                                                    MainForm.SingletonMainForm.TopCount :
-                                                                    count - totalRetrieved,
-                                                                    TimeSpan.FromSeconds(MainForm.SingletonMainForm.ReceiveTimeout));
+                            MainForm.SingletonMainForm.TopCount :
+                            count - totalRetrieved,
+                            TimeSpan.FromSeconds(MainForm.SingletonMainForm.ReceiveTimeout));
                         var enumerable = messages as BrokeredMessage[] ?? messages.ToArray();
                         retrieved = enumerable.Count();
                         if (retrieved == 0)
@@ -1182,9 +1193,10 @@ namespace ServiceBusExplorer.Controls
                 deadletterDataGridView.DataSource = deadletterBindingSource;
 
                 deadletterSplitContainer.SplitterDistance = deadletterSplitContainer.Width -
-                                                          GrouperMessagePropertiesWith -
-                                                          deadletterSplitContainer.SplitterWidth;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    deadletterSplitContainer.SplitterWidth;
                 deadletterMainSplitContainer.SplitterDistance = deadletterMainSplitContainer.Size.Height / 2 - 8;
+                deadletterPropertiesSplitContainer.SplitterDistance = deadletterMainSplitContainer.SplitterDistance;
 
                 if (!peek)
                 {
@@ -1205,8 +1217,8 @@ namespace ServiceBusExplorer.Controls
             catch (TimeoutException)
             {
                 writeToLog(string.Format(NoMessageReceivedFromTheDeadletterQueue,
-                                         MainForm.SingletonMainForm.ReceiveTimeout,
-                                         subscriptionWrapper.SubscriptionDescription.Name));
+                    MainForm.SingletonMainForm.ReceiveTimeout,
+                    subscriptionWrapper.SubscriptionDescription.Name));
             }
             catch (NotSupportedException)
             {
@@ -1234,9 +1246,11 @@ namespace ServiceBusExplorer.Controls
 
                 if (peek)
                 {
-                    var messageReceiver = serviceBusHelper.MessagingFactory.CreateMessageReceiver(SubscriptionClient.FormatDeadLetterPath(subscriptionWrapper.SubscriptionDescription.TopicPath,
-                                                                                                                              subscriptionWrapper.SubscriptionDescription.Name),
-                                                                                                  ReceiveMode.PeekLock);
+                    var messageReceiver = serviceBusHelper.MessagingFactory
+                        .CreateMessageReceiver(SubscriptionClient.FormatDeadLetterPath(
+                            subscriptionWrapper.SubscriptionDescription.TopicPath,
+                            subscriptionWrapper.SubscriptionDescription.Name),
+                            ReceiveMode.PeekLock);
 
                     for (var i = 0; i < count; i++)
                     {
@@ -1268,9 +1282,11 @@ namespace ServiceBusExplorer.Controls
                 }
                 else
                 {
-                    var messageReceiver = serviceBusHelper.MessagingFactory.CreateMessageReceiver(SubscriptionClient.FormatDeadLetterPath(subscriptionWrapper.SubscriptionDescription.TopicPath,
-                                                                                                                              subscriptionWrapper.SubscriptionDescription.Name),
-                                                                                                  ReceiveMode.ReceiveAndDelete);
+                    var messageReceiver = serviceBusHelper.MessagingFactory
+                        .CreateMessageReceiver(SubscriptionClient.FormatDeadLetterPath(
+                            subscriptionWrapper.SubscriptionDescription.TopicPath,
+                            subscriptionWrapper.SubscriptionDescription.Name),
+                            ReceiveMode.ReceiveAndDelete);
                     var totalRetrieved = 0;
                     int retrieved;
                     do
@@ -1297,9 +1313,10 @@ namespace ServiceBusExplorer.Controls
                 deadletterDataGridView.DataSource = deadletterBindingSource;
 
                 deadletterSplitContainer.SplitterDistance = deadletterSplitContainer.Width -
-                                                          GrouperMessagePropertiesWith -
-                                                          deadletterSplitContainer.SplitterWidth;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    deadletterSplitContainer.SplitterWidth;
                 deadletterMainSplitContainer.SplitterDistance = deadletterMainSplitContainer.Size.Height / 2 - 8;
+                deadletterPropertiesSplitContainer.SplitterDistance = deadletterMainSplitContainer.SplitterDistance;
 
                 if (!peek)
                 {
@@ -1484,7 +1501,7 @@ namespace ServiceBusExplorer.Controls
         }
 
         /// <summary>
-        /// Create the given subscription and copy all rules from the subscription description previously attached the the subscription wrapper for this control.
+        /// Create the given subscription and copy all rules from the subscription description previously attached to the subscription wrapper for this control.
         /// </summary>
         /// <param name="subscriptionDescription">Description object that will be created in the service bus</param>
         private void CreateSubscriptionCopyRules(SubscriptionDescription subscriptionDescription)
@@ -2279,7 +2296,7 @@ namespace ServiceBusExplorer.Controls
             catch (LockDurationTooLowException ldtle)
             {
                 Application.UseWaitCursor = false;
-                MessageBox.Show(ldtle.Message, "Delete operation cancelled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ldtle.Message, "Delete operation canceled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             finally
             {
