@@ -188,6 +188,7 @@ namespace ServiceBusExplorer.Forms
             this.grouperMessageText.ShadowThickness = 1;
             this.grouperMessageText.Size = new System.Drawing.Size(666, 225);
             this.grouperMessageText.TabIndex = 0;
+            this.grouperMessageText.CustomPaint += new System.Action<System.Windows.Forms.PaintEventArgs>(this.grouperMessageText_CustomPaint);
             // 
             // chkAutoindent
             // 

@@ -21,6 +21,10 @@
 
 #region Using Directives
 
+using FastColoredTextBoxNS;
+using Microsoft.ServiceBus.Messaging;
+using ServiceBusExplorer.Helpers;
+using ServiceBusExplorer.Utilities.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -32,10 +36,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ServiceBusExplorer.Helpers;
-using Microsoft.ServiceBus.Messaging;
-using FastColoredTextBoxNS;
-using ServiceBusExplorer.Utilities.Helpers;
 
 #endregion
 
@@ -95,18 +95,18 @@ namespace ServiceBusExplorer.Forms
 
         static readonly List<string> Types = new List<string>
         {
-            "Boolean", 
-            "Byte", 
-            "Int16", 
-            "Int32", 
-            "Int64", 
-            "Single", 
-            "Double", 
-            "Decimal", 
-            "Guid", 
-            "DateTime", 
-            "TimeSpan", 
-            "String", 
+            "Boolean",
+            "Byte",
+            "Int16",
+            "Int32",
+            "Int64",
+            "Single",
+            "Double",
+            "Decimal",
+            "Guid",
+            "DateTime",
+            "TimeSpan",
+            "String",
             "Char",
             "UInt64",
             "UInt32",
@@ -136,9 +136,10 @@ namespace ServiceBusExplorer.Forms
             InitializeMessageTextControl(brokeredMessage);
 
             // Initialize the DataGridView.
-            bindingSource.DataSource = new BindingList<MessagePropertyInfo>(brokeredMessage.Properties.Select(p => new MessagePropertyInfo(p.Key,
-                                                                                                      GetShortValueTypeName(p.Value),
-                                                                                                      p.Value)).ToList());
+            bindingSource.DataSource = new BindingList<MessagePropertyInfo>(
+                brokeredMessage.Properties
+                .Select(p => new MessagePropertyInfo(p.Key, GetShortValueTypeName(p.Value), p.Value))
+                .ToList());
             propertiesDataGridView.AutoGenerateColumns = false;
             propertiesDataGridView.AutoSize = true;
             propertiesDataGridView.DataSource = bindingSource;
@@ -309,10 +310,22 @@ namespace ServiceBusExplorer.Forms
             {
                 chkRemove.Visible = true;
             }
+            messageListTextPropertiesSplitContainer.SplitterDistance = messageListTextPropertiesSplitContainer.Height / 2;
+        }
+
+        private void grouperMessageText_CustomPaint(PaintEventArgs obj)
+        {
+            chkAutoindent.Location = new Point(grouperMessageText.Width - chkAutoindent.Width - LogicalToDeviceUnits(32), chkAutoindent.Location.Y);
+
+            txtMessageText.Size = new Size(grouperMessageText.Size.Width - (txtMessageText.Location.X * 2 + 2),
+                grouperMessageText.Size.Height - txtMessageText.Location.Y - txtMessageText.Location.X - 2);
         }
 
         private void grouperMessageCustomProperties_CustomPaint(PaintEventArgs e)
         {
+            propertiesDataGridView.Size = new Size(grouperMessageCustomProperties.Size.Width - (propertiesDataGridView.Location.X * 2 + 2),
+                grouperMessageCustomProperties.Size.Height - propertiesDataGridView.Location.Y - propertiesDataGridView.Location.X - 2);
+
             e.Graphics.DrawRectangle(new Pen(SystemColors.ActiveBorder, 1),
                                      propertiesDataGridView.Location.X - 1,
                                      propertiesDataGridView.Location.Y - 1,
