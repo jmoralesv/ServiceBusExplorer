@@ -485,10 +485,9 @@ namespace ServiceBusExplorer.Controls
                 sessionsDataGridView.DataSource = sessionsBindingSource;
 
                 sessionListStateSplitContainer.SplitterDistance = sessionListStateSplitContainer.Width -
-                                                          GrouperMessagePropertiesWith -
-                                                          sessionListStateSplitContainer.SplitterWidth;
-                sessionMainSplitContainer.SplitterDistance =
-                    sessionMainSplitContainer.Size.Height / 2 - 8;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    sessionListStateSplitContainer.SplitterWidth;
+                sessionMainSplitContainer.SplitterDistance = sessionMainSplitContainer.Size.Height / 2 - 8;
 
                 if (mainTabControl.TabPages[SessionsTabPage] != null)
                 {
@@ -1279,10 +1278,9 @@ namespace ServiceBusExplorer.Controls
                 messagesDataGridView.DataSource = messagesBindingSource;
 
                 messagesSplitContainer.SplitterDistance = messagesSplitContainer.Width -
-                                                          GrouperMessagePropertiesWith -
-                                                          messagesSplitContainer.SplitterWidth;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    messagesSplitContainer.SplitterWidth;
                 messageMainSplitContainer.SplitterDistance = messageMainSplitContainer.Size.Height / 2 - 8;
-
                 messagePropertiesSplitContainer.SplitterDistance = messageMainSplitContainer.SplitterDistance;
 
                 if (!peek)
@@ -1389,8 +1387,8 @@ namespace ServiceBusExplorer.Controls
                 messagesBindingSource.DataSource = messageBindingList;
                 messagesDataGridView.DataSource = messagesBindingSource;
                 messagesSplitContainer.SplitterDistance = messagesSplitContainer.Width -
-                                                          GrouperMessagePropertiesWith -
-                                                          messagesSplitContainer.SplitterWidth;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    messagesSplitContainer.SplitterWidth;
                 messageMainSplitContainer.SplitterDistance = messageMainSplitContainer.Size.Height / 2 - 8;
                 messagePropertiesSplitContainer.SplitterDistance = messageMainSplitContainer.SplitterDistance;
 
@@ -1516,10 +1514,10 @@ namespace ServiceBusExplorer.Controls
                 deadletterDataGridView.DataSource = deadletterBindingSource;
 
                 deadletterSplitContainer.SplitterDistance = deadletterSplitContainer.Width -
-                                                            GrouperMessagePropertiesWith -
-                                                            deadletterSplitContainer.SplitterWidth;
-                deadletterMainSplitContainer.SplitterDistance =
-                    deadletterMainSplitContainer.Size.Height / 2 - 8;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    deadletterSplitContainer.SplitterWidth;
+                deadletterMainSplitContainer.SplitterDistance = deadletterMainSplitContainer.Size.Height / 2 - 8;
+                deadletterPropertiesSplitContainer.SplitterDistance = deadletterMainSplitContainer.SplitterDistance;
 
                 if (!peek)
                 {
@@ -1653,10 +1651,10 @@ namespace ServiceBusExplorer.Controls
                 transferDeadletterDataGridView.DataSource = transferDeadletterBindingSource;
 
                 transferDeadletterSplitContainer.SplitterDistance = transferDeadletterSplitContainer.Width -
-                                                            GrouperMessagePropertiesWith -
-                                                            transferDeadletterSplitContainer.SplitterWidth;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    transferDeadletterSplitContainer.SplitterWidth;
                 transferMainSplitContainer.SplitterDistance = transferMainSplitContainer.Size.Height / 2 - 8;
-
+                transferDeadletterPropertiesSplitContainer.SplitterDistance = transferMainSplitContainer.SplitterDistance;
 
                 if (!peek)
                 {
@@ -1761,10 +1759,10 @@ namespace ServiceBusExplorer.Controls
                 deadletterDataGridView.DataSource = deadletterBindingSource;
 
                 deadletterSplitContainer.SplitterDistance = deadletterSplitContainer.Width -
-                                                            GrouperMessagePropertiesWith -
-                                                            deadletterSplitContainer.SplitterWidth;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    deadletterSplitContainer.SplitterWidth;
                 deadletterMainSplitContainer.SplitterDistance = deadletterMainSplitContainer.Size.Height / 2 - 8;
-
+                deadletterPropertiesSplitContainer.SplitterDistance = deadletterMainSplitContainer.SplitterDistance;
 
                 if (!peek)
                 {
@@ -1857,8 +1855,10 @@ namespace ServiceBusExplorer.Controls
                 transferDeadletterDataGridView.DataSource = transferDeadletterBindingSource;
 
                 transferDeadletterSplitContainer.SplitterDistance = transferDeadletterSplitContainer.Width -
-                                                            GrouperMessagePropertiesWith -
-                                                            transferDeadletterSplitContainer.SplitterWidth;
+                    LogicalToDeviceUnits(GrouperMessagePropertiesWith) -
+                    transferDeadletterSplitContainer.SplitterWidth;
+                transferMainSplitContainer.SplitterDistance = transferMainSplitContainer.Size.Height / 2 - 8;
+                transferDeadletterPropertiesSplitContainer.SplitterDistance = transferMainSplitContainer.SplitterDistance;
 
                 if (!peek)
                 {

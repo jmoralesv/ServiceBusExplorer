@@ -1831,7 +1831,7 @@
             this.grouperTransferDeadletterCustomProperties.ShadowThickness = 1;
             this.grouperTransferDeadletterCustomProperties.Size = new System.Drawing.Size(314, 213);
             this.grouperTransferDeadletterCustomProperties.TabIndex = 27;
-            this.grouperTransferDeadletterCustomProperties.CustomPaint += new System.Action<System.Windows.Forms.PaintEventArgs>(this.grouperDeadletterCustomProperties_CustomPaint);
+            this.grouperTransferDeadletterCustomProperties.CustomPaint += new System.Action<System.Windows.Forms.PaintEventArgs>(this.grouperTransferDeadletterCustomProperties_CustomPaint);
             // 
             // transferDeadletterCustomPropertyGrid
             // 
