@@ -21,12 +21,12 @@
 
 #region Using Directives
 
+using Microsoft.Azure.NotificationHubs;
+using Microsoft.ServiceBus.Messaging;
+using ServiceBusExplorer.Helpers;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Microsoft.Azure.NotificationHubs;
-using ServiceBusExplorer.Helpers;
-using Microsoft.ServiceBus.Messaging;
 
 #endregion
 
@@ -117,6 +117,8 @@ namespace ServiceBusExplorer.Forms
             Text = dialogTitle;
             grouperTreeView.GroupTitle = groupTitle;
             lblTargetQueueTopic.Text = labelText;
+
+            SetServiceBusTreeViewStyle();
         }
 
         public SelectEntityForm(string dialogTitle,
@@ -390,7 +392,17 @@ namespace ServiceBusExplorer.Forms
             SetTextAndType(e.Node);
         }
 
+        private void SetServiceBusTreeViewStyle()
+        {
+            var configuration = TwoFilesConfiguration.Create(TwoFilesConfiguration.GetCurrentConfigFileUse());
+            var fontSize = configuration.GetDecimalValue(ConfigurationParameters.TreeViewFontSize, defaultValue: serviceBusTreeView.Font.Height);
+            serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)fontSize);
 
+            var increment = 1;
+            var newIncrement = LogicalToDeviceUnits(increment);
+            newIncrement = increment == newIncrement ? 0 : newIncrement;
+            serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height + newIncrement;
+        }
 
         private void btnClear_Click(object sender, EventArgs e)
         {

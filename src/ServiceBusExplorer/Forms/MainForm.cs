@@ -446,7 +446,7 @@ namespace ServiceBusExplorer.Forms
                 lstLog.Font = new Font(lstLog.Font.FontFamily, (float)optionForm.MainSettings.LogFontSize);
                 serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily,
                     (float)optionForm.MainSettings.TreeViewFontSize);
-                serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
+                SetServiceBusTreeViewItemHeight();
                 RetryHelper.RetryCount = optionForm.MainSettings.RetryCount;
                 RetryHelper.RetryTimeout = optionForm.MainSettings.RetryTimeout;
                 ReceiveTimeout = optionForm.MainSettings.ReceiveTimeout;
@@ -3833,7 +3833,7 @@ namespace ServiceBusExplorer.Forms
                 serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)treeViewFontSize);
                 if (serviceBusTreeView.ItemHeight < serviceBusTreeView.Font.Height)
                 {
-                    serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
+                    SetServiceBusTreeViewItemHeight();
                 }
             }
 
@@ -6036,13 +6036,21 @@ namespace ServiceBusExplorer.Forms
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(url.Split('/').Aggregate((left, right) => left + '_' + right));
         }
 
+        private void SetServiceBusTreeViewItemHeight()
+        {
+            var increment = 1;
+            var newIncrement = LogicalToDeviceUnits(increment);
+            newIncrement = increment == newIncrement ? 0 : newIncrement;
+            serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height + newIncrement;
+        }
+
         private void setDefaultLayouToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mainSplitContainer.SplitterDistance = mainSplitterDistance;
             splitContainer.SplitterDistance = splitterContainerDistance;
             lstLog.Font = new Font(lstLog.Font.FontFamily, (float)logFontSize);
             serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)treeViewFontSize);
-            serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
+            SetServiceBusTreeViewItemHeight();
         }
 
         private void receiveMessages_Click(object sender, EventArgs e)
