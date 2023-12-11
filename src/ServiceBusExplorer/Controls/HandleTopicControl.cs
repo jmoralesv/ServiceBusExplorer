@@ -242,6 +242,7 @@ namespace ServiceBusExplorer.Controls
                 InitializeData();
 
                 checkedListBox.ItemCheck += checkedListBox_ItemCheck;
+                checkedListBox.SetResizeEvent(LogicalToDeviceUnits);
 
                 toolTip.SetToolTip(txtPath, PathTooltip);
                 toolTip.SetToolTip(txtUserMetadata, UserMetadataTooltip);

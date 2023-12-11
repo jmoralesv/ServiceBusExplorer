@@ -29,6 +29,23 @@ namespace ServiceBusExplorer.UIHelpers
 {
     public static class CheckistBoxExtensions
     {
+        /// <summary>
+        /// Sets the Resize event for the CheckedListBox to fix the height of the items, according to the current DPI.
+        /// </summary>
+        /// <param name="listBox"></param>
+        /// <param name="logicalToDeviceUnits"></param>
+        public static void SetResizeEvent(this CheckedListBox listBox, Func<int, int> logicalToDeviceUnits)
+        {
+            listBox.Resize += (sender, args) =>
+            {
+                var heightField = typeof(CheckedListBox).GetField(
+                    "scaledListItemBordersHeight",
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+                );
+                heightField.SetValue(listBox, 2 * logicalToDeviceUnits(1));
+            };
+        }
+
         public static bool GetItemChecked(this CheckedListBox listBox, string itemText)
         {
             int index = GetIndex(listBox, itemText);

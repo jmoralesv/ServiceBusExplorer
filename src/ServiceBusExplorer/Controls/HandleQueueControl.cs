@@ -525,6 +525,8 @@ namespace ServiceBusExplorer.Controls
             // This must only be done once per instance of this class
             if (initialCall)
             {
+                checkedListBox.SetResizeEvent(LogicalToDeviceUnits);
+
                 checkedListBox.Items.Clear();
 
                 foreach (string item in QueueSettingsList)

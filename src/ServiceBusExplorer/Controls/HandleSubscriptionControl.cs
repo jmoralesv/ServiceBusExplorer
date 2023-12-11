@@ -402,6 +402,8 @@ namespace ServiceBusExplorer.Controls
         #region Private Methods
         private void InitializeControls()
         {
+            checkedListBox.SetResizeEvent(LogicalToDeviceUnits);
+
             // Splitter controls
             messagesSplitContainer.SplitterWidth = 16;
             sessionsSplitContainer.SplitterWidth = 16;

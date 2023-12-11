@@ -237,6 +237,8 @@ namespace ServiceBusExplorer.Controls
                 }
                 txtPath.Focus();
             }
+
+            checkedListBox.SetResizeEvent(LogicalToDeviceUnits);
         }
 
         private void EnablePage(string pageName)
