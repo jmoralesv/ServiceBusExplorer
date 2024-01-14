@@ -21,6 +21,9 @@
 
 #region Using Directives
 
+using Microsoft.ServiceBus.Messaging;
+using ServiceBusExplorer.Controls;
+using ServiceBusExplorer.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -34,9 +37,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ServiceBusExplorer.Controls;
-using ServiceBusExplorer.Helpers;
-using Microsoft.ServiceBus.Messaging;
 
 #endregion
 
@@ -134,7 +134,7 @@ namespace ServiceBusExplorer.Forms
                 {
                     var listenerControl = new ListenerControl(WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), queueDescription)
                     {
-                        Location = new Point(1, panelMain.HeaderHeight + 1),
+                        Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
                         Size = new Size(panelMain.Size.Width - 3, queueDescription.RequiresSession ? 544 : 520),
                         Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                     };
@@ -148,11 +148,11 @@ namespace ServiceBusExplorer.Forms
                 else
                 {
                     testQueueControl = new TestQueueControl(mainForm, WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), queueDescription)
-                                           {
-                                               Location = new Point(1, panelMain.HeaderHeight + 1),
-                                               Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
-                                               Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
-                                           };
+                    {
+                        Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                        Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
+                        Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+                    };
 
 
                     if (formType == FormTypeEnum.Send)
@@ -162,7 +162,7 @@ namespace ServiceBusExplorer.Forms
                         testQueueControl.senderEnabledCheckBox.Checked = true;
                         testQueueControl.senderEnabledCheckBox.Visible = false;
                         testQueueControl.grouperMessage.Location = new Point(testQueueControl.grouperMessage.Location.X, 8);
-                        testQueueControl.grouperMessage.Size = new Size(testQueueControl.grouperMessage.Size.Width, 
+                        testQueueControl.grouperMessage.Size = new Size(testQueueControl.grouperMessage.Size.Width,
                                                                         testQueueControl.grouperMessage.Size.Height + 16);
                         testQueueControl.grouperSender.Location = new Point(testQueueControl.grouperSender.Location.X, 8);
                         testQueueControl.grouperSender.Size = new Size(testQueueControl.grouperSender.Size.Width,
@@ -213,11 +213,11 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
 
                 testTopicControl = new TestTopicControl(mainForm, WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), topicDescription, subscriptionList)
-                                       {
-                                           Location = new Point(1, panelMain.HeaderHeight + 1),
-                                           Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
-                                           Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
-                                       };
+                {
+                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                    Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
+                    Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+                };
 
 
                 if (formType == FormTypeEnum.Send)
@@ -280,7 +280,7 @@ namespace ServiceBusExplorer.Forms
                 {
                     var listenerControl = new ListenerControl(WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), subscriptionWrapper.SubscriptionDescription)
                     {
-                        Location = new Point(1, panelMain.HeaderHeight + 1),
+                        Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
                         Size = new Size(panelMain.Size.Width - 3, subscriptionWrapper.SubscriptionDescription.RequiresSession ? 544 : 520),
                         Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                     };
@@ -295,7 +295,7 @@ namespace ServiceBusExplorer.Forms
                 {
                     testSubscriptionControl = new TestSubscriptionControl(mainForm, WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), subscriptionWrapper)
                     {
-                        Location = new Point(1, panelMain.HeaderHeight + 1),
+                        Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
                         Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                         Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                     };
@@ -339,7 +339,7 @@ namespace ServiceBusExplorer.Forms
 
                 testEventHubControl = new TestEventHubControl(mainForm, WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), eventHubDescription, partitionDescription)
                 {
-                    Location = new Point(1, panelMain.HeaderHeight + 1),
+                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
                     Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                 };
@@ -357,8 +357,8 @@ namespace ServiceBusExplorer.Forms
 
                 panelMain.HeaderText = partitionDescription == null ?
                                        string.Format(HeaderTextTestEventHubFormat, eventHubDescription.Path) :
-                                       string.Format(HeaderTextTestEventHubPartitionFormat, 
-                                                     partitionDescription.PartitionId, 
+                                       string.Format(HeaderTextTestEventHubPartitionFormat,
+                                                     partitionDescription.PartitionId,
                                                      eventHubDescription.Path);
 
                 panelMain.Controls.Add(testEventHubControl);
@@ -397,7 +397,7 @@ namespace ServiceBusExplorer.Forms
 
                 var partitionListenerControl = new PartitionListenerControl(WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), consumerGroupDescription, descriptions)
                 {
-                    Location = new Point(1, panelMain.HeaderHeight + 1),
+                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
                     Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                 };
@@ -411,7 +411,7 @@ namespace ServiceBusExplorer.Forms
                 {
                     Text = string.Format(ConsumerGroupListenerFormat, consumerGroupDescription.EventHubPath, consumerGroupDescription.Name);
                     panelMain.HeaderText = string.Format(HeaderTextConsumerGroupListenerFormat, consumerGroupDescription.EventHubPath, consumerGroupDescription.Name);
-                }                
+                }
                 partitionListenerControl.Focus();
                 panelMain.Controls.Add(partitionListenerControl);
                 SetStyle(ControlStyles.ResizeRedraw, true);
@@ -448,7 +448,7 @@ namespace ServiceBusExplorer.Forms
 
                 var partitionListenerControl = new PartitionListenerControl(WriteToLog, StopLog, StartLog, connectionString, hubName, consumerGroup)
                 {
-                    Location = new Point(1, panelMain.HeaderHeight + 1),
+                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
                     Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                 };
@@ -497,7 +497,7 @@ namespace ServiceBusExplorer.Forms
 
                 testRelayControl = new TestRelayControl(mainForm, WriteToLog, StopLog, StartLog, relayDescription, new ServiceBusHelper(WriteToLog, serviceBusHelper))
                 {
-                    Location = new Point(1, panelMain.HeaderHeight + 1),
+                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
                     Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                 };
@@ -667,14 +667,14 @@ namespace ServiceBusExplorer.Forms
                     }
                 }
             }
-// ReSharper disable once EmptyGeneralCatchClause
+            // ReSharper disable once EmptyGeneralCatchClause
             catch
             {
             }
-            
-// ReSharper disable FunctionNeverReturns
+
+            // ReSharper disable FunctionNeverReturns
         }
-// ReSharper restore FunctionNeverReturns
+        // ReSharper restore FunctionNeverReturns
 
         private void WriteToLog(string message, bool async = true)
         {
@@ -792,7 +792,7 @@ namespace ServiceBusExplorer.Forms
         {
             try
             {
-               SaveLog(true);
+                SaveLog(true);
             }
             catch (Exception ex)
             {
