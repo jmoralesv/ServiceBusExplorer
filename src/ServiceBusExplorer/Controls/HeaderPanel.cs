@@ -58,7 +58,7 @@ namespace ServiceBusExplorer.Controls
         [Browsable(true), Category("Custom")]
         public int HeaderHeight
         {
-            get { return headerHeight; }
+            get { return LogicalToDeviceUnits(headerHeight); }
             set
             {
                 headerHeight = value;

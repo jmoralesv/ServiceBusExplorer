@@ -134,7 +134,7 @@ namespace ServiceBusExplorer.Forms
                 {
                     var listenerControl = new ListenerControl(WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), queueDescription)
                     {
-                        Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                        Location = new Point(1, panelMain.HeaderHeight + 1),
                         Size = new Size(panelMain.Size.Width - 3, queueDescription.RequiresSession ? 544 : 520),
                         Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                     };
@@ -149,7 +149,7 @@ namespace ServiceBusExplorer.Forms
                 {
                     testQueueControl = new TestQueueControl(mainForm, WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), queueDescription)
                     {
-                        Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                        Location = new Point(1, panelMain.HeaderHeight + 1),
                         Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                         Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                     };
@@ -214,7 +214,7 @@ namespace ServiceBusExplorer.Forms
 
                 testTopicControl = new TestTopicControl(mainForm, WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), topicDescription, subscriptionList)
                 {
-                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                    Location = new Point(1, panelMain.HeaderHeight + 1),
                     Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                 };
@@ -280,7 +280,7 @@ namespace ServiceBusExplorer.Forms
                 {
                     var listenerControl = new ListenerControl(WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), subscriptionWrapper.SubscriptionDescription)
                     {
-                        Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                        Location = new Point(1, panelMain.HeaderHeight + 1),
                         Size = new Size(panelMain.Size.Width - 3, subscriptionWrapper.SubscriptionDescription.RequiresSession ? 544 : 520),
                         Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                     };
@@ -295,7 +295,7 @@ namespace ServiceBusExplorer.Forms
                 {
                     testSubscriptionControl = new TestSubscriptionControl(mainForm, WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), subscriptionWrapper)
                     {
-                        Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                        Location = new Point(1, panelMain.HeaderHeight + 1),
                         Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                         Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                     };
@@ -339,7 +339,7 @@ namespace ServiceBusExplorer.Forms
 
                 testEventHubControl = new TestEventHubControl(mainForm, WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), eventHubDescription, partitionDescription)
                 {
-                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                    Location = new Point(1, panelMain.HeaderHeight + 1),
                     Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                 };
@@ -397,7 +397,7 @@ namespace ServiceBusExplorer.Forms
 
                 var partitionListenerControl = new PartitionListenerControl(WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), consumerGroupDescription, descriptions)
                 {
-                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                    Location = new Point(1, panelMain.HeaderHeight + 1),
                     Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                 };
@@ -448,7 +448,7 @@ namespace ServiceBusExplorer.Forms
 
                 var partitionListenerControl = new PartitionListenerControl(WriteToLog, StopLog, StartLog, connectionString, hubName, consumerGroup)
                 {
-                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                    Location = new Point(1, panelMain.HeaderHeight + 1),
                     Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                 };
@@ -497,7 +497,7 @@ namespace ServiceBusExplorer.Forms
 
                 testRelayControl = new TestRelayControl(mainForm, WriteToLog, StopLog, StartLog, relayDescription, new ServiceBusHelper(WriteToLog, serviceBusHelper))
                 {
-                    Location = new Point(1, LogicalToDeviceUnits(panelMain.HeaderHeight) + 1),
+                    Location = new Point(1, panelMain.HeaderHeight + 1),
                     Size = new Size(panelMain.Size.Width - 3, panelMain.Size.Height - 26),
                     Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                 };
