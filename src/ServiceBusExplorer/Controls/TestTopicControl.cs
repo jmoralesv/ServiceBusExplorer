@@ -1876,6 +1876,7 @@ namespace ServiceBusExplorer.Controls
                 radioButtonXmlTemplate.Checked = true;
             }
             btnClearFiles.Enabled = messageFileListView.Items.Count > 0;
+            messageFileListView.Columns[SizeListViewColumnIndex].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         private void messageFileListView_Resize(object sender, EventArgs e)
@@ -1890,7 +1891,7 @@ namespace ServiceBusExplorer.Controls
                     return;
                 }
                 var width = listView.Width - listView.Columns[SizeListViewColumnIndex].Width;
-                listView.Columns[NameListViewColumnIndex].Width = width - 4;
+                listView.Columns[NameListViewColumnIndex].Width = width - LogicalToDeviceUnits(4);
             }
             finally
             {
@@ -1931,8 +1932,12 @@ namespace ServiceBusExplorer.Controls
 
         private void grouperMessageFiles_CustomPaint(PaintEventArgs obj)
         {
-            checkBoxFileName.Location = new Point(messageFileListView.Location.X + 8,
-                                                  messageFileListView.Location.Y + 4);
+            var x = DeviceDpi <= 96 ? 8 : 6;
+            var y = DeviceDpi <= 96 ? 4 : 3;
+
+            nameColumnHeader.Text = string.Empty;
+            checkBoxFileName.Location = new Point(messageFileListView.Location.X + x,
+                                                  messageFileListView.Location.Y + y);
             var width = (grouperMessageFiles.Size.Width - 32) / 4;
             radioButtonBinaryFile.Location = new Point(width + 16, radioButtonJsonTemplate.Location.Y);
             radioButtonJsonTemplate.Location = new Point(2 * width + 16, radioButtonJsonTemplate.Location.Y);
