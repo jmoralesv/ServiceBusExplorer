@@ -105,6 +105,7 @@
             this.txtLabel = new System.Windows.Forms.TextBox();
             this.lblMessageId = new System.Windows.Forms.Label();
             this.txtMessageId = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.mainTabReceiverPage = new System.Windows.Forms.TabPage();
             this.receiverEnabledCheckBox = new System.Windows.Forms.CheckBox();
             this.grouperReceiver = new ServiceBusExplorer.Controls.Grouper();
@@ -207,6 +208,7 @@
             this.mainTabSenderPage.SuspendLayout();
             this.grouperSender.SuspendLayout();
             this.grouperMessage.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.mainTabReceiverPage.SuspendLayout();
             this.grouperReceiver.SuspendLayout();
             this.tabPageGraph.SuspendLayout();
@@ -1091,28 +1093,7 @@
             this.grouperMessage.BackgroundGradientMode = ServiceBusExplorer.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouperMessage.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.grouperMessage.BorderThickness = 1F;
-            this.grouperMessage.Controls.Add(this.checkBoxForcePersistence);
-            this.grouperMessage.Controls.Add(this.lblForcePersistence);
-            this.grouperMessage.Controls.Add(this.lblContentType);
-            this.grouperMessage.Controls.Add(this.txtContentType);
-            this.grouperMessage.Controls.Add(this.txtScheduledEnqueueTimeUtc);
-            this.grouperMessage.Controls.Add(this.lblScheduledEnqueueTimeUtc);
-            this.grouperMessage.Controls.Add(this.txtTo);
-            this.grouperMessage.Controls.Add(this.lblTo);
-            this.grouperMessage.Controls.Add(this.txtTimeToLive);
-            this.grouperMessage.Controls.Add(this.lblTimeToLive);
-            this.grouperMessage.Controls.Add(this.lblReplyToSessionId);
-            this.grouperMessage.Controls.Add(this.txtReplyToSessionId);
-            this.grouperMessage.Controls.Add(this.lblReplyTo);
-            this.grouperMessage.Controls.Add(this.txtReplyTo);
-            this.grouperMessage.Controls.Add(this.txtCorrelationId);
-            this.grouperMessage.Controls.Add(this.lblCorrelationId);
-            this.grouperMessage.Controls.Add(this.lblSessionId);
-            this.grouperMessage.Controls.Add(this.txtSessionId);
-            this.grouperMessage.Controls.Add(this.lblLabel);
-            this.grouperMessage.Controls.Add(this.txtLabel);
-            this.grouperMessage.Controls.Add(this.lblMessageId);
-            this.grouperMessage.Controls.Add(this.txtMessageId);
+            this.grouperMessage.Controls.Add(this.tableLayoutPanel1);
             this.grouperMessage.CustomGroupBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.grouperMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.grouperMessage.ForeColor = System.Drawing.Color.White;
@@ -1129,11 +1110,53 @@
             this.grouperMessage.Size = new System.Drawing.Size(592, 350);
             this.grouperMessage.TabIndex = 0;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxForcePersistence, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.lblForcePersistence, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.txtTimeToLive, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.txtContentType, 3, 2);
+            this.tableLayoutPanel1.Controls.Add(this.txtReplyToSessionId, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.lblContentType, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lblMessageId, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lblTimeToLive, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.txtCorrelationId, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lblTo, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtSessionId, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lblReplyToSessionId, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.txtScheduledEnqueueTimeUtc, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.txtTo, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lblReplyTo, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lblLabel, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.lblScheduledEnqueueTimeUtc, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.lblCorrelationId, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtReplyTo, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lblSessionId, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.txtMessageId, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.txtLabel, 1, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 35);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(557, 188);
+            this.tableLayoutPanel1.TabIndex = 22;
+            // 
             // checkBoxForcePersistence
             // 
+            this.checkBoxForcePersistence.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxForcePersistence.AutoSize = true;
             this.checkBoxForcePersistence.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxForcePersistence.Location = new System.Drawing.Point(112, 204);
+            this.checkBoxForcePersistence.Location = new System.Drawing.Point(114, 164);
             this.checkBoxForcePersistence.Name = "checkBoxForcePersistence";
             this.checkBoxForcePersistence.Size = new System.Drawing.Size(15, 14);
             this.checkBoxForcePersistence.TabIndex = 11;
@@ -1141,9 +1164,10 @@
             // 
             // lblForcePersistence
             // 
+            this.lblForcePersistence.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblForcePersistence.AutoSize = true;
             this.lblForcePersistence.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblForcePersistence.Location = new System.Drawing.Point(16, 204);
+            this.lblForcePersistence.Location = new System.Drawing.Point(3, 165);
             this.lblForcePersistence.Name = "lblForcePersistence";
             this.lblForcePersistence.Size = new System.Drawing.Size(95, 13);
             this.lblForcePersistence.TabIndex = 10;
@@ -1151,9 +1175,10 @@
             // 
             // lblContentType
             // 
+            this.lblContentType.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblContentType.AutoSize = true;
             this.lblContentType.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblContentType.Location = new System.Drawing.Point(304, 108);
+            this.lblContentType.Location = new System.Drawing.Point(281, 71);
             this.lblContentType.Name = "lblContentType";
             this.lblContentType.Size = new System.Drawing.Size(71, 13);
             this.lblContentType.TabIndex = 16;
@@ -1161,27 +1186,28 @@
             // 
             // txtContentType
             // 
-            this.txtContentType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtContentType.Location = new System.Drawing.Point(400, 104);
+            this.txtContentType.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtContentType.Location = new System.Drawing.Point(392, 67);
             this.txtContentType.Name = "txtContentType";
-            this.txtContentType.Size = new System.Drawing.Size(176, 20);
+            this.txtContentType.Size = new System.Drawing.Size(162, 20);
             this.txtContentType.TabIndex = 17;
             this.txtContentType.TextChanged += new System.EventHandler(this.txtContentType_TextChanged);
             // 
             // txtScheduledEnqueueTimeUtc
             // 
-            this.txtScheduledEnqueueTimeUtc.Location = new System.Drawing.Point(112, 168);
+            this.txtScheduledEnqueueTimeUtc.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtScheduledEnqueueTimeUtc.Location = new System.Drawing.Point(114, 129);
             this.txtScheduledEnqueueTimeUtc.Name = "txtScheduledEnqueueTimeUtc";
-            this.txtScheduledEnqueueTimeUtc.Size = new System.Drawing.Size(176, 20);
+            this.txtScheduledEnqueueTimeUtc.Size = new System.Drawing.Size(161, 20);
             this.txtScheduledEnqueueTimeUtc.TabIndex = 9;
             this.txtScheduledEnqueueTimeUtc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
             // lblScheduledEnqueueTimeUtc
             // 
+            this.lblScheduledEnqueueTimeUtc.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblScheduledEnqueueTimeUtc.AutoSize = true;
             this.lblScheduledEnqueueTimeUtc.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblScheduledEnqueueTimeUtc.Location = new System.Drawing.Point(16, 172);
+            this.lblScheduledEnqueueTimeUtc.Location = new System.Drawing.Point(3, 133);
             this.lblScheduledEnqueueTimeUtc.Name = "lblScheduledEnqueueTimeUtc";
             this.lblScheduledEnqueueTimeUtc.Size = new System.Drawing.Size(81, 13);
             this.lblScheduledEnqueueTimeUtc.TabIndex = 8;
@@ -1189,16 +1215,18 @@
             // 
             // txtTo
             // 
-            this.txtTo.Location = new System.Drawing.Point(112, 72);
+            this.txtTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtTo.Location = new System.Drawing.Point(114, 36);
             this.txtTo.Name = "txtTo";
-            this.txtTo.Size = new System.Drawing.Size(176, 20);
+            this.txtTo.Size = new System.Drawing.Size(161, 20);
             this.txtTo.TabIndex = 3;
             // 
             // lblTo
             // 
+            this.lblTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTo.AutoSize = true;
             this.lblTo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblTo.Location = new System.Drawing.Point(16, 76);
+            this.lblTo.Location = new System.Drawing.Point(3, 40);
             this.lblTo.Name = "lblTo";
             this.lblTo.Size = new System.Drawing.Size(23, 13);
             this.lblTo.TabIndex = 2;
@@ -1206,19 +1234,19 @@
             // 
             // txtTimeToLive
             // 
-            this.txtTimeToLive.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTimeToLive.Location = new System.Drawing.Point(400, 168);
+            this.txtTimeToLive.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtTimeToLive.Location = new System.Drawing.Point(392, 129);
             this.txtTimeToLive.Name = "txtTimeToLive";
-            this.txtTimeToLive.Size = new System.Drawing.Size(176, 20);
+            this.txtTimeToLive.Size = new System.Drawing.Size(162, 20);
             this.txtTimeToLive.TabIndex = 21;
             this.txtTimeToLive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
             // lblTimeToLive
             // 
+            this.lblTimeToLive.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTimeToLive.AutoSize = true;
             this.lblTimeToLive.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblTimeToLive.Location = new System.Drawing.Point(304, 172);
+            this.lblTimeToLive.Location = new System.Drawing.Point(281, 133);
             this.lblTimeToLive.Name = "lblTimeToLive";
             this.lblTimeToLive.Size = new System.Drawing.Size(80, 13);
             this.lblTimeToLive.TabIndex = 20;
@@ -1226,9 +1254,10 @@
             // 
             // lblReplyToSessionId
             // 
+            this.lblReplyToSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblReplyToSessionId.AutoSize = true;
             this.lblReplyToSessionId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblReplyToSessionId.Location = new System.Drawing.Point(304, 140);
+            this.lblReplyToSessionId.Location = new System.Drawing.Point(281, 102);
             this.lblReplyToSessionId.Name = "lblReplyToSessionId";
             this.lblReplyToSessionId.Size = new System.Drawing.Size(96, 13);
             this.lblReplyToSessionId.TabIndex = 18;
@@ -1236,18 +1265,18 @@
             // 
             // txtReplyToSessionId
             // 
-            this.txtReplyToSessionId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtReplyToSessionId.Location = new System.Drawing.Point(400, 136);
+            this.txtReplyToSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtReplyToSessionId.Location = new System.Drawing.Point(392, 98);
             this.txtReplyToSessionId.Name = "txtReplyToSessionId";
-            this.txtReplyToSessionId.Size = new System.Drawing.Size(176, 20);
+            this.txtReplyToSessionId.Size = new System.Drawing.Size(162, 20);
             this.txtReplyToSessionId.TabIndex = 19;
             // 
             // lblReplyTo
             // 
+            this.lblReplyTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblReplyTo.AutoSize = true;
             this.lblReplyTo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblReplyTo.Location = new System.Drawing.Point(16, 108);
+            this.lblReplyTo.Location = new System.Drawing.Point(3, 71);
             this.lblReplyTo.Name = "lblReplyTo";
             this.lblReplyTo.Size = new System.Drawing.Size(50, 13);
             this.lblReplyTo.TabIndex = 4;
@@ -1255,25 +1284,26 @@
             // 
             // txtReplyTo
             // 
-            this.txtReplyTo.Location = new System.Drawing.Point(112, 104);
+            this.txtReplyTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtReplyTo.Location = new System.Drawing.Point(114, 67);
             this.txtReplyTo.Name = "txtReplyTo";
-            this.txtReplyTo.Size = new System.Drawing.Size(176, 20);
+            this.txtReplyTo.Size = new System.Drawing.Size(161, 20);
             this.txtReplyTo.TabIndex = 5;
             // 
             // txtCorrelationId
             // 
-            this.txtCorrelationId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCorrelationId.Location = new System.Drawing.Point(400, 72);
+            this.txtCorrelationId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtCorrelationId.Location = new System.Drawing.Point(392, 36);
             this.txtCorrelationId.Name = "txtCorrelationId";
-            this.txtCorrelationId.Size = new System.Drawing.Size(176, 20);
+            this.txtCorrelationId.Size = new System.Drawing.Size(162, 20);
             this.txtCorrelationId.TabIndex = 15;
             // 
             // lblCorrelationId
             // 
+            this.lblCorrelationId.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblCorrelationId.AutoSize = true;
             this.lblCorrelationId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblCorrelationId.Location = new System.Drawing.Point(304, 76);
+            this.lblCorrelationId.Location = new System.Drawing.Point(281, 40);
             this.lblCorrelationId.Name = "lblCorrelationId";
             this.lblCorrelationId.Size = new System.Drawing.Size(69, 13);
             this.lblCorrelationId.TabIndex = 14;
@@ -1281,9 +1311,10 @@
             // 
             // lblSessionId
             // 
+            this.lblSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblSessionId.AutoSize = true;
             this.lblSessionId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSessionId.Location = new System.Drawing.Point(304, 44);
+            this.lblSessionId.Location = new System.Drawing.Point(281, 9);
             this.lblSessionId.Name = "lblSessionId";
             this.lblSessionId.Size = new System.Drawing.Size(56, 13);
             this.lblSessionId.TabIndex = 12;
@@ -1291,19 +1322,19 @@
             // 
             // txtSessionId
             // 
-            this.txtSessionId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtSessionId.Enabled = false;
-            this.txtSessionId.Location = new System.Drawing.Point(400, 40);
+            this.txtSessionId.Location = new System.Drawing.Point(392, 5);
             this.txtSessionId.Name = "txtSessionId";
-            this.txtSessionId.Size = new System.Drawing.Size(176, 20);
+            this.txtSessionId.Size = new System.Drawing.Size(162, 20);
             this.txtSessionId.TabIndex = 13;
             // 
             // lblLabel
             // 
+            this.lblLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblLabel.AutoSize = true;
             this.lblLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblLabel.Location = new System.Drawing.Point(16, 140);
+            this.lblLabel.Location = new System.Drawing.Point(3, 102);
             this.lblLabel.Name = "lblLabel";
             this.lblLabel.Size = new System.Drawing.Size(36, 13);
             this.lblLabel.TabIndex = 6;
@@ -1311,27 +1342,30 @@
             // 
             // txtLabel
             // 
-            this.txtLabel.Location = new System.Drawing.Point(112, 136);
+            this.txtLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtLabel.Location = new System.Drawing.Point(114, 98);
             this.txtLabel.Name = "txtLabel";
-            this.txtLabel.Size = new System.Drawing.Size(176, 20);
+            this.txtLabel.Size = new System.Drawing.Size(161, 20);
             this.txtLabel.TabIndex = 7;
             this.txtLabel.TextChanged += new System.EventHandler(this.txtLabel_TextChanged);
             // 
             // lblMessageId
             // 
+            this.lblMessageId.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblMessageId.AutoSize = true;
             this.lblMessageId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblMessageId.Location = new System.Drawing.Point(16, 44);
+            this.lblMessageId.Location = new System.Drawing.Point(3, 9);
             this.lblMessageId.Name = "lblMessageId";
             this.lblMessageId.Size = new System.Drawing.Size(62, 13);
-            this.lblMessageId.TabIndex = 0;
+            this.lblMessageId.TabIndex = 1;
             this.lblMessageId.Text = "MessageId:";
             // 
             // txtMessageId
             // 
-            this.txtMessageId.Location = new System.Drawing.Point(112, 40);
+            this.txtMessageId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtMessageId.Location = new System.Drawing.Point(114, 5);
             this.txtMessageId.Name = "txtMessageId";
-            this.txtMessageId.Size = new System.Drawing.Size(176, 20);
+            this.txtMessageId.Size = new System.Drawing.Size(161, 20);
             this.txtMessageId.TabIndex = 1;
             // 
             // mainTabReceiverPage
@@ -2596,7 +2630,8 @@
             this.grouperSender.ResumeLayout(false);
             this.grouperSender.PerformLayout();
             this.grouperMessage.ResumeLayout(false);
-            this.grouperMessage.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.mainTabReceiverPage.ResumeLayout(false);
             this.mainTabReceiverPage.PerformLayout();
             this.grouperReceiver.ResumeLayout(false);
@@ -2788,5 +2823,6 @@
         private Grouper grouperMessageText;
         private FastColoredTextBoxNS.FastColoredTextBox txtMessageText;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
