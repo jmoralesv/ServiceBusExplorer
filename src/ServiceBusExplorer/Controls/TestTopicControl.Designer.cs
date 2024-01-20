@@ -466,7 +466,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(416, 56);
             this.label2.TabIndex = 0;
-            this.label2.Text = "The default is to just send one message so if you have selected muliple files and" +
+            this.label2.Text = "The default is to just send one message so if you have selected multiple files and" +
     " want to send all of them you have to change the Message Count on the Sender tab" +
     ".";
             // 
