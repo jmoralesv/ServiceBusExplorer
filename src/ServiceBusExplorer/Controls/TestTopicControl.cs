@@ -1750,14 +1750,22 @@ namespace ServiceBusExplorer.Controls
 
         private void grouperSender_CustomPaint(PaintEventArgs e)
         {
+            // The combo boxes are now inside the tableLayoutPanel3, so their location is relative to tableLayoutPanel3
+            // rather than the grouperSender control. We need to transform their location to the grouperSender control.
+            var cboBodyTypeLocation = tableLayoutPanel3.PointToScreen(cboBodyType.Location);
+            cboBodyTypeLocation = grouperSender.PointToClient(cboBodyTypeLocation);
+
+            var cboSenderInspectorLocation = tableLayoutPanel3.PointToScreen(cboSenderInspector.Location);
+            cboSenderInspectorLocation = grouperSender.PointToClient(cboSenderInspectorLocation);
+
             e.Graphics.DrawRectangle(new Pen(SystemColors.ActiveBorder, 1),
-                                    cboBodyType.Location.X - 1,
-                                    cboBodyType.Location.Y - 1,
+                                    cboBodyTypeLocation.X - 1,
+                                    cboBodyTypeLocation.Y - 1,
                                     cboBodyType.Size.Width + 1,
                                     cboBodyType.Size.Height + 1);
             e.Graphics.DrawRectangle(new Pen(SystemColors.ActiveBorder, 1),
-                                    cboSenderInspector.Location.X - 1,
-                                    cboSenderInspector.Location.Y - 1,
+                                    cboSenderInspectorLocation.X - 1,
+                                    cboSenderInspectorLocation.Y - 1,
                                     cboSenderInspector.Size.Width + 1,
                                     cboSenderInspector.Size.Height + 1);
         }
