@@ -1804,8 +1804,8 @@ namespace ServiceBusExplorer.Controls
 
         private void grouperMessageProperties_CustomPaint(PaintEventArgs e)
         {
-            propertiesDataGridView.Size = new Size(grouperMessageProperties.Size.Width - 32,
-                                                   grouperMessageProperties.Size.Height - 48);
+            propertiesDataGridView.Size = new Size(grouperMessageProperties.Size.Width - LogicalToDeviceUnits(32),
+                                                   grouperMessageProperties.Size.Height - LogicalToDeviceUnits(48));
             e.Graphics.DrawRectangle(new Pen(SystemColors.ActiveBorder, 1),
                                    propertiesDataGridView.Location.X - 1,
                                    propertiesDataGridView.Location.Y - 1,
