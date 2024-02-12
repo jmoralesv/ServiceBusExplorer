@@ -16,14 +16,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestTopicControl));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -32,12 +32,23 @@
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.messageTabControl = new System.Windows.Forms.TabControl();
             this.tabMessagePage = new System.Windows.Forms.TabPage();
+            this.tabFilesPage = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tabGeneratorPage = new System.Windows.Forms.TabPage();
+            this.mainTabSenderPage = new System.Windows.Forms.TabPage();
+            this.senderEnabledCheckBox = new System.Windows.Forms.CheckBox();
+            this.mainTabReceiverPage = new System.Windows.Forms.TabPage();
+            this.receiverEnabledCheckBox = new System.Windows.Forms.CheckBox();
+            this.tabPageGraph = new System.Windows.Forms.TabPage();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.btnOpenFile = new System.Windows.Forms.Button();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnClearFiles = new System.Windows.Forms.Button();
+            this.btnSelectFiles = new System.Windows.Forms.Button();
             this.grouperMessageFormat = new ServiceBusExplorer.Controls.Grouper();
             this.cboMessageFormat = new System.Windows.Forms.ComboBox();
             this.grouperMessageText = new ServiceBusExplorer.Controls.Grouper();
             this.txtMessageText = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.tabFilesPage = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
             this.grouperMessageFiles = new ServiceBusExplorer.Controls.Grouper();
             this.radioButtonBinaryFile = new System.Windows.Forms.RadioButton();
             this.radioButtonJsonTemplate = new System.Windows.Forms.RadioButton();
@@ -47,7 +58,6 @@
             this.messageFileListView = new System.Windows.Forms.ListView();
             this.nameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.sizeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tabGeneratorPage = new System.Windows.Forms.TabPage();
             this.grouperBrokeredMessageGenerator = new ServiceBusExplorer.Controls.Grouper();
             this.lblRegistration = new System.Windows.Forms.Label();
             this.brokeredMessageGeneratorPropertyGrid = new System.Windows.Forms.PropertyGrid();
@@ -55,95 +65,93 @@
             this.lblRegistrationType = new System.Windows.Forms.Label();
             this.grouperMessageProperties = new ServiceBusExplorer.Controls.Grouper();
             this.propertiesDataGridView = new System.Windows.Forms.DataGridView();
-            this.mainTabSenderPage = new System.Windows.Forms.TabPage();
-            this.senderEnabledCheckBox = new System.Windows.Forms.CheckBox();
             this.grouperSender = new ServiceBusExplorer.Controls.Grouper();
-            this.checkBoxSendNewFactory = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBoxSenderUseTransaction = new System.Windows.Forms.CheckBox();
             this.cboSenderInspector = new System.Windows.Forms.ComboBox();
+            this.checkBoxSendNewFactory = new System.Windows.Forms.CheckBox();
             this.lblSenderInspector = new System.Windows.Forms.Label();
-            this.txtMessageCount = new ServiceBusExplorer.Controls.NumericTextBox();
-            this.txtSenderThinkTime = new System.Windows.Forms.TextBox();
-            this.lblSenderThinkTime = new System.Windows.Forms.Label();
-            this.checkBoxSenderThinkTime = new System.Windows.Forms.CheckBox();
+            this.checkBoxSenderCommitTransaction = new System.Windows.Forms.CheckBox();
+            this.txtSendBatchSize = new System.Windows.Forms.TextBox();
+            this.lblSendBatchSize = new System.Windows.Forms.Label();
             this.txtSendTaskCount = new System.Windows.Forms.TextBox();
-            this.checkBoxSendBatch = new System.Windows.Forms.CheckBox();
-            this.checkBoxAddMessageNumber = new System.Windows.Forms.CheckBox();
-            this.checkBoxSenderEnableGraph = new System.Windows.Forms.CheckBox();
-            this.checkBoxSenderEnableStatistics = new System.Windows.Forms.CheckBox();
-            this.checkBoxOneSessionPerTask = new System.Windows.Forms.CheckBox();
-            this.checkBoxUpdateMessageId = new System.Windows.Forms.CheckBox();
+            this.txtMessageCount = new ServiceBusExplorer.Controls.NumericTextBox();
+            this.cboBodyType = new System.Windows.Forms.ComboBox();
+            this.lblBody = new System.Windows.Forms.Label();
             this.checkBoxEnableSenderLogging = new System.Windows.Forms.CheckBox();
             this.checkBoxSenderVerboseLogging = new System.Windows.Forms.CheckBox();
-            this.checkBoxSenderCommitTransaction = new System.Windows.Forms.CheckBox();
-            this.checkBoxSenderUseTransaction = new System.Windows.Forms.CheckBox();
-            this.lblSendBatchSize = new System.Windows.Forms.Label();
-            this.txtSendBatchSize = new System.Windows.Forms.TextBox();
-            this.lblBody = new System.Windows.Forms.Label();
-            this.cboBodyType = new System.Windows.Forms.ComboBox();
+            this.checkBoxSenderEnableStatistics = new System.Windows.Forms.CheckBox();
+            this.txtSenderThinkTime = new System.Windows.Forms.TextBox();
             this.lblSendTaskCount = new System.Windows.Forms.Label();
+            this.checkBoxSenderEnableGraph = new System.Windows.Forms.CheckBox();
+            this.lblSenderThinkTime = new System.Windows.Forms.Label();
+            this.checkBoxOneSessionPerTask = new System.Windows.Forms.CheckBox();
             this.lblCount = new System.Windows.Forms.Label();
+            this.checkBoxSenderThinkTime = new System.Windows.Forms.CheckBox();
+            this.checkBoxUpdateMessageId = new System.Windows.Forms.CheckBox();
+            this.checkBoxAddMessageNumber = new System.Windows.Forms.CheckBox();
+            this.checkBoxSendBatch = new System.Windows.Forms.CheckBox();
             this.grouperMessage = new ServiceBusExplorer.Controls.Grouper();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBoxForcePersistence = new System.Windows.Forms.CheckBox();
             this.lblForcePersistence = new System.Windows.Forms.Label();
-            this.lblContentType = new System.Windows.Forms.Label();
-            this.txtContentType = new System.Windows.Forms.TextBox();
-            this.txtScheduledEnqueueTimeUtc = new System.Windows.Forms.TextBox();
-            this.lblScheduledEnqueueTimeUtc = new System.Windows.Forms.Label();
-            this.txtTo = new System.Windows.Forms.TextBox();
-            this.lblTo = new System.Windows.Forms.Label();
             this.txtTimeToLive = new System.Windows.Forms.TextBox();
-            this.lblTimeToLive = new System.Windows.Forms.Label();
-            this.lblReplyToSessionId = new System.Windows.Forms.Label();
+            this.txtContentType = new System.Windows.Forms.TextBox();
             this.txtReplyToSessionId = new System.Windows.Forms.TextBox();
-            this.lblReplyTo = new System.Windows.Forms.Label();
-            this.txtReplyTo = new System.Windows.Forms.TextBox();
-            this.txtCorrelationId = new System.Windows.Forms.TextBox();
-            this.lblCorrelationId = new System.Windows.Forms.Label();
-            this.lblSessionId = new System.Windows.Forms.Label();
-            this.txtSessionId = new System.Windows.Forms.TextBox();
-            this.lblLabel = new System.Windows.Forms.Label();
-            this.txtLabel = new System.Windows.Forms.TextBox();
+            this.lblContentType = new System.Windows.Forms.Label();
             this.lblMessageId = new System.Windows.Forms.Label();
+            this.lblTimeToLive = new System.Windows.Forms.Label();
+            this.txtCorrelationId = new System.Windows.Forms.TextBox();
+            this.lblTo = new System.Windows.Forms.Label();
+            this.txtSessionId = new System.Windows.Forms.TextBox();
+            this.lblReplyToSessionId = new System.Windows.Forms.Label();
+            this.txtScheduledEnqueueTimeUtc = new System.Windows.Forms.TextBox();
+            this.txtTo = new System.Windows.Forms.TextBox();
+            this.lblReplyTo = new System.Windows.Forms.Label();
+            this.lblLabel = new System.Windows.Forms.Label();
+            this.lblScheduledEnqueueTimeUtc = new System.Windows.Forms.Label();
+            this.lblCorrelationId = new System.Windows.Forms.Label();
+            this.txtReplyTo = new System.Windows.Forms.TextBox();
+            this.lblSessionId = new System.Windows.Forms.Label();
             this.txtMessageId = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.mainTabReceiverPage = new System.Windows.Forms.TabPage();
-            this.receiverEnabledCheckBox = new System.Windows.Forms.CheckBox();
+            this.txtLabel = new System.Windows.Forms.TextBox();
             this.grouperReceiver = new ServiceBusExplorer.Controls.Grouper();
+            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBoxReceiveNewFactory = new System.Windows.Forms.CheckBox();
-            this.cboReceiverInspector = new System.Windows.Forms.ComboBox();
-            this.lblReceiverInspector = new System.Windows.Forms.Label();
-            this.txtReceiverThinkTime = new System.Windows.Forms.TextBox();
-            this.lblReceiverThinkTime = new System.Windows.Forms.Label();
-            this.checkBoxReceiverThinkTime = new System.Windows.Forms.CheckBox();
-            this.txtReceiveTaskCount = new System.Windows.Forms.TextBox();
-            this.lblReceiveBatchSize = new System.Windows.Forms.Label();
-            this.txtReceiveBatchSize = new System.Windows.Forms.TextBox();
-            this.txtPrefetchCount = new System.Windows.Forms.TextBox();
-            this.lblPrefetchCount = new System.Windows.Forms.Label();
-            this.txtReceiveTimeout = new System.Windows.Forms.TextBox();
-            this.txtServerTimeout = new System.Windows.Forms.TextBox();
-            this.lblServerTimeout = new System.Windows.Forms.Label();
             this.txtFilterExpression = new System.Windows.Forms.TextBox();
-            this.lblFilterExpr = new System.Windows.Forms.Label();
-            this.cboReceivedMode = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblReceiveTaskCount = new System.Windows.Forms.Label();
-            this.lblServerWaitTime = new System.Windows.Forms.Label();
             this.cboSubscriptions = new System.Windows.Forms.ComboBox();
-            this.lblSubscription = new System.Windows.Forms.Label();
+            this.checkBoxReadFromDeadLetter = new System.Windows.Forms.CheckBox();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBoxReceiverThinkTime = new System.Windows.Forms.CheckBox();
+            this.lblReceiverThinkTime = new System.Windows.Forms.Label();
+            this.txtReceiverThinkTime = new System.Windows.Forms.TextBox();
+            this.lblReceiveTaskCount = new System.Windows.Forms.Label();
+            this.txtReceiveTaskCount = new System.Windows.Forms.TextBox();
+            this.checkBoxDeferMessage = new System.Windows.Forms.CheckBox();
+            this.lblServerWaitTime = new System.Windows.Forms.Label();
+            this.checkBoxCompleteReceive = new System.Windows.Forms.CheckBox();
+            this.checkBoxReceiverEnableGraph = new System.Windows.Forms.CheckBox();
+            this.txtReceiveTimeout = new System.Windows.Forms.TextBox();
+            this.lblPrefetchCount = new System.Windows.Forms.Label();
+            this.checkBoxReceiverVerboseLogging = new System.Windows.Forms.CheckBox();
+            this.txtPrefetchCount = new System.Windows.Forms.TextBox();
+            this.checkBoxReceiverCommitTransaction = new System.Windows.Forms.CheckBox();
+            this.lblReceiveBatchSize = new System.Windows.Forms.Label();
             this.checkBoxReceiveBatch = new System.Windows.Forms.CheckBox();
             this.checkBoxReceiverUseTransaction = new System.Windows.Forms.CheckBox();
-            this.checkBoxDeferMessage = new System.Windows.Forms.CheckBox();
-            this.checkBoxReceiverEnableGraph = new System.Windows.Forms.CheckBox();
-            this.checkBoxCompleteReceive = new System.Windows.Forms.CheckBox();
-            this.checkBoxReceiverEnableStatistics = new System.Windows.Forms.CheckBox();
-            this.checkBoxReadFromDeadLetter = new System.Windows.Forms.CheckBox();
             this.checkBoxMoveToDeadLetter = new System.Windows.Forms.CheckBox();
-            this.checkBoxReceiverVerboseLogging = new System.Windows.Forms.CheckBox();
-            this.checkBoxReceiverCommitTransaction = new System.Windows.Forms.CheckBox();
+            this.lblSubscription = new System.Windows.Forms.Label();
+            this.checkBoxReceiverEnableStatistics = new System.Windows.Forms.CheckBox();
+            this.txtServerTimeout = new System.Windows.Forms.TextBox();
+            this.lblFilterExpr = new System.Windows.Forms.Label();
+            this.txtReceiveBatchSize = new System.Windows.Forms.TextBox();
+            this.cboReceivedMode = new System.Windows.Forms.ComboBox();
+            this.lblServerTimeout = new System.Windows.Forms.Label();
             this.checkBoxEnableReceiverLogging = new System.Windows.Forms.CheckBox();
-            this.tabPageGraph = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblReceiverInspector = new System.Windows.Forms.Label();
+            this.cboReceiverInspector = new System.Windows.Forms.ComboBox();
             this.grouperReceiverStatistics = new ServiceBusExplorer.Controls.Grouper();
             this.receiverLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
@@ -184,11 +192,6 @@
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.lblSenderMessageNumber = new System.Windows.Forms.Label();
             this.lblSenderCallsSuccessedCaption = new System.Windows.Forms.Label();
-            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.btnOpenFile = new System.Windows.Forms.Button();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.btnClearFiles = new System.Windows.Forms.Button();
-            this.btnSelectFiles = new System.Windows.Forms.Button();
             this.mainTabControl.SuspendLayout();
             this.mainTabMessagePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -197,23 +200,27 @@
             this.splitContainer.SuspendLayout();
             this.messageTabControl.SuspendLayout();
             this.tabMessagePage.SuspendLayout();
+            this.tabFilesPage.SuspendLayout();
+            this.tabGeneratorPage.SuspendLayout();
+            this.mainTabSenderPage.SuspendLayout();
+            this.mainTabReceiverPage.SuspendLayout();
+            this.tabPageGraph.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.grouperMessageFormat.SuspendLayout();
             this.grouperMessageText.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtMessageText)).BeginInit();
-            this.tabFilesPage.SuspendLayout();
             this.grouperMessageFiles.SuspendLayout();
-            this.tabGeneratorPage.SuspendLayout();
             this.grouperBrokeredMessageGenerator.SuspendLayout();
             this.grouperMessageProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesDataGridView)).BeginInit();
-            this.mainTabSenderPage.SuspendLayout();
-            this.grouperMessage.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.grouperSender.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.mainTabReceiverPage.SuspendLayout();
+            this.grouperMessage.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.grouperReceiver.SuspendLayout();
-            this.tabPageGraph.SuspendLayout();
+            this.tableLayoutPanel9.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.grouperReceiverStatistics.SuspendLayout();
             this.receiverLayoutPanel.SuspendLayout();
             this.tableLayoutPanel17.SuspendLayout();
@@ -230,7 +237,6 @@
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
@@ -348,6 +354,261 @@
             this.tabMessagePage.TabIndex = 2;
             this.tabMessagePage.Text = "Message";
             // 
+            // tabFilesPage
+            // 
+            this.tabFilesPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.tabFilesPage.Controls.Add(this.label2);
+            this.tabFilesPage.Controls.Add(this.grouperMessageFiles);
+            this.tabFilesPage.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tabFilesPage.Location = new System.Drawing.Point(4, 24);
+            this.tabFilesPage.Name = "tabFilesPage";
+            this.tabFilesPage.Padding = new System.Windows.Forms.Padding(3);
+            this.tabFilesPage.Size = new System.Drawing.Size(451, 338);
+            this.tabFilesPage.TabIndex = 5;
+            this.tabFilesPage.Text = "Files";
+            // 
+            // label2
+            // 
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label2.Location = new System.Drawing.Point(16, 19);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(416, 56);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "The default is to just send one message so if you have selected multiple files an" +
+    "d want to send all of them you have to change the Message Count on the Sender ta" +
+    "b.";
+            // 
+            // tabGeneratorPage
+            // 
+            this.tabGeneratorPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.tabGeneratorPage.Controls.Add(this.grouperBrokeredMessageGenerator);
+            this.tabGeneratorPage.Location = new System.Drawing.Point(4, 24);
+            this.tabGeneratorPage.Name = "tabGeneratorPage";
+            this.tabGeneratorPage.Size = new System.Drawing.Size(451, 338);
+            this.tabGeneratorPage.TabIndex = 6;
+            this.tabGeneratorPage.Text = "Generator";
+            // 
+            // mainTabSenderPage
+            // 
+            this.mainTabSenderPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.mainTabSenderPage.Controls.Add(this.senderEnabledCheckBox);
+            this.mainTabSenderPage.Controls.Add(this.grouperSender);
+            this.mainTabSenderPage.Controls.Add(this.grouperMessage);
+            this.mainTabSenderPage.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.mainTabSenderPage.Location = new System.Drawing.Point(4, 24);
+            this.mainTabSenderPage.Name = "mainTabSenderPage";
+            this.mainTabSenderPage.Padding = new System.Windows.Forms.Padding(3);
+            this.mainTabSenderPage.Size = new System.Drawing.Size(968, 386);
+            this.mainTabSenderPage.TabIndex = 1;
+            this.mainTabSenderPage.Text = "Sender";
+            // 
+            // senderEnabledCheckBox
+            // 
+            this.senderEnabledCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.senderEnabledCheckBox.AutoSize = true;
+            this.senderEnabledCheckBox.Checked = true;
+            this.senderEnabledCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.senderEnabledCheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.senderEnabledCheckBox.Location = new System.Drawing.Point(880, 12);
+            this.senderEnabledCheckBox.Name = "senderEnabledCheckBox";
+            this.senderEnabledCheckBox.Size = new System.Drawing.Size(75, 19);
+            this.senderEnabledCheckBox.TabIndex = 2;
+            this.senderEnabledCheckBox.Text = "Enabled:";
+            this.senderEnabledCheckBox.UseVisualStyleBackColor = true;
+            this.senderEnabledCheckBox.CheckedChanged += new System.EventHandler(this.senderEnabledCheckBox_CheckedChanged);
+            // 
+            // mainTabReceiverPage
+            // 
+            this.mainTabReceiverPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.mainTabReceiverPage.Controls.Add(this.receiverEnabledCheckBox);
+            this.mainTabReceiverPage.Controls.Add(this.grouperReceiver);
+            this.mainTabReceiverPage.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.mainTabReceiverPage.Location = new System.Drawing.Point(4, 24);
+            this.mainTabReceiverPage.Name = "mainTabReceiverPage";
+            this.mainTabReceiverPage.Size = new System.Drawing.Size(968, 386);
+            this.mainTabReceiverPage.TabIndex = 2;
+            this.mainTabReceiverPage.Text = "Receiver";
+            // 
+            // receiverEnabledCheckBox
+            // 
+            this.receiverEnabledCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.receiverEnabledCheckBox.AutoSize = true;
+            this.receiverEnabledCheckBox.Checked = true;
+            this.receiverEnabledCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.receiverEnabledCheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.receiverEnabledCheckBox.Location = new System.Drawing.Point(881, 12);
+            this.receiverEnabledCheckBox.Name = "receiverEnabledCheckBox";
+            this.receiverEnabledCheckBox.Size = new System.Drawing.Size(75, 19);
+            this.receiverEnabledCheckBox.TabIndex = 14;
+            this.receiverEnabledCheckBox.Text = "Enabled:";
+            this.receiverEnabledCheckBox.UseVisualStyleBackColor = true;
+            this.receiverEnabledCheckBox.CheckedChanged += new System.EventHandler(this.receiverEnabledCheckBox_CheckedChanged);
+            // 
+            // tabPageGraph
+            // 
+            this.tabPageGraph.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.tabPageGraph.Controls.Add(this.grouperReceiverStatistics);
+            this.tabPageGraph.Controls.Add(this.grouperSenderStatistics);
+            this.tabPageGraph.Controls.Add(this.chart);
+            this.tabPageGraph.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tabPageGraph.Location = new System.Drawing.Point(4, 24);
+            this.tabPageGraph.Name = "tabPageGraph";
+            this.tabPageGraph.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGraph.Size = new System.Drawing.Size(968, 386);
+            this.tabPageGraph.TabIndex = 3;
+            this.tabPageGraph.Text = "Graph";
+            // 
+            // chart
+            // 
+            this.chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chart.BackImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.chart.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.chart.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.chart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            this.chart.BorderSkin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.chart.BorderSkin.BorderWidth = 0;
+            this.chart.BorderSkin.PageColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.chart.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.FrameTitle1;
+            chartArea4.Area3DStyle.Inclination = 15;
+            chartArea4.Area3DStyle.IsClustered = true;
+            chartArea4.Area3DStyle.IsRightAngleAxes = false;
+            chartArea4.Area3DStyle.Perspective = 10;
+            chartArea4.Area3DStyle.Rotation = 10;
+            chartArea4.Area3DStyle.WallWidth = 0;
+            chartArea4.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
+            chartArea4.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea4.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea4.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
+            chartArea4.AxisX.ScrollBar.Size = 10D;
+            chartArea4.AxisX.Title = "Messages";
+            chartArea4.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea4.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea4.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea4.AxisY.ScrollBar.LineColor = System.Drawing.Color.Black;
+            chartArea4.AxisY.ScrollBar.Size = 10D;
+            chartArea4.AxisY.Title = "Time - Msg/Sec";
+            chartArea4.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea4.AxisY2.Title = "Messages/Sec";
+            chartArea4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            chartArea4.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chartArea4.BackSecondaryColor = System.Drawing.Color.White;
+            chartArea4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea4.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chartArea4.CursorX.IsUserEnabled = true;
+            chartArea4.CursorX.IsUserSelectionEnabled = true;
+            chartArea4.CursorY.IsUserEnabled = true;
+            chartArea4.CursorY.IsUserSelectionEnabled = true;
+            chartArea4.Name = "Default";
+            chartArea4.ShadowColor = System.Drawing.Color.White;
+            this.chart.ChartAreas.Add(chartArea4);
+            legend4.Alignment = System.Drawing.StringAlignment.Far;
+            legend4.BackColor = System.Drawing.Color.Transparent;
+            legend4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend4.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            legend4.IsTextAutoFit = false;
+            legend4.MaximumAutoSize = 5F;
+            legend4.Name = "Default";
+            this.chart.Legends.Add(legend4);
+            this.chart.Location = new System.Drawing.Point(152, 16);
+            this.chart.Name = "chart";
+            series13.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            series13.BorderWidth = 2;
+            series13.ChartArea = "Default";
+            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series13.Legend = "Default";
+            series13.LegendText = "Sender Latency";
+            series13.Name = "SenderLatency";
+            series14.BorderColor = System.Drawing.Color.Red;
+            series14.BorderWidth = 2;
+            series14.ChartArea = "Default";
+            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series14.Legend = "Default";
+            series14.LegendText = "Receiver Latency";
+            series14.Name = "ReceiverLatency";
+            series15.BorderWidth = 2;
+            series15.ChartArea = "Default";
+            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series15.Legend = "Default";
+            series15.LegendText = "Sender Throughput";
+            series15.Name = "SenderThroughput";
+            series16.BorderWidth = 2;
+            series16.ChartArea = "Default";
+            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series16.Legend = "Default";
+            series16.LegendText = "Receiver Throughput";
+            series16.Name = "ReceiverThroughput";
+            this.chart.Series.Add(series13);
+            this.chart.Series.Add(series14);
+            this.chart.Series.Add(series15);
+            this.chart.Series.Add(series16);
+            this.chart.Size = new System.Drawing.Size(668, 352);
+            this.chart.TabIndex = 1;
+            title4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            title4.Name = "Title";
+            title4.ShadowColor = System.Drawing.Color.Transparent;
+            title4.ShadowOffset = 1;
+            title4.Text = "Sender & Receiver Performance Counters";
+            this.chart.Titles.Add(title4);
+            // 
+            // btnOpenFile
+            // 
+            this.btnOpenFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.btnOpenFile.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.btnOpenFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.btnOpenFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.btnOpenFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenFile.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnOpenFile.Location = new System.Drawing.Point(760, 438);
+            this.btnOpenFile.Name = "btnOpenFile";
+            this.btnOpenFile.Size = new System.Drawing.Size(72, 24);
+            this.btnOpenFile.TabIndex = 3;
+            this.btnOpenFile.Text = "Open";
+            this.btnOpenFile.UseVisualStyleBackColor = false;
+            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
+            this.btnOpenFile.MouseEnter += new System.EventHandler(this.button_MouseEnter);
+            this.btnOpenFile.MouseLeave += new System.EventHandler(this.button_MouseLeave);
+            // 
+            // btnClearFiles
+            // 
+            this.btnClearFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.btnClearFiles.Enabled = false;
+            this.btnClearFiles.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.btnClearFiles.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.btnClearFiles.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.btnClearFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClearFiles.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnClearFiles.Location = new System.Drawing.Point(680, 438);
+            this.btnClearFiles.Name = "btnClearFiles";
+            this.btnClearFiles.Size = new System.Drawing.Size(72, 24);
+            this.btnClearFiles.TabIndex = 2;
+            this.btnClearFiles.Text = "Clear Files";
+            this.btnClearFiles.UseVisualStyleBackColor = false;
+            this.btnClearFiles.Click += new System.EventHandler(this.btnClearFiles_Click);
+            // 
+            // btnSelectFiles
+            // 
+            this.btnSelectFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.btnSelectFiles.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.btnSelectFiles.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.btnSelectFiles.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.btnSelectFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSelectFiles.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnSelectFiles.Location = new System.Drawing.Point(601, 438);
+            this.btnSelectFiles.Name = "btnSelectFiles";
+            this.btnSelectFiles.Size = new System.Drawing.Size(72, 24);
+            this.btnSelectFiles.TabIndex = 1;
+            this.btnSelectFiles.Text = "Select Files";
+            this.btnSelectFiles.UseVisualStyleBackColor = false;
+            this.btnSelectFiles.Click += new System.EventHandler(this.btnSelectFiles_Click);
+            // 
             // grouperMessageFormat
             // 
             this.grouperMessageFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -450,30 +711,6 @@
             this.txtMessageText.TabIndex = 0;
             this.txtMessageText.Zoom = 100;
             this.txtMessageText.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.txtMessageText_TextChanged);
-            // 
-            // tabFilesPage
-            // 
-            this.tabFilesPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.tabFilesPage.Controls.Add(this.label2);
-            this.tabFilesPage.Controls.Add(this.grouperMessageFiles);
-            this.tabFilesPage.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tabFilesPage.Location = new System.Drawing.Point(4, 24);
-            this.tabFilesPage.Name = "tabFilesPage";
-            this.tabFilesPage.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFilesPage.Size = new System.Drawing.Size(451, 338);
-            this.tabFilesPage.TabIndex = 5;
-            this.tabFilesPage.Text = "Files";
-            // 
-            // label2
-            // 
-            this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label2.Location = new System.Drawing.Point(16, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(416, 56);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "The default is to just send one message so if you have selected multiple files an" +
-    "d want to send all of them you have to change the Message Count on the Sender ta" +
-    "b.";
             // 
             // grouperMessageFiles
             // 
@@ -606,16 +843,6 @@
             this.sizeColumnHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.sizeColumnHeader.Width = 70;
             // 
-            // tabGeneratorPage
-            // 
-            this.tabGeneratorPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.tabGeneratorPage.Controls.Add(this.grouperBrokeredMessageGenerator);
-            this.tabGeneratorPage.Location = new System.Drawing.Point(4, 24);
-            this.tabGeneratorPage.Name = "tabGeneratorPage";
-            this.tabGeneratorPage.Size = new System.Drawing.Size(451, 338);
-            this.tabGeneratorPage.TabIndex = 6;
-            this.tabGeneratorPage.Text = "Generator";
-            // 
             // grouperBrokeredMessageGenerator
             // 
             this.grouperBrokeredMessageGenerator.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -739,322 +966,6 @@
             this.propertiesDataGridView.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.propertiesDataGridView_RowsAdded);
             this.propertiesDataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.propertiesDataGridView_RowsRemoved);
             this.propertiesDataGridView.Resize += new System.EventHandler(this.propertiesDataGridView_Resize);
-            // 
-            // mainTabSenderPage
-            // 
-            this.mainTabSenderPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.mainTabSenderPage.Controls.Add(this.senderEnabledCheckBox);
-            this.mainTabSenderPage.Controls.Add(this.grouperSender);
-            this.mainTabSenderPage.Controls.Add(this.grouperMessage);
-            this.mainTabSenderPage.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.mainTabSenderPage.Location = new System.Drawing.Point(4, 24);
-            this.mainTabSenderPage.Name = "mainTabSenderPage";
-            this.mainTabSenderPage.Padding = new System.Windows.Forms.Padding(3);
-            this.mainTabSenderPage.Size = new System.Drawing.Size(968, 386);
-            this.mainTabSenderPage.TabIndex = 1;
-            this.mainTabSenderPage.Text = "Sender";
-            // 
-            // senderEnabledCheckBox
-            // 
-            this.senderEnabledCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.senderEnabledCheckBox.AutoSize = true;
-            this.senderEnabledCheckBox.Checked = true;
-            this.senderEnabledCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.senderEnabledCheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.senderEnabledCheckBox.Location = new System.Drawing.Point(880, 12);
-            this.senderEnabledCheckBox.Name = "senderEnabledCheckBox";
-            this.senderEnabledCheckBox.Size = new System.Drawing.Size(75, 19);
-            this.senderEnabledCheckBox.TabIndex = 2;
-            this.senderEnabledCheckBox.Text = "Enabled:";
-            this.senderEnabledCheckBox.UseVisualStyleBackColor = true;
-            this.senderEnabledCheckBox.CheckedChanged += new System.EventHandler(this.senderEnabledCheckBox_CheckedChanged);
-            // 
-            // grouperMessage
-            // 
-            this.grouperMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grouperMessage.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.grouperMessage.BackgroundGradientColor = System.Drawing.Color.White;
-            this.grouperMessage.BackgroundGradientMode = ServiceBusExplorer.Controls.Grouper.GroupBoxGradientMode.None;
-            this.grouperMessage.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.grouperMessage.BorderThickness = 1F;
-            this.grouperMessage.Controls.Add(this.tableLayoutPanel1);
-            this.grouperMessage.CustomGroupBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.grouperMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.grouperMessage.ForeColor = System.Drawing.Color.White;
-            this.grouperMessage.GroupImage = null;
-            this.grouperMessage.GroupTitle = "Message";
-            this.grouperMessage.Location = new System.Drawing.Point(16, 24);
-            this.grouperMessage.Name = "grouperMessage";
-            this.grouperMessage.Padding = new System.Windows.Forms.Padding(20);
-            this.grouperMessage.PaintGroupBox = true;
-            this.grouperMessage.RoundCorners = 4;
-            this.grouperMessage.ShadowColor = System.Drawing.Color.DarkGray;
-            this.grouperMessage.ShadowControl = false;
-            this.grouperMessage.ShadowThickness = 1;
-            this.grouperMessage.Size = new System.Drawing.Size(592, 350);
-            this.grouperMessage.TabIndex = 0;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxForcePersistence, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.lblForcePersistence, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.txtTimeToLive, 3, 4);
-            this.tableLayoutPanel1.Controls.Add(this.txtContentType, 3, 2);
-            this.tableLayoutPanel1.Controls.Add(this.txtReplyToSessionId, 3, 3);
-            this.tableLayoutPanel1.Controls.Add(this.lblContentType, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblMessageId, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblTimeToLive, 2, 4);
-            this.tableLayoutPanel1.Controls.Add(this.txtCorrelationId, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblTo, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.txtSessionId, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblReplyToSessionId, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.txtScheduledEnqueueTimeUtc, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.txtTo, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblReplyTo, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblLabel, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.lblScheduledEnqueueTimeUtc, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.lblCorrelationId, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.txtReplyTo, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblSessionId, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtMessageId, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtLabel, 1, 3);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 35);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(557, 188);
-            this.tableLayoutPanel1.TabIndex = 22;
-            // 
-            // checkBoxForcePersistence
-            // 
-            this.checkBoxForcePersistence.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBoxForcePersistence.AutoSize = true;
-            this.checkBoxForcePersistence.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxForcePersistence.Location = new System.Drawing.Point(114, 164);
-            this.checkBoxForcePersistence.Name = "checkBoxForcePersistence";
-            this.checkBoxForcePersistence.Size = new System.Drawing.Size(15, 14);
-            this.checkBoxForcePersistence.TabIndex = 11;
-            this.checkBoxForcePersistence.UseVisualStyleBackColor = true;
-            // 
-            // lblForcePersistence
-            // 
-            this.lblForcePersistence.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblForcePersistence.AutoSize = true;
-            this.lblForcePersistence.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblForcePersistence.Location = new System.Drawing.Point(3, 165);
-            this.lblForcePersistence.Name = "lblForcePersistence";
-            this.lblForcePersistence.Size = new System.Drawing.Size(95, 13);
-            this.lblForcePersistence.TabIndex = 10;
-            this.lblForcePersistence.Text = "Force Persistence:";
-            // 
-            // txtTimeToLive
-            // 
-            this.txtTimeToLive.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtTimeToLive.Location = new System.Drawing.Point(392, 129);
-            this.txtTimeToLive.Name = "txtTimeToLive";
-            this.txtTimeToLive.Size = new System.Drawing.Size(162, 20);
-            this.txtTimeToLive.TabIndex = 21;
-            this.txtTimeToLive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            // 
-            // txtContentType
-            // 
-            this.txtContentType.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtContentType.Location = new System.Drawing.Point(392, 67);
-            this.txtContentType.Name = "txtContentType";
-            this.txtContentType.Size = new System.Drawing.Size(162, 20);
-            this.txtContentType.TabIndex = 17;
-            this.txtContentType.TextChanged += new System.EventHandler(this.txtContentType_TextChanged);
-            // 
-            // txtReplyToSessionId
-            // 
-            this.txtReplyToSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtReplyToSessionId.Location = new System.Drawing.Point(392, 98);
-            this.txtReplyToSessionId.Name = "txtReplyToSessionId";
-            this.txtReplyToSessionId.Size = new System.Drawing.Size(162, 20);
-            this.txtReplyToSessionId.TabIndex = 19;
-            // 
-            // lblContentType
-            // 
-            this.lblContentType.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblContentType.AutoSize = true;
-            this.lblContentType.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblContentType.Location = new System.Drawing.Point(281, 71);
-            this.lblContentType.Name = "lblContentType";
-            this.lblContentType.Size = new System.Drawing.Size(71, 13);
-            this.lblContentType.TabIndex = 16;
-            this.lblContentType.Text = "ContentType:";
-            // 
-            // lblMessageId
-            // 
-            this.lblMessageId.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblMessageId.AutoSize = true;
-            this.lblMessageId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblMessageId.Location = new System.Drawing.Point(3, 9);
-            this.lblMessageId.Name = "lblMessageId";
-            this.lblMessageId.Size = new System.Drawing.Size(62, 13);
-            this.lblMessageId.TabIndex = 1;
-            this.lblMessageId.Text = "MessageId:";
-            // 
-            // lblTimeToLive
-            // 
-            this.lblTimeToLive.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblTimeToLive.AutoSize = true;
-            this.lblTimeToLive.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblTimeToLive.Location = new System.Drawing.Point(281, 133);
-            this.lblTimeToLive.Name = "lblTimeToLive";
-            this.lblTimeToLive.Size = new System.Drawing.Size(80, 13);
-            this.lblTimeToLive.TabIndex = 20;
-            this.lblTimeToLive.Text = "TimeToLive (s):";
-            // 
-            // txtCorrelationId
-            // 
-            this.txtCorrelationId.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtCorrelationId.Location = new System.Drawing.Point(392, 36);
-            this.txtCorrelationId.Name = "txtCorrelationId";
-            this.txtCorrelationId.Size = new System.Drawing.Size(162, 20);
-            this.txtCorrelationId.TabIndex = 15;
-            // 
-            // lblTo
-            // 
-            this.lblTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblTo.AutoSize = true;
-            this.lblTo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblTo.Location = new System.Drawing.Point(3, 40);
-            this.lblTo.Name = "lblTo";
-            this.lblTo.Size = new System.Drawing.Size(23, 13);
-            this.lblTo.TabIndex = 2;
-            this.lblTo.Text = "To:";
-            // 
-            // txtSessionId
-            // 
-            this.txtSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtSessionId.Enabled = false;
-            this.txtSessionId.Location = new System.Drawing.Point(392, 5);
-            this.txtSessionId.Name = "txtSessionId";
-            this.txtSessionId.Size = new System.Drawing.Size(162, 20);
-            this.txtSessionId.TabIndex = 13;
-            // 
-            // lblReplyToSessionId
-            // 
-            this.lblReplyToSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblReplyToSessionId.AutoSize = true;
-            this.lblReplyToSessionId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblReplyToSessionId.Location = new System.Drawing.Point(281, 102);
-            this.lblReplyToSessionId.Name = "lblReplyToSessionId";
-            this.lblReplyToSessionId.Size = new System.Drawing.Size(96, 13);
-            this.lblReplyToSessionId.TabIndex = 18;
-            this.lblReplyToSessionId.Text = "ReplyToSessionId:";
-            // 
-            // txtScheduledEnqueueTimeUtc
-            // 
-            this.txtScheduledEnqueueTimeUtc.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtScheduledEnqueueTimeUtc.Location = new System.Drawing.Point(114, 129);
-            this.txtScheduledEnqueueTimeUtc.Name = "txtScheduledEnqueueTimeUtc";
-            this.txtScheduledEnqueueTimeUtc.Size = new System.Drawing.Size(161, 20);
-            this.txtScheduledEnqueueTimeUtc.TabIndex = 9;
-            this.txtScheduledEnqueueTimeUtc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            // 
-            // txtTo
-            // 
-            this.txtTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtTo.Location = new System.Drawing.Point(114, 36);
-            this.txtTo.Name = "txtTo";
-            this.txtTo.Size = new System.Drawing.Size(161, 20);
-            this.txtTo.TabIndex = 3;
-            // 
-            // lblReplyTo
-            // 
-            this.lblReplyTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblReplyTo.AutoSize = true;
-            this.lblReplyTo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblReplyTo.Location = new System.Drawing.Point(3, 71);
-            this.lblReplyTo.Name = "lblReplyTo";
-            this.lblReplyTo.Size = new System.Drawing.Size(50, 13);
-            this.lblReplyTo.TabIndex = 4;
-            this.lblReplyTo.Text = "ReplyTo:";
-            // 
-            // lblLabel
-            // 
-            this.lblLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblLabel.AutoSize = true;
-            this.lblLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblLabel.Location = new System.Drawing.Point(3, 102);
-            this.lblLabel.Name = "lblLabel";
-            this.lblLabel.Size = new System.Drawing.Size(36, 13);
-            this.lblLabel.TabIndex = 6;
-            this.lblLabel.Text = "Label:";
-            // 
-            // lblScheduledEnqueueTimeUtc
-            // 
-            this.lblScheduledEnqueueTimeUtc.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblScheduledEnqueueTimeUtc.AutoSize = true;
-            this.lblScheduledEnqueueTimeUtc.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblScheduledEnqueueTimeUtc.Location = new System.Drawing.Point(3, 133);
-            this.lblScheduledEnqueueTimeUtc.Name = "lblScheduledEnqueueTimeUtc";
-            this.lblScheduledEnqueueTimeUtc.Size = new System.Drawing.Size(81, 13);
-            this.lblScheduledEnqueueTimeUtc.TabIndex = 8;
-            this.lblScheduledEnqueueTimeUtc.Text = "Schedule (sec):";
-            // 
-            // lblCorrelationId
-            // 
-            this.lblCorrelationId.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblCorrelationId.AutoSize = true;
-            this.lblCorrelationId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblCorrelationId.Location = new System.Drawing.Point(281, 40);
-            this.lblCorrelationId.Name = "lblCorrelationId";
-            this.lblCorrelationId.Size = new System.Drawing.Size(69, 13);
-            this.lblCorrelationId.TabIndex = 14;
-            this.lblCorrelationId.Text = "CorrelationId:";
-            // 
-            // txtReplyTo
-            // 
-            this.txtReplyTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtReplyTo.Location = new System.Drawing.Point(114, 67);
-            this.txtReplyTo.Name = "txtReplyTo";
-            this.txtReplyTo.Size = new System.Drawing.Size(161, 20);
-            this.txtReplyTo.TabIndex = 5;
-            // 
-            // lblSessionId
-            // 
-            this.lblSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblSessionId.AutoSize = true;
-            this.lblSessionId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSessionId.Location = new System.Drawing.Point(281, 9);
-            this.lblSessionId.Name = "lblSessionId";
-            this.lblSessionId.Size = new System.Drawing.Size(56, 13);
-            this.lblSessionId.TabIndex = 12;
-            this.lblSessionId.Text = "SessionId:";
-            // 
-            // txtMessageId
-            // 
-            this.txtMessageId.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtMessageId.Location = new System.Drawing.Point(114, 5);
-            this.txtMessageId.Name = "txtMessageId";
-            this.txtMessageId.Size = new System.Drawing.Size(161, 20);
-            this.txtMessageId.TabIndex = 1;
-            // 
-            // txtLabel
-            // 
-            this.txtLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtLabel.Location = new System.Drawing.Point(114, 98);
-            this.txtLabel.Name = "txtLabel";
-            this.txtLabel.Size = new System.Drawing.Size(161, 20);
-            this.txtLabel.TabIndex = 7;
-            this.txtLabel.TextChanged += new System.EventHandler(this.txtLabel_TextChanged);
             // 
             // grouperSender
             // 
@@ -1435,32 +1346,292 @@
             this.checkBoxSendBatch.UseVisualStyleBackColor = true;
             this.checkBoxSendBatch.CheckedChanged += new System.EventHandler(this.checkBoxSendBatch_CheckedChanged);
             // 
-            // mainTabReceiverPage
+            // grouperMessage
             // 
-            this.mainTabReceiverPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.mainTabReceiverPage.Controls.Add(this.receiverEnabledCheckBox);
-            this.mainTabReceiverPage.Controls.Add(this.grouperReceiver);
-            this.mainTabReceiverPage.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.mainTabReceiverPage.Location = new System.Drawing.Point(4, 24);
-            this.mainTabReceiverPage.Name = "mainTabReceiverPage";
-            this.mainTabReceiverPage.Size = new System.Drawing.Size(968, 386);
-            this.mainTabReceiverPage.TabIndex = 2;
-            this.mainTabReceiverPage.Text = "Receiver";
+            this.grouperMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grouperMessage.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            this.grouperMessage.BackgroundGradientColor = System.Drawing.Color.White;
+            this.grouperMessage.BackgroundGradientMode = ServiceBusExplorer.Controls.Grouper.GroupBoxGradientMode.None;
+            this.grouperMessage.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.grouperMessage.BorderThickness = 1F;
+            this.grouperMessage.Controls.Add(this.tableLayoutPanel1);
+            this.grouperMessage.CustomGroupBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.grouperMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.grouperMessage.ForeColor = System.Drawing.Color.White;
+            this.grouperMessage.GroupImage = null;
+            this.grouperMessage.GroupTitle = "Message";
+            this.grouperMessage.Location = new System.Drawing.Point(16, 24);
+            this.grouperMessage.Name = "grouperMessage";
+            this.grouperMessage.Padding = new System.Windows.Forms.Padding(20);
+            this.grouperMessage.PaintGroupBox = true;
+            this.grouperMessage.RoundCorners = 4;
+            this.grouperMessage.ShadowColor = System.Drawing.Color.DarkGray;
+            this.grouperMessage.ShadowControl = false;
+            this.grouperMessage.ShadowThickness = 1;
+            this.grouperMessage.Size = new System.Drawing.Size(592, 350);
+            this.grouperMessage.TabIndex = 0;
             // 
-            // receiverEnabledCheckBox
+            // tableLayoutPanel1
             // 
-            this.receiverEnabledCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.receiverEnabledCheckBox.AutoSize = true;
-            this.receiverEnabledCheckBox.Checked = true;
-            this.receiverEnabledCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.receiverEnabledCheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.receiverEnabledCheckBox.Location = new System.Drawing.Point(881, 12);
-            this.receiverEnabledCheckBox.Name = "receiverEnabledCheckBox";
-            this.receiverEnabledCheckBox.Size = new System.Drawing.Size(75, 19);
-            this.receiverEnabledCheckBox.TabIndex = 14;
-            this.receiverEnabledCheckBox.Text = "Enabled:";
-            this.receiverEnabledCheckBox.UseVisualStyleBackColor = true;
-            this.receiverEnabledCheckBox.CheckedChanged += new System.EventHandler(this.receiverEnabledCheckBox_CheckedChanged);
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxForcePersistence, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.lblForcePersistence, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.txtTimeToLive, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.txtContentType, 3, 2);
+            this.tableLayoutPanel1.Controls.Add(this.txtReplyToSessionId, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.lblContentType, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lblMessageId, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lblTimeToLive, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.txtCorrelationId, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lblTo, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtSessionId, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lblReplyToSessionId, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.txtScheduledEnqueueTimeUtc, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.txtTo, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lblReplyTo, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lblLabel, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.lblScheduledEnqueueTimeUtc, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.lblCorrelationId, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtReplyTo, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lblSessionId, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.txtMessageId, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.txtLabel, 1, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 35);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(557, 188);
+            this.tableLayoutPanel1.TabIndex = 22;
+            // 
+            // checkBoxForcePersistence
+            // 
+            this.checkBoxForcePersistence.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxForcePersistence.AutoSize = true;
+            this.checkBoxForcePersistence.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxForcePersistence.Location = new System.Drawing.Point(114, 164);
+            this.checkBoxForcePersistence.Name = "checkBoxForcePersistence";
+            this.checkBoxForcePersistence.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxForcePersistence.TabIndex = 11;
+            this.checkBoxForcePersistence.UseVisualStyleBackColor = true;
+            // 
+            // lblForcePersistence
+            // 
+            this.lblForcePersistence.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblForcePersistence.AutoSize = true;
+            this.lblForcePersistence.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblForcePersistence.Location = new System.Drawing.Point(3, 165);
+            this.lblForcePersistence.Name = "lblForcePersistence";
+            this.lblForcePersistence.Size = new System.Drawing.Size(95, 13);
+            this.lblForcePersistence.TabIndex = 10;
+            this.lblForcePersistence.Text = "Force Persistence:";
+            // 
+            // txtTimeToLive
+            // 
+            this.txtTimeToLive.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtTimeToLive.Location = new System.Drawing.Point(392, 129);
+            this.txtTimeToLive.Name = "txtTimeToLive";
+            this.txtTimeToLive.Size = new System.Drawing.Size(162, 20);
+            this.txtTimeToLive.TabIndex = 21;
+            this.txtTimeToLive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            // 
+            // txtContentType
+            // 
+            this.txtContentType.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtContentType.Location = new System.Drawing.Point(392, 67);
+            this.txtContentType.Name = "txtContentType";
+            this.txtContentType.Size = new System.Drawing.Size(162, 20);
+            this.txtContentType.TabIndex = 17;
+            this.txtContentType.TextChanged += new System.EventHandler(this.txtContentType_TextChanged);
+            // 
+            // txtReplyToSessionId
+            // 
+            this.txtReplyToSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtReplyToSessionId.Location = new System.Drawing.Point(392, 98);
+            this.txtReplyToSessionId.Name = "txtReplyToSessionId";
+            this.txtReplyToSessionId.Size = new System.Drawing.Size(162, 20);
+            this.txtReplyToSessionId.TabIndex = 19;
+            // 
+            // lblContentType
+            // 
+            this.lblContentType.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblContentType.AutoSize = true;
+            this.lblContentType.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblContentType.Location = new System.Drawing.Point(281, 71);
+            this.lblContentType.Name = "lblContentType";
+            this.lblContentType.Size = new System.Drawing.Size(71, 13);
+            this.lblContentType.TabIndex = 16;
+            this.lblContentType.Text = "ContentType:";
+            // 
+            // lblMessageId
+            // 
+            this.lblMessageId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblMessageId.AutoSize = true;
+            this.lblMessageId.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblMessageId.Location = new System.Drawing.Point(3, 9);
+            this.lblMessageId.Name = "lblMessageId";
+            this.lblMessageId.Size = new System.Drawing.Size(62, 13);
+            this.lblMessageId.TabIndex = 1;
+            this.lblMessageId.Text = "MessageId:";
+            // 
+            // lblTimeToLive
+            // 
+            this.lblTimeToLive.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblTimeToLive.AutoSize = true;
+            this.lblTimeToLive.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblTimeToLive.Location = new System.Drawing.Point(281, 133);
+            this.lblTimeToLive.Name = "lblTimeToLive";
+            this.lblTimeToLive.Size = new System.Drawing.Size(80, 13);
+            this.lblTimeToLive.TabIndex = 20;
+            this.lblTimeToLive.Text = "TimeToLive (s):";
+            // 
+            // txtCorrelationId
+            // 
+            this.txtCorrelationId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtCorrelationId.Location = new System.Drawing.Point(392, 36);
+            this.txtCorrelationId.Name = "txtCorrelationId";
+            this.txtCorrelationId.Size = new System.Drawing.Size(162, 20);
+            this.txtCorrelationId.TabIndex = 15;
+            // 
+            // lblTo
+            // 
+            this.lblTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblTo.AutoSize = true;
+            this.lblTo.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblTo.Location = new System.Drawing.Point(3, 40);
+            this.lblTo.Name = "lblTo";
+            this.lblTo.Size = new System.Drawing.Size(23, 13);
+            this.lblTo.TabIndex = 2;
+            this.lblTo.Text = "To:";
+            // 
+            // txtSessionId
+            // 
+            this.txtSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtSessionId.Enabled = false;
+            this.txtSessionId.Location = new System.Drawing.Point(392, 5);
+            this.txtSessionId.Name = "txtSessionId";
+            this.txtSessionId.Size = new System.Drawing.Size(162, 20);
+            this.txtSessionId.TabIndex = 13;
+            // 
+            // lblReplyToSessionId
+            // 
+            this.lblReplyToSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblReplyToSessionId.AutoSize = true;
+            this.lblReplyToSessionId.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblReplyToSessionId.Location = new System.Drawing.Point(281, 102);
+            this.lblReplyToSessionId.Name = "lblReplyToSessionId";
+            this.lblReplyToSessionId.Size = new System.Drawing.Size(96, 13);
+            this.lblReplyToSessionId.TabIndex = 18;
+            this.lblReplyToSessionId.Text = "ReplyToSessionId:";
+            // 
+            // txtScheduledEnqueueTimeUtc
+            // 
+            this.txtScheduledEnqueueTimeUtc.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtScheduledEnqueueTimeUtc.Location = new System.Drawing.Point(114, 129);
+            this.txtScheduledEnqueueTimeUtc.Name = "txtScheduledEnqueueTimeUtc";
+            this.txtScheduledEnqueueTimeUtc.Size = new System.Drawing.Size(161, 20);
+            this.txtScheduledEnqueueTimeUtc.TabIndex = 9;
+            this.txtScheduledEnqueueTimeUtc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            // 
+            // txtTo
+            // 
+            this.txtTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtTo.Location = new System.Drawing.Point(114, 36);
+            this.txtTo.Name = "txtTo";
+            this.txtTo.Size = new System.Drawing.Size(161, 20);
+            this.txtTo.TabIndex = 3;
+            // 
+            // lblReplyTo
+            // 
+            this.lblReplyTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblReplyTo.AutoSize = true;
+            this.lblReplyTo.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblReplyTo.Location = new System.Drawing.Point(3, 71);
+            this.lblReplyTo.Name = "lblReplyTo";
+            this.lblReplyTo.Size = new System.Drawing.Size(50, 13);
+            this.lblReplyTo.TabIndex = 4;
+            this.lblReplyTo.Text = "ReplyTo:";
+            // 
+            // lblLabel
+            // 
+            this.lblLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblLabel.AutoSize = true;
+            this.lblLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblLabel.Location = new System.Drawing.Point(3, 102);
+            this.lblLabel.Name = "lblLabel";
+            this.lblLabel.Size = new System.Drawing.Size(36, 13);
+            this.lblLabel.TabIndex = 6;
+            this.lblLabel.Text = "Label:";
+            // 
+            // lblScheduledEnqueueTimeUtc
+            // 
+            this.lblScheduledEnqueueTimeUtc.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblScheduledEnqueueTimeUtc.AutoSize = true;
+            this.lblScheduledEnqueueTimeUtc.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblScheduledEnqueueTimeUtc.Location = new System.Drawing.Point(3, 133);
+            this.lblScheduledEnqueueTimeUtc.Name = "lblScheduledEnqueueTimeUtc";
+            this.lblScheduledEnqueueTimeUtc.Size = new System.Drawing.Size(81, 13);
+            this.lblScheduledEnqueueTimeUtc.TabIndex = 8;
+            this.lblScheduledEnqueueTimeUtc.Text = "Schedule (sec):";
+            // 
+            // lblCorrelationId
+            // 
+            this.lblCorrelationId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblCorrelationId.AutoSize = true;
+            this.lblCorrelationId.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblCorrelationId.Location = new System.Drawing.Point(281, 40);
+            this.lblCorrelationId.Name = "lblCorrelationId";
+            this.lblCorrelationId.Size = new System.Drawing.Size(69, 13);
+            this.lblCorrelationId.TabIndex = 14;
+            this.lblCorrelationId.Text = "CorrelationId:";
+            // 
+            // txtReplyTo
+            // 
+            this.txtReplyTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtReplyTo.Location = new System.Drawing.Point(114, 67);
+            this.txtReplyTo.Name = "txtReplyTo";
+            this.txtReplyTo.Size = new System.Drawing.Size(161, 20);
+            this.txtReplyTo.TabIndex = 5;
+            // 
+            // lblSessionId
+            // 
+            this.lblSessionId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblSessionId.AutoSize = true;
+            this.lblSessionId.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblSessionId.Location = new System.Drawing.Point(281, 9);
+            this.lblSessionId.Name = "lblSessionId";
+            this.lblSessionId.Size = new System.Drawing.Size(56, 13);
+            this.lblSessionId.TabIndex = 12;
+            this.lblSessionId.Text = "SessionId:";
+            // 
+            // txtMessageId
+            // 
+            this.txtMessageId.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtMessageId.Location = new System.Drawing.Point(114, 5);
+            this.txtMessageId.Name = "txtMessageId";
+            this.txtMessageId.Size = new System.Drawing.Size(161, 20);
+            this.txtMessageId.TabIndex = 1;
+            // 
+            // txtLabel
+            // 
+            this.txtLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtLabel.Location = new System.Drawing.Point(114, 98);
+            this.txtLabel.Name = "txtLabel";
+            this.txtLabel.Size = new System.Drawing.Size(161, 20);
+            this.txtLabel.TabIndex = 7;
+            this.txtLabel.TextChanged += new System.EventHandler(this.txtLabel_TextChanged);
             // 
             // grouperReceiver
             // 
@@ -1472,39 +1643,7 @@
             this.grouperReceiver.BackgroundGradientMode = ServiceBusExplorer.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouperReceiver.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.grouperReceiver.BorderThickness = 1F;
-            this.grouperReceiver.Controls.Add(this.checkBoxReceiveNewFactory);
-            this.grouperReceiver.Controls.Add(this.cboReceiverInspector);
-            this.grouperReceiver.Controls.Add(this.lblReceiverInspector);
-            this.grouperReceiver.Controls.Add(this.txtReceiverThinkTime);
-            this.grouperReceiver.Controls.Add(this.lblReceiverThinkTime);
-            this.grouperReceiver.Controls.Add(this.checkBoxReceiverThinkTime);
-            this.grouperReceiver.Controls.Add(this.txtReceiveTaskCount);
-            this.grouperReceiver.Controls.Add(this.lblReceiveBatchSize);
-            this.grouperReceiver.Controls.Add(this.txtReceiveBatchSize);
-            this.grouperReceiver.Controls.Add(this.txtPrefetchCount);
-            this.grouperReceiver.Controls.Add(this.lblPrefetchCount);
-            this.grouperReceiver.Controls.Add(this.txtReceiveTimeout);
-            this.grouperReceiver.Controls.Add(this.txtServerTimeout);
-            this.grouperReceiver.Controls.Add(this.lblServerTimeout);
-            this.grouperReceiver.Controls.Add(this.txtFilterExpression);
-            this.grouperReceiver.Controls.Add(this.lblFilterExpr);
-            this.grouperReceiver.Controls.Add(this.cboReceivedMode);
-            this.grouperReceiver.Controls.Add(this.label1);
-            this.grouperReceiver.Controls.Add(this.lblReceiveTaskCount);
-            this.grouperReceiver.Controls.Add(this.lblServerWaitTime);
-            this.grouperReceiver.Controls.Add(this.cboSubscriptions);
-            this.grouperReceiver.Controls.Add(this.lblSubscription);
-            this.grouperReceiver.Controls.Add(this.checkBoxReceiveBatch);
-            this.grouperReceiver.Controls.Add(this.checkBoxReceiverUseTransaction);
-            this.grouperReceiver.Controls.Add(this.checkBoxDeferMessage);
-            this.grouperReceiver.Controls.Add(this.checkBoxReceiverEnableGraph);
-            this.grouperReceiver.Controls.Add(this.checkBoxCompleteReceive);
-            this.grouperReceiver.Controls.Add(this.checkBoxReceiverEnableStatistics);
-            this.grouperReceiver.Controls.Add(this.checkBoxReadFromDeadLetter);
-            this.grouperReceiver.Controls.Add(this.checkBoxMoveToDeadLetter);
-            this.grouperReceiver.Controls.Add(this.checkBoxReceiverVerboseLogging);
-            this.grouperReceiver.Controls.Add(this.checkBoxReceiverCommitTransaction);
-            this.grouperReceiver.Controls.Add(this.checkBoxEnableReceiverLogging);
+            this.grouperReceiver.Controls.Add(this.tableLayoutPanel9);
             this.grouperReceiver.CustomGroupBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.grouperReceiver.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.grouperReceiver.ForeColor = System.Drawing.Color.White;
@@ -1522,247 +1661,311 @@
             this.grouperReceiver.TabIndex = 15;
             this.grouperReceiver.CustomPaint += new System.Action<System.Windows.Forms.PaintEventArgs>(this.grouperReceiver_CustomPaint);
             // 
+            // tableLayoutPanel9
+            // 
+            this.tableLayoutPanel9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel9.ColumnCount = 8;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.686077F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.31605F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.86257F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.31605F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.18319F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.31605F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.7F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.62F));
+            this.tableLayoutPanel9.Controls.Add(this.flowLayoutPanel2, 6, 6);
+            this.tableLayoutPanel9.Controls.Add(this.lblReceiveTaskCount, 0, 0);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxReceiveNewFactory, 6, 7);
+            this.tableLayoutPanel9.Controls.Add(this.txtReceiveTaskCount, 1, 0);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxDeferMessage, 7, 4);
+            this.tableLayoutPanel9.Controls.Add(this.lblServerWaitTime, 2, 0);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxCompleteReceive, 7, 3);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxReceiverEnableGraph, 7, 2);
+            this.tableLayoutPanel9.Controls.Add(this.txtReceiveTimeout, 3, 0);
+            this.tableLayoutPanel9.Controls.Add(this.lblPrefetchCount, 4, 0);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxReceiverVerboseLogging, 7, 1);
+            this.tableLayoutPanel9.Controls.Add(this.txtPrefetchCount, 5, 0);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxReceiverCommitTransaction, 7, 0);
+            this.tableLayoutPanel9.Controls.Add(this.lblReceiveBatchSize, 0, 1);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxReceiveBatch, 6, 3);
+            this.tableLayoutPanel9.Controls.Add(this.cboSubscriptions, 1, 9);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxReceiverUseTransaction, 6, 0);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxReadFromDeadLetter, 6, 5);
+            this.tableLayoutPanel9.Controls.Add(this.txtFilterExpression, 1, 2);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxMoveToDeadLetter, 6, 4);
+            this.tableLayoutPanel9.Controls.Add(this.lblSubscription, 0, 9);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxReceiverEnableStatistics, 6, 2);
+            this.tableLayoutPanel9.Controls.Add(this.txtServerTimeout, 3, 1);
+            this.tableLayoutPanel9.Controls.Add(this.lblFilterExpr, 0, 2);
+            this.tableLayoutPanel9.Controls.Add(this.txtReceiveBatchSize, 1, 1);
+            this.tableLayoutPanel9.Controls.Add(this.cboReceivedMode, 5, 1);
+            this.tableLayoutPanel9.Controls.Add(this.lblServerTimeout, 2, 1);
+            this.tableLayoutPanel9.Controls.Add(this.checkBoxEnableReceiverLogging, 6, 1);
+            this.tableLayoutPanel9.Controls.Add(this.label1, 4, 1);
+            this.tableLayoutPanel9.Controls.Add(this.flowLayoutPanel1, 6, 8);
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(18, 35);
+            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
+            this.tableLayoutPanel9.RowCount = 10;
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(901, 313);
+            this.tableLayoutPanel9.TabIndex = 150;
+            // 
             // checkBoxReceiveNewFactory
             // 
-            this.checkBoxReceiveNewFactory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBoxReceiveNewFactory.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxReceiveNewFactory.AutoSize = true;
+            this.tableLayoutPanel9.SetColumnSpan(this.checkBoxReceiveNewFactory, 2);
             this.checkBoxReceiveNewFactory.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxReceiveNewFactory.Location = new System.Drawing.Point(624, 263);
+            this.checkBoxReceiveNewFactory.Location = new System.Drawing.Point(599, 224);
             this.checkBoxReceiveNewFactory.Name = "checkBoxReceiveNewFactory";
             this.checkBoxReceiveNewFactory.Size = new System.Drawing.Size(263, 17);
             this.checkBoxReceiveNewFactory.TabIndex = 149;
             this.checkBoxReceiveNewFactory.Text = "Create New Messaging Factory for Each Receiver";
             this.checkBoxReceiveNewFactory.UseVisualStyleBackColor = true;
             // 
-            // cboReceiverInspector
-            // 
-            this.cboReceiverInspector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboReceiverInspector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboReceiverInspector.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboReceiverInspector.FormattingEnabled = true;
-            this.cboReceiverInspector.Location = new System.Drawing.Point(704, 289);
-            this.cboReceiverInspector.Name = "cboReceiverInspector";
-            this.cboReceiverInspector.Size = new System.Drawing.Size(216, 21);
-            this.cboReceiverInspector.TabIndex = 148;
-            // 
-            // lblReceiverInspector
-            // 
-            this.lblReceiverInspector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblReceiverInspector.AutoSize = true;
-            this.lblReceiverInspector.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblReceiverInspector.Location = new System.Drawing.Point(624, 293);
-            this.lblReceiverInspector.Name = "lblReceiverInspector";
-            this.lblReceiverInspector.Size = new System.Drawing.Size(77, 13);
-            this.lblReceiverInspector.TabIndex = 147;
-            this.lblReceiverInspector.Text = "Msg Inspector:";
-            // 
-            // txtReceiverThinkTime
-            // 
-            this.txtReceiverThinkTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtReceiverThinkTime.Enabled = false;
-            this.txtReceiverThinkTime.Location = new System.Drawing.Point(848, 232);
-            this.txtReceiverThinkTime.Name = "txtReceiverThinkTime";
-            this.txtReceiverThinkTime.Size = new System.Drawing.Size(72, 20);
-            this.txtReceiverThinkTime.TabIndex = 145;
-            this.txtReceiverThinkTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            // 
-            // lblReceiverThinkTime
-            // 
-            this.lblReceiverThinkTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblReceiverThinkTime.AutoSize = true;
-            this.lblReceiverThinkTime.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblReceiverThinkTime.Location = new System.Drawing.Point(784, 236);
-            this.lblReceiverThinkTime.Name = "lblReceiverThinkTime";
-            this.lblReceiverThinkTime.Size = new System.Drawing.Size(67, 13);
-            this.lblReceiverThinkTime.TabIndex = 146;
-            this.lblReceiverThinkTime.Text = "Interval (ms):";
-            // 
-            // checkBoxReceiverThinkTime
-            // 
-            this.checkBoxReceiverThinkTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxReceiverThinkTime.AutoSize = true;
-            this.checkBoxReceiverThinkTime.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxReceiverThinkTime.Location = new System.Drawing.Point(624, 236);
-            this.checkBoxReceiverThinkTime.Name = "checkBoxReceiverThinkTime";
-            this.checkBoxReceiverThinkTime.Size = new System.Drawing.Size(101, 17);
-            this.checkBoxReceiverThinkTime.TabIndex = 144;
-            this.checkBoxReceiverThinkTime.Text = "Use Think Time";
-            this.checkBoxReceiverThinkTime.UseVisualStyleBackColor = true;
-            this.checkBoxReceiverThinkTime.CheckedChanged += new System.EventHandler(this.checkBoxReceiverThinkTime_CheckedChanged);
-            // 
-            // txtReceiveTaskCount
-            // 
-            this.txtReceiveTaskCount.Location = new System.Drawing.Point(88, 40);
-            this.txtReceiveTaskCount.Name = "txtReceiveTaskCount";
-            this.txtReceiveTaskCount.Size = new System.Drawing.Size(104, 20);
-            this.txtReceiveTaskCount.TabIndex = 125;
-            this.txtReceiveTaskCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            // 
-            // lblReceiveBatchSize
-            // 
-            this.lblReceiveBatchSize.AutoSize = true;
-            this.lblReceiveBatchSize.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblReceiveBatchSize.Location = new System.Drawing.Point(16, 76);
-            this.lblReceiveBatchSize.Name = "lblReceiveBatchSize";
-            this.lblReceiveBatchSize.Size = new System.Drawing.Size(61, 13);
-            this.lblReceiveBatchSize.TabIndex = 140;
-            this.lblReceiveBatchSize.Text = "Batch Size:";
-            // 
-            // txtReceiveBatchSize
-            // 
-            this.txtReceiveBatchSize.Location = new System.Drawing.Point(88, 72);
-            this.txtReceiveBatchSize.Name = "txtReceiveBatchSize";
-            this.txtReceiveBatchSize.Size = new System.Drawing.Size(104, 20);
-            this.txtReceiveBatchSize.TabIndex = 128;
-            this.txtReceiveBatchSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            // 
-            // txtPrefetchCount
-            // 
-            this.txtPrefetchCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPrefetchCount.Location = new System.Drawing.Point(504, 40);
-            this.txtPrefetchCount.Name = "txtPrefetchCount";
-            this.txtPrefetchCount.Size = new System.Drawing.Size(104, 20);
-            this.txtPrefetchCount.TabIndex = 127;
-            this.txtPrefetchCount.Text = "0";
-            this.txtPrefetchCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            // 
-            // lblPrefetchCount
-            // 
-            this.lblPrefetchCount.AutoSize = true;
-            this.lblPrefetchCount.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblPrefetchCount.Location = new System.Drawing.Point(416, 44);
-            this.lblPrefetchCount.Name = "lblPrefetchCount";
-            this.lblPrefetchCount.Size = new System.Drawing.Size(81, 13);
-            this.lblPrefetchCount.TabIndex = 139;
-            this.lblPrefetchCount.Text = "Prefetch Count:";
-            // 
-            // txtReceiveTimeout
-            // 
-            this.txtReceiveTimeout.Location = new System.Drawing.Point(304, 40);
-            this.txtReceiveTimeout.Name = "txtReceiveTimeout";
-            this.txtReceiveTimeout.Size = new System.Drawing.Size(104, 20);
-            this.txtReceiveTimeout.TabIndex = 126;
-            this.txtReceiveTimeout.Text = "1";
-            this.txtReceiveTimeout.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            // 
-            // txtServerTimeout
-            // 
-            this.txtServerTimeout.Location = new System.Drawing.Point(304, 72);
-            this.txtServerTimeout.Name = "txtServerTimeout";
-            this.txtServerTimeout.Size = new System.Drawing.Size(104, 20);
-            this.txtServerTimeout.TabIndex = 129;
-            this.txtServerTimeout.Text = "5";
-            this.txtServerTimeout.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            // 
-            // lblServerTimeout
-            // 
-            this.lblServerTimeout.AutoSize = true;
-            this.lblServerTimeout.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblServerTimeout.Location = new System.Drawing.Point(209, 76);
-            this.lblServerTimeout.Name = "lblServerTimeout";
-            this.lblServerTimeout.Size = new System.Drawing.Size(96, 13);
-            this.lblServerTimeout.TabIndex = 138;
-            this.lblServerTimeout.Text = "Server Timeout (s):";
-            // 
             // txtFilterExpression
             // 
             this.txtFilterExpression.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFilterExpression.Location = new System.Drawing.Point(88, 104);
+            this.tableLayoutPanel9.SetColumnSpan(this.txtFilterExpression, 5);
+            this.txtFilterExpression.Location = new System.Drawing.Point(81, 65);
             this.txtFilterExpression.Multiline = true;
             this.txtFilterExpression.Name = "txtFilterExpression";
+            this.tableLayoutPanel9.SetRowSpan(this.txtFilterExpression, 7);
             this.txtFilterExpression.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtFilterExpression.Size = new System.Drawing.Size(520, 190);
+            this.txtFilterExpression.Size = new System.Drawing.Size(512, 211);
             this.txtFilterExpression.TabIndex = 131;
             this.txtFilterExpression.Text = "1=1";
             // 
-            // lblFilterExpr
+            // cboSubscriptions
             // 
-            this.lblFilterExpr.AutoSize = true;
-            this.lblFilterExpr.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblFilterExpr.Location = new System.Drawing.Point(16, 108);
-            this.lblFilterExpr.Name = "lblFilterExpr";
-            this.lblFilterExpr.Size = new System.Drawing.Size(32, 13);
-            this.lblFilterExpr.TabIndex = 137;
-            this.lblFilterExpr.Text = "Filter:";
+            this.cboSubscriptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel9.SetColumnSpan(this.cboSubscriptions, 5);
+            this.cboSubscriptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSubscriptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboSubscriptions.FormattingEnabled = true;
+            this.cboSubscriptions.Location = new System.Drawing.Point(81, 285);
+            this.cboSubscriptions.Name = "cboSubscriptions";
+            this.cboSubscriptions.Size = new System.Drawing.Size(512, 21);
+            this.cboSubscriptions.TabIndex = 132;
             // 
-            // cboReceivedMode
+            // checkBoxReadFromDeadLetter
             // 
-            this.cboReceivedMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboReceivedMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboReceivedMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboReceivedMode.FormattingEnabled = true;
-            this.cboReceivedMode.Items.AddRange(new object[] {
-            "PeekLock",
-            "ReceiveDelete"});
-            this.cboReceivedMode.Location = new System.Drawing.Point(504, 72);
-            this.cboReceivedMode.Name = "cboReceivedMode";
-            this.cboReceivedMode.Size = new System.Drawing.Size(104, 21);
-            this.cboReceivedMode.TabIndex = 130;
-            this.cboReceivedMode.SelectedIndexChanged += new System.EventHandler(this.cboReceivedMode_SelectedIndexChanged);
+            this.checkBoxReadFromDeadLetter.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxReadFromDeadLetter.AutoSize = true;
+            this.tableLayoutPanel9.SetColumnSpan(this.checkBoxReadFromDeadLetter, 2);
+            this.checkBoxReadFromDeadLetter.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxReadFromDeadLetter.Location = new System.Drawing.Point(599, 162);
+            this.checkBoxReadFromDeadLetter.Name = "checkBoxReadFromDeadLetter";
+            this.checkBoxReadFromDeadLetter.Size = new System.Drawing.Size(169, 17);
+            this.checkBoxReadFromDeadLetter.TabIndex = 18;
+            this.checkBoxReadFromDeadLetter.Text = "Read From DeadLetter Queue";
+            this.checkBoxReadFromDeadLetter.UseVisualStyleBackColor = true;
+            this.checkBoxReadFromDeadLetter.CheckedChanged += new System.EventHandler(this.checkBoxReadFromDeadLetter_CheckedChanged);
             // 
-            // label1
+            // flowLayoutPanel2
             // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(416, 76);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 13);
-            this.label1.TabIndex = 136;
-            this.label1.Text = "Receive Mode:";
+            this.flowLayoutPanel2.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tableLayoutPanel9.SetColumnSpan(this.flowLayoutPanel2, 2);
+            this.flowLayoutPanel2.Controls.Add(this.checkBoxReceiverThinkTime);
+            this.flowLayoutPanel2.Controls.Add(this.lblReceiverThinkTime);
+            this.flowLayoutPanel2.Controls.Add(this.txtReceiverThinkTime);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(596, 189);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(296, 25);
+            this.flowLayoutPanel2.TabIndex = 152;
+            // 
+            // checkBoxReceiverThinkTime
+            // 
+            this.checkBoxReceiverThinkTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxReceiverThinkTime.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxReceiverThinkTime.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxReceiverThinkTime.Name = "checkBoxReceiverThinkTime";
+            this.checkBoxReceiverThinkTime.Size = new System.Drawing.Size(151, 19);
+            this.checkBoxReceiverThinkTime.TabIndex = 144;
+            this.checkBoxReceiverThinkTime.Text = "Use Think Time";
+            this.checkBoxReceiverThinkTime.UseVisualStyleBackColor = true;
+            this.checkBoxReceiverThinkTime.CheckedChanged += new System.EventHandler(this.checkBoxReceiverThinkTime_CheckedChanged);
+            // 
+            // lblReceiverThinkTime
+            // 
+            this.lblReceiverThinkTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblReceiverThinkTime.AutoSize = true;
+            this.lblReceiverThinkTime.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblReceiverThinkTime.Location = new System.Drawing.Point(160, 6);
+            this.lblReceiverThinkTime.Name = "lblReceiverThinkTime";
+            this.lblReceiverThinkTime.Size = new System.Drawing.Size(67, 13);
+            this.lblReceiverThinkTime.TabIndex = 146;
+            this.lblReceiverThinkTime.Text = "Interval (ms):";
+            // 
+            // txtReceiverThinkTime
+            // 
+            this.txtReceiverThinkTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtReceiverThinkTime.Enabled = false;
+            this.txtReceiverThinkTime.Location = new System.Drawing.Point(233, 3);
+            this.txtReceiverThinkTime.Name = "txtReceiverThinkTime";
+            this.txtReceiverThinkTime.Size = new System.Drawing.Size(55, 20);
+            this.txtReceiverThinkTime.TabIndex = 145;
             // 
             // lblReceiveTaskCount
             // 
+            this.lblReceiveTaskCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblReceiveTaskCount.AutoSize = true;
             this.lblReceiveTaskCount.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblReceiveTaskCount.Location = new System.Drawing.Point(16, 44);
+            this.lblReceiveTaskCount.Location = new System.Drawing.Point(3, 9);
             this.lblReceiveTaskCount.Name = "lblReceiveTaskCount";
             this.lblReceiveTaskCount.Size = new System.Drawing.Size(65, 13);
             this.lblReceiveTaskCount.TabIndex = 135;
             this.lblReceiveTaskCount.Text = "Task Count:";
             // 
+            // txtReceiveTaskCount
+            // 
+            this.txtReceiveTaskCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtReceiveTaskCount.Location = new System.Drawing.Point(81, 5);
+            this.txtReceiveTaskCount.Name = "txtReceiveTaskCount";
+            this.txtReceiveTaskCount.Size = new System.Drawing.Size(95, 20);
+            this.txtReceiveTaskCount.TabIndex = 125;
+            this.txtReceiveTaskCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            // 
+            // checkBoxDeferMessage
+            // 
+            this.checkBoxDeferMessage.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxDeferMessage.AutoSize = true;
+            this.checkBoxDeferMessage.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxDeferMessage.Location = new System.Drawing.Point(767, 131);
+            this.checkBoxDeferMessage.Name = "checkBoxDeferMessage";
+            this.checkBoxDeferMessage.Size = new System.Drawing.Size(98, 17);
+            this.checkBoxDeferMessage.TabIndex = 17;
+            this.checkBoxDeferMessage.Text = "Defer Message";
+            this.checkBoxDeferMessage.UseVisualStyleBackColor = true;
+            this.checkBoxDeferMessage.CheckedChanged += new System.EventHandler(this.checkBoxDeferMessage_CheckedChanged);
+            // 
             // lblServerWaitTime
             // 
+            this.lblServerWaitTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblServerWaitTime.AutoSize = true;
             this.lblServerWaitTime.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblServerWaitTime.Location = new System.Drawing.Point(200, 44);
+            this.lblServerWaitTime.Location = new System.Drawing.Point(182, 9);
             this.lblServerWaitTime.Name = "lblServerWaitTime";
             this.lblServerWaitTime.Size = new System.Drawing.Size(105, 13);
             this.lblServerWaitTime.TabIndex = 134;
             this.lblServerWaitTime.Text = "Receive Timeout (s):";
             // 
-            // cboSubscriptions
+            // checkBoxCompleteReceive
             // 
-            this.cboSubscriptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboSubscriptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboSubscriptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboSubscriptions.FormattingEnabled = true;
-            this.cboSubscriptions.Location = new System.Drawing.Point(88, 310);
-            this.cboSubscriptions.Name = "cboSubscriptions";
-            this.cboSubscriptions.Size = new System.Drawing.Size(520, 21);
-            this.cboSubscriptions.TabIndex = 132;
+            this.checkBoxCompleteReceive.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxCompleteReceive.AutoSize = true;
+            this.checkBoxCompleteReceive.Checked = true;
+            this.checkBoxCompleteReceive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxCompleteReceive.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxCompleteReceive.Location = new System.Drawing.Point(767, 100);
+            this.checkBoxCompleteReceive.Name = "checkBoxCompleteReceive";
+            this.checkBoxCompleteReceive.Size = new System.Drawing.Size(113, 17);
+            this.checkBoxCompleteReceive.TabIndex = 15;
+            this.checkBoxCompleteReceive.Text = "Complete Receive";
+            this.checkBoxCompleteReceive.UseVisualStyleBackColor = true;
             // 
-            // lblSubscription
+            // checkBoxReceiverEnableGraph
             // 
-            this.lblSubscription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSubscription.AutoSize = true;
-            this.lblSubscription.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSubscription.Location = new System.Drawing.Point(16, 314);
-            this.lblSubscription.Name = "lblSubscription";
-            this.lblSubscription.Size = new System.Drawing.Size(68, 13);
-            this.lblSubscription.TabIndex = 133;
-            this.lblSubscription.Text = "Subscription:";
+            this.checkBoxReceiverEnableGraph.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxReceiverEnableGraph.AutoSize = true;
+            this.checkBoxReceiverEnableGraph.Enabled = false;
+            this.checkBoxReceiverEnableGraph.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxReceiverEnableGraph.Location = new System.Drawing.Point(767, 69);
+            this.checkBoxReceiverEnableGraph.Name = "checkBoxReceiverEnableGraph";
+            this.checkBoxReceiverEnableGraph.Size = new System.Drawing.Size(91, 17);
+            this.checkBoxReceiverEnableGraph.TabIndex = 13;
+            this.checkBoxReceiverEnableGraph.Text = "Enable Graph";
+            this.checkBoxReceiverEnableGraph.UseVisualStyleBackColor = true;
+            // 
+            // txtReceiveTimeout
+            // 
+            this.txtReceiveTimeout.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtReceiveTimeout.Location = new System.Drawing.Point(297, 5);
+            this.txtReceiveTimeout.Name = "txtReceiveTimeout";
+            this.txtReceiveTimeout.Size = new System.Drawing.Size(95, 20);
+            this.txtReceiveTimeout.TabIndex = 126;
+            this.txtReceiveTimeout.Text = "1";
+            this.txtReceiveTimeout.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            // 
+            // lblPrefetchCount
+            // 
+            this.lblPrefetchCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblPrefetchCount.AutoSize = true;
+            this.lblPrefetchCount.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblPrefetchCount.Location = new System.Drawing.Point(398, 9);
+            this.lblPrefetchCount.Name = "lblPrefetchCount";
+            this.lblPrefetchCount.Size = new System.Drawing.Size(81, 13);
+            this.lblPrefetchCount.TabIndex = 139;
+            this.lblPrefetchCount.Text = "Prefetch Count:";
+            // 
+            // checkBoxReceiverVerboseLogging
+            // 
+            this.checkBoxReceiverVerboseLogging.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxReceiverVerboseLogging.AutoSize = true;
+            this.checkBoxReceiverVerboseLogging.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxReceiverVerboseLogging.Location = new System.Drawing.Point(767, 38);
+            this.checkBoxReceiverVerboseLogging.Name = "checkBoxReceiverVerboseLogging";
+            this.checkBoxReceiverVerboseLogging.Size = new System.Drawing.Size(101, 17);
+            this.checkBoxReceiverVerboseLogging.TabIndex = 11;
+            this.checkBoxReceiverVerboseLogging.Text = "Enable Verbose";
+            this.checkBoxReceiverVerboseLogging.UseVisualStyleBackColor = true;
+            // 
+            // txtPrefetchCount
+            // 
+            this.txtPrefetchCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtPrefetchCount.Location = new System.Drawing.Point(498, 5);
+            this.txtPrefetchCount.Name = "txtPrefetchCount";
+            this.txtPrefetchCount.Size = new System.Drawing.Size(95, 20);
+            this.txtPrefetchCount.TabIndex = 127;
+            this.txtPrefetchCount.Text = "0";
+            this.txtPrefetchCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            // 
+            // checkBoxReceiverCommitTransaction
+            // 
+            this.checkBoxReceiverCommitTransaction.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxReceiverCommitTransaction.AutoSize = true;
+            this.checkBoxReceiverCommitTransaction.Checked = true;
+            this.checkBoxReceiverCommitTransaction.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxReceiverCommitTransaction.Enabled = false;
+            this.checkBoxReceiverCommitTransaction.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxReceiverCommitTransaction.Location = new System.Drawing.Point(767, 7);
+            this.checkBoxReceiverCommitTransaction.Name = "checkBoxReceiverCommitTransaction";
+            this.checkBoxReceiverCommitTransaction.Size = new System.Drawing.Size(119, 17);
+            this.checkBoxReceiverCommitTransaction.TabIndex = 9;
+            this.checkBoxReceiverCommitTransaction.Text = "Commit Transaction";
+            this.checkBoxReceiverCommitTransaction.UseVisualStyleBackColor = true;
+            // 
+            // lblReceiveBatchSize
+            // 
+            this.lblReceiveBatchSize.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblReceiveBatchSize.AutoSize = true;
+            this.lblReceiveBatchSize.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblReceiveBatchSize.Location = new System.Drawing.Point(3, 40);
+            this.lblReceiveBatchSize.Name = "lblReceiveBatchSize";
+            this.lblReceiveBatchSize.Size = new System.Drawing.Size(61, 13);
+            this.lblReceiveBatchSize.TabIndex = 140;
+            this.lblReceiveBatchSize.Text = "Batch Size:";
             // 
             // checkBoxReceiveBatch
             // 
-            this.checkBoxReceiveBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBoxReceiveBatch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxReceiveBatch.AutoSize = true;
             this.checkBoxReceiveBatch.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxReceiveBatch.Location = new System.Drawing.Point(624, 140);
+            this.checkBoxReceiveBatch.Location = new System.Drawing.Point(599, 100);
             this.checkBoxReceiveBatch.Name = "checkBoxReceiveBatch";
             this.checkBoxReceiveBatch.Size = new System.Drawing.Size(97, 17);
             this.checkBoxReceiveBatch.TabIndex = 14;
@@ -1772,10 +1975,10 @@
             // 
             // checkBoxReceiverUseTransaction
             // 
-            this.checkBoxReceiverUseTransaction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBoxReceiverUseTransaction.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxReceiverUseTransaction.AutoSize = true;
             this.checkBoxReceiverUseTransaction.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxReceiverUseTransaction.Location = new System.Drawing.Point(624, 44);
+            this.checkBoxReceiverUseTransaction.Location = new System.Drawing.Point(599, 7);
             this.checkBoxReceiverUseTransaction.Name = "checkBoxReceiverUseTransaction";
             this.checkBoxReceiverUseTransaction.Size = new System.Drawing.Size(104, 17);
             this.checkBoxReceiverUseTransaction.TabIndex = 8;
@@ -1783,78 +1986,12 @@
             this.checkBoxReceiverUseTransaction.UseVisualStyleBackColor = true;
             this.checkBoxReceiverUseTransaction.CheckedChanged += new System.EventHandler(this.checkBoxReceiverUseTransaction_CheckedChanged);
             // 
-            // checkBoxDeferMessage
-            // 
-            this.checkBoxDeferMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxDeferMessage.AutoSize = true;
-            this.checkBoxDeferMessage.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxDeferMessage.Location = new System.Drawing.Point(784, 172);
-            this.checkBoxDeferMessage.Name = "checkBoxDeferMessage";
-            this.checkBoxDeferMessage.Size = new System.Drawing.Size(98, 17);
-            this.checkBoxDeferMessage.TabIndex = 17;
-            this.checkBoxDeferMessage.Text = "Defer Message";
-            this.checkBoxDeferMessage.UseVisualStyleBackColor = true;
-            this.checkBoxDeferMessage.CheckedChanged += new System.EventHandler(this.checkBoxDeferMessage_CheckedChanged);
-            // 
-            // checkBoxReceiverEnableGraph
-            // 
-            this.checkBoxReceiverEnableGraph.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxReceiverEnableGraph.AutoSize = true;
-            this.checkBoxReceiverEnableGraph.Enabled = false;
-            this.checkBoxReceiverEnableGraph.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxReceiverEnableGraph.Location = new System.Drawing.Point(783, 108);
-            this.checkBoxReceiverEnableGraph.Name = "checkBoxReceiverEnableGraph";
-            this.checkBoxReceiverEnableGraph.Size = new System.Drawing.Size(91, 17);
-            this.checkBoxReceiverEnableGraph.TabIndex = 13;
-            this.checkBoxReceiverEnableGraph.Text = "Enable Graph";
-            this.checkBoxReceiverEnableGraph.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxCompleteReceive
-            // 
-            this.checkBoxCompleteReceive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxCompleteReceive.AutoSize = true;
-            this.checkBoxCompleteReceive.Checked = true;
-            this.checkBoxCompleteReceive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxCompleteReceive.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxCompleteReceive.Location = new System.Drawing.Point(784, 140);
-            this.checkBoxCompleteReceive.Name = "checkBoxCompleteReceive";
-            this.checkBoxCompleteReceive.Size = new System.Drawing.Size(113, 17);
-            this.checkBoxCompleteReceive.TabIndex = 15;
-            this.checkBoxCompleteReceive.Text = "Complete Receive";
-            this.checkBoxCompleteReceive.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxReceiverEnableStatistics
-            // 
-            this.checkBoxReceiverEnableStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxReceiverEnableStatistics.AutoSize = true;
-            this.checkBoxReceiverEnableStatistics.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxReceiverEnableStatistics.Location = new System.Drawing.Point(624, 108);
-            this.checkBoxReceiverEnableStatistics.Name = "checkBoxReceiverEnableStatistics";
-            this.checkBoxReceiverEnableStatistics.Size = new System.Drawing.Size(104, 17);
-            this.checkBoxReceiverEnableStatistics.TabIndex = 12;
-            this.checkBoxReceiverEnableStatistics.Text = "Enable Statistics";
-            this.checkBoxReceiverEnableStatistics.UseVisualStyleBackColor = true;
-            this.checkBoxReceiverEnableStatistics.CheckedChanged += new System.EventHandler(this.checkBoxReceiverEnableStatistics_CheckedChanged);
-            // 
-            // checkBoxReadFromDeadLetter
-            // 
-            this.checkBoxReadFromDeadLetter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxReadFromDeadLetter.AutoSize = true;
-            this.checkBoxReadFromDeadLetter.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxReadFromDeadLetter.Location = new System.Drawing.Point(624, 204);
-            this.checkBoxReadFromDeadLetter.Name = "checkBoxReadFromDeadLetter";
-            this.checkBoxReadFromDeadLetter.Size = new System.Drawing.Size(169, 17);
-            this.checkBoxReadFromDeadLetter.TabIndex = 18;
-            this.checkBoxReadFromDeadLetter.Text = "Read From DeadLetter Queue";
-            this.checkBoxReadFromDeadLetter.UseVisualStyleBackColor = true;
-            this.checkBoxReadFromDeadLetter.CheckedChanged += new System.EventHandler(this.checkBoxReadFromDeadLetter_CheckedChanged);
-            // 
             // checkBoxMoveToDeadLetter
             // 
-            this.checkBoxMoveToDeadLetter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBoxMoveToDeadLetter.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxMoveToDeadLetter.AutoSize = true;
             this.checkBoxMoveToDeadLetter.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxMoveToDeadLetter.Location = new System.Drawing.Point(624, 172);
+            this.checkBoxMoveToDeadLetter.Location = new System.Drawing.Point(599, 131);
             this.checkBoxMoveToDeadLetter.Name = "checkBoxMoveToDeadLetter";
             this.checkBoxMoveToDeadLetter.Size = new System.Drawing.Size(160, 17);
             this.checkBoxMoveToDeadLetter.TabIndex = 16;
@@ -1862,41 +1999,93 @@
             this.checkBoxMoveToDeadLetter.UseVisualStyleBackColor = true;
             this.checkBoxMoveToDeadLetter.CheckedChanged += new System.EventHandler(this.checkBoxMoveToDeadLetter_CheckedChanged);
             // 
-            // checkBoxReceiverVerboseLogging
+            // lblSubscription
             // 
-            this.checkBoxReceiverVerboseLogging.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxReceiverVerboseLogging.AutoSize = true;
-            this.checkBoxReceiverVerboseLogging.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxReceiverVerboseLogging.Location = new System.Drawing.Point(784, 76);
-            this.checkBoxReceiverVerboseLogging.Name = "checkBoxReceiverVerboseLogging";
-            this.checkBoxReceiverVerboseLogging.Size = new System.Drawing.Size(101, 17);
-            this.checkBoxReceiverVerboseLogging.TabIndex = 11;
-            this.checkBoxReceiverVerboseLogging.Text = "Enable Verbose";
-            this.checkBoxReceiverVerboseLogging.UseVisualStyleBackColor = true;
+            this.lblSubscription.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblSubscription.AutoSize = true;
+            this.lblSubscription.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblSubscription.Location = new System.Drawing.Point(3, 289);
+            this.lblSubscription.Name = "lblSubscription";
+            this.lblSubscription.Size = new System.Drawing.Size(68, 13);
+            this.lblSubscription.TabIndex = 133;
+            this.lblSubscription.Text = "Subscription:";
             // 
-            // checkBoxReceiverCommitTransaction
+            // checkBoxReceiverEnableStatistics
             // 
-            this.checkBoxReceiverCommitTransaction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxReceiverCommitTransaction.AutoSize = true;
-            this.checkBoxReceiverCommitTransaction.Checked = true;
-            this.checkBoxReceiverCommitTransaction.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxReceiverCommitTransaction.Enabled = false;
-            this.checkBoxReceiverCommitTransaction.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxReceiverCommitTransaction.Location = new System.Drawing.Point(784, 44);
-            this.checkBoxReceiverCommitTransaction.Name = "checkBoxReceiverCommitTransaction";
-            this.checkBoxReceiverCommitTransaction.Size = new System.Drawing.Size(119, 17);
-            this.checkBoxReceiverCommitTransaction.TabIndex = 9;
-            this.checkBoxReceiverCommitTransaction.Text = "Commit Transaction";
-            this.checkBoxReceiverCommitTransaction.UseVisualStyleBackColor = true;
+            this.checkBoxReceiverEnableStatistics.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxReceiverEnableStatistics.AutoSize = true;
+            this.checkBoxReceiverEnableStatistics.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxReceiverEnableStatistics.Location = new System.Drawing.Point(599, 69);
+            this.checkBoxReceiverEnableStatistics.Name = "checkBoxReceiverEnableStatistics";
+            this.checkBoxReceiverEnableStatistics.Size = new System.Drawing.Size(104, 17);
+            this.checkBoxReceiverEnableStatistics.TabIndex = 12;
+            this.checkBoxReceiverEnableStatistics.Text = "Enable Statistics";
+            this.checkBoxReceiverEnableStatistics.UseVisualStyleBackColor = true;
+            this.checkBoxReceiverEnableStatistics.CheckedChanged += new System.EventHandler(this.checkBoxReceiverEnableStatistics_CheckedChanged);
+            // 
+            // txtServerTimeout
+            // 
+            this.txtServerTimeout.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtServerTimeout.Location = new System.Drawing.Point(297, 36);
+            this.txtServerTimeout.Name = "txtServerTimeout";
+            this.txtServerTimeout.Size = new System.Drawing.Size(95, 20);
+            this.txtServerTimeout.TabIndex = 129;
+            this.txtServerTimeout.Text = "5";
+            this.txtServerTimeout.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            // 
+            // lblFilterExpr
+            // 
+            this.lblFilterExpr.AutoSize = true;
+            this.lblFilterExpr.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblFilterExpr.Location = new System.Drawing.Point(3, 62);
+            this.lblFilterExpr.Name = "lblFilterExpr";
+            this.lblFilterExpr.Size = new System.Drawing.Size(32, 13);
+            this.lblFilterExpr.TabIndex = 137;
+            this.lblFilterExpr.Text = "Filter:";
+            // 
+            // txtReceiveBatchSize
+            // 
+            this.txtReceiveBatchSize.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtReceiveBatchSize.Location = new System.Drawing.Point(81, 36);
+            this.txtReceiveBatchSize.Name = "txtReceiveBatchSize";
+            this.txtReceiveBatchSize.Size = new System.Drawing.Size(95, 20);
+            this.txtReceiveBatchSize.TabIndex = 128;
+            this.txtReceiveBatchSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            // 
+            // cboReceivedMode
+            // 
+            this.cboReceivedMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboReceivedMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboReceivedMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboReceivedMode.FormattingEnabled = true;
+            this.cboReceivedMode.Items.AddRange(new object[] {
+            "PeekLock",
+            "ReceiveDelete"});
+            this.cboReceivedMode.Location = new System.Drawing.Point(498, 36);
+            this.cboReceivedMode.Name = "cboReceivedMode";
+            this.cboReceivedMode.Size = new System.Drawing.Size(95, 21);
+            this.cboReceivedMode.TabIndex = 130;
+            this.cboReceivedMode.SelectedIndexChanged += new System.EventHandler(this.cboReceivedMode_SelectedIndexChanged);
+            // 
+            // lblServerTimeout
+            // 
+            this.lblServerTimeout.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblServerTimeout.AutoSize = true;
+            this.lblServerTimeout.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblServerTimeout.Location = new System.Drawing.Point(182, 40);
+            this.lblServerTimeout.Name = "lblServerTimeout";
+            this.lblServerTimeout.Size = new System.Drawing.Size(96, 13);
+            this.lblServerTimeout.TabIndex = 138;
+            this.lblServerTimeout.Text = "Server Timeout (s):";
             // 
             // checkBoxEnableReceiverLogging
             // 
-            this.checkBoxEnableReceiverLogging.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBoxEnableReceiverLogging.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxEnableReceiverLogging.AutoSize = true;
             this.checkBoxEnableReceiverLogging.Checked = true;
             this.checkBoxEnableReceiverLogging.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxEnableReceiverLogging.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxEnableReceiverLogging.Location = new System.Drawing.Point(624, 76);
+            this.checkBoxEnableReceiverLogging.Location = new System.Drawing.Point(599, 38);
             this.checkBoxEnableReceiverLogging.Name = "checkBoxEnableReceiverLogging";
             this.checkBoxEnableReceiverLogging.Size = new System.Drawing.Size(100, 17);
             this.checkBoxEnableReceiverLogging.TabIndex = 10;
@@ -1904,19 +2093,50 @@
             this.checkBoxEnableReceiverLogging.UseVisualStyleBackColor = true;
             this.checkBoxEnableReceiverLogging.CheckedChanged += new System.EventHandler(this.checkBoxEnableReceiverLogging_CheckedChanged);
             // 
-            // tabPageGraph
+            // label1
             // 
-            this.tabPageGraph.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.tabPageGraph.Controls.Add(this.grouperReceiverStatistics);
-            this.tabPageGraph.Controls.Add(this.grouperSenderStatistics);
-            this.tabPageGraph.Controls.Add(this.chart);
-            this.tabPageGraph.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tabPageGraph.Location = new System.Drawing.Point(4, 24);
-            this.tabPageGraph.Name = "tabPageGraph";
-            this.tabPageGraph.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGraph.Size = new System.Drawing.Size(968, 386);
-            this.tabPageGraph.TabIndex = 3;
-            this.tabPageGraph.Text = "Graph";
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label1.Location = new System.Drawing.Point(398, 40);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(80, 13);
+            this.label1.TabIndex = 136;
+            this.label1.Text = "Receive Mode:";
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tableLayoutPanel9.SetColumnSpan(this.flowLayoutPanel1, 2);
+            this.flowLayoutPanel1.Controls.Add(this.lblReceiverInspector);
+            this.flowLayoutPanel1.Controls.Add(this.cboReceiverInspector);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(596, 251);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(299, 25);
+            this.flowLayoutPanel1.TabIndex = 150;
+            // 
+            // lblReceiverInspector
+            // 
+            this.lblReceiverInspector.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblReceiverInspector.AutoSize = true;
+            this.lblReceiverInspector.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblReceiverInspector.Location = new System.Drawing.Point(3, 7);
+            this.lblReceiverInspector.Name = "lblReceiverInspector";
+            this.lblReceiverInspector.Size = new System.Drawing.Size(77, 13);
+            this.lblReceiverInspector.TabIndex = 147;
+            this.lblReceiverInspector.Text = "Msg Inspector:";
+            // 
+            // cboReceiverInspector
+            // 
+            this.cboReceiverInspector.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cboReceiverInspector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboReceiverInspector.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboReceiverInspector.FormattingEnabled = true;
+            this.cboReceiverInspector.Location = new System.Drawing.Point(86, 3);
+            this.cboReceiverInspector.Name = "cboReceiverInspector";
+            this.cboReceiverInspector.Size = new System.Drawing.Size(205, 21);
+            this.cboReceiverInspector.TabIndex = 148;
             // 
             // grouperReceiverStatistics
             // 
@@ -2508,157 +2728,6 @@
             this.lblSenderCallsSuccessedCaption.TabIndex = 0;
             this.lblSenderCallsSuccessedCaption.Text = "Messages Total";
             // 
-            // chart
-            // 
-            this.chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chart.BackImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.chart.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.chart.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.chart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart.BorderSkin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.chart.BorderSkin.BorderWidth = 0;
-            this.chart.BorderSkin.PageColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.chart.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.FrameTitle1;
-            chartArea1.Area3DStyle.Inclination = 15;
-            chartArea1.Area3DStyle.IsClustered = true;
-            chartArea1.Area3DStyle.IsRightAngleAxes = false;
-            chartArea1.Area3DStyle.Perspective = 10;
-            chartArea1.Area3DStyle.Rotation = 10;
-            chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
-            | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
-            chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
-            chartArea1.AxisX.ScrollBar.Size = 10D;
-            chartArea1.AxisX.Title = "Messages";
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
-            chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisY.ScrollBar.LineColor = System.Drawing.Color.Black;
-            chartArea1.AxisY.ScrollBar.Size = 10D;
-            chartArea1.AxisY.Title = "Time - Msg/Sec";
-            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea1.AxisY2.Title = "Messages/Sec";
-            chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            chartArea1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            chartArea1.BackSecondaryColor = System.Drawing.Color.White;
-            chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.CursorX.IsUserEnabled = true;
-            chartArea1.CursorX.IsUserSelectionEnabled = true;
-            chartArea1.CursorY.IsUserEnabled = true;
-            chartArea1.CursorY.IsUserSelectionEnabled = true;
-            chartArea1.Name = "Default";
-            chartArea1.ShadowColor = System.Drawing.Color.White;
-            this.chart.ChartAreas.Add(chartArea1);
-            legend1.Alignment = System.Drawing.StringAlignment.Far;
-            legend1.BackColor = System.Drawing.Color.Transparent;
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            legend1.IsTextAutoFit = false;
-            legend1.MaximumAutoSize = 5F;
-            legend1.Name = "Default";
-            this.chart.Legends.Add(legend1);
-            this.chart.Location = new System.Drawing.Point(152, 16);
-            this.chart.Name = "chart";
-            series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            series1.BorderWidth = 2;
-            series1.ChartArea = "Default";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series1.Legend = "Default";
-            series1.LegendText = "Sender Latency";
-            series1.Name = "SenderLatency";
-            series2.BorderColor = System.Drawing.Color.Red;
-            series2.BorderWidth = 2;
-            series2.ChartArea = "Default";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series2.Legend = "Default";
-            series2.LegendText = "Receiver Latency";
-            series2.Name = "ReceiverLatency";
-            series3.BorderWidth = 2;
-            series3.ChartArea = "Default";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series3.Legend = "Default";
-            series3.LegendText = "Sender Throughput";
-            series3.Name = "SenderThroughput";
-            series4.BorderWidth = 2;
-            series4.ChartArea = "Default";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series4.Legend = "Default";
-            series4.LegendText = "Receiver Throughput";
-            series4.Name = "ReceiverThroughput";
-            this.chart.Series.Add(series1);
-            this.chart.Series.Add(series2);
-            this.chart.Series.Add(series3);
-            this.chart.Series.Add(series4);
-            this.chart.Size = new System.Drawing.Size(668, 352);
-            this.chart.TabIndex = 1;
-            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            title1.Name = "Title";
-            title1.ShadowColor = System.Drawing.Color.Transparent;
-            title1.ShadowOffset = 1;
-            title1.Text = "Sender & Receiver Performance Counters";
-            this.chart.Titles.Add(title1);
-            // 
-            // btnOpenFile
-            // 
-            this.btnOpenFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.btnOpenFile.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.btnOpenFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.btnOpenFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.btnOpenFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenFile.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnOpenFile.Location = new System.Drawing.Point(760, 438);
-            this.btnOpenFile.Name = "btnOpenFile";
-            this.btnOpenFile.Size = new System.Drawing.Size(72, 24);
-            this.btnOpenFile.TabIndex = 3;
-            this.btnOpenFile.Text = "Open";
-            this.btnOpenFile.UseVisualStyleBackColor = false;
-            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
-            this.btnOpenFile.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.btnOpenFile.MouseLeave += new System.EventHandler(this.button_MouseLeave);
-            // 
-            // btnClearFiles
-            // 
-            this.btnClearFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.btnClearFiles.Enabled = false;
-            this.btnClearFiles.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.btnClearFiles.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.btnClearFiles.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.btnClearFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClearFiles.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnClearFiles.Location = new System.Drawing.Point(680, 438);
-            this.btnClearFiles.Name = "btnClearFiles";
-            this.btnClearFiles.Size = new System.Drawing.Size(72, 24);
-            this.btnClearFiles.TabIndex = 2;
-            this.btnClearFiles.Text = "Clear Files";
-            this.btnClearFiles.UseVisualStyleBackColor = false;
-            this.btnClearFiles.Click += new System.EventHandler(this.btnClearFiles_Click);
-            // 
-            // btnSelectFiles
-            // 
-            this.btnSelectFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            this.btnSelectFiles.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.btnSelectFiles.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.btnSelectFiles.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.btnSelectFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSelectFiles.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnSelectFiles.Location = new System.Drawing.Point(601, 438);
-            this.btnSelectFiles.Name = "btnSelectFiles";
-            this.btnSelectFiles.Size = new System.Drawing.Size(72, 24);
-            this.btnSelectFiles.TabIndex = 1;
-            this.btnSelectFiles.Text = "Select Files";
-            this.btnSelectFiles.UseVisualStyleBackColor = false;
-            this.btnSelectFiles.Click += new System.EventHandler(this.btnSelectFiles_Click);
-            // 
             // TestTopicControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2681,30 +2750,36 @@
             this.splitContainer.ResumeLayout(false);
             this.messageTabControl.ResumeLayout(false);
             this.tabMessagePage.ResumeLayout(false);
+            this.tabFilesPage.ResumeLayout(false);
+            this.tabGeneratorPage.ResumeLayout(false);
+            this.mainTabSenderPage.ResumeLayout(false);
+            this.mainTabSenderPage.PerformLayout();
+            this.mainTabReceiverPage.ResumeLayout(false);
+            this.mainTabReceiverPage.PerformLayout();
+            this.tabPageGraph.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.grouperMessageFormat.ResumeLayout(false);
             this.grouperMessageText.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txtMessageText)).EndInit();
-            this.tabFilesPage.ResumeLayout(false);
             this.grouperMessageFiles.ResumeLayout(false);
             this.grouperMessageFiles.PerformLayout();
-            this.tabGeneratorPage.ResumeLayout(false);
             this.grouperBrokeredMessageGenerator.ResumeLayout(false);
             this.grouperBrokeredMessageGenerator.PerformLayout();
             this.grouperMessageProperties.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.propertiesDataGridView)).EndInit();
-            this.mainTabSenderPage.ResumeLayout(false);
-            this.mainTabSenderPage.PerformLayout();
-            this.grouperMessage.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.grouperSender.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this.mainTabReceiverPage.ResumeLayout(false);
-            this.mainTabReceiverPage.PerformLayout();
+            this.grouperMessage.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.grouperReceiver.ResumeLayout(false);
-            this.grouperReceiver.PerformLayout();
-            this.tabPageGraph.ResumeLayout(false);
+            this.tableLayoutPanel9.ResumeLayout(false);
+            this.tableLayoutPanel9.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.grouperReceiverStatistics.ResumeLayout(false);
             this.receiverLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel17.ResumeLayout(false);
@@ -2721,7 +2796,6 @@
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2851,8 +2925,6 @@
         private System.Windows.Forms.TextBox txtSenderThinkTime;
         private System.Windows.Forms.Label lblSenderThinkTime;
         private System.Windows.Forms.CheckBox checkBoxSenderThinkTime;
-        private System.Windows.Forms.TextBox txtReceiverThinkTime;
-        private System.Windows.Forms.Label lblReceiverThinkTime;
         private System.Windows.Forms.CheckBox checkBoxReceiverThinkTime;
         internal System.Windows.Forms.TabControl messageTabControl;
         private System.Windows.Forms.TabPage tabMessagePage;
@@ -2893,5 +2965,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Label lblReceiverThinkTime;
+        private System.Windows.Forms.TextBox txtReceiverThinkTime;
     }
 }
