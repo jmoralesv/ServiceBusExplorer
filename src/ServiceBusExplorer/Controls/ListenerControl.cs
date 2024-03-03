@@ -119,6 +119,7 @@ namespace ServiceBusExplorer.Controls
         private const string JsonExtension = "json";
         private const string JsonFilter = "JSON Files|*.json|Text Documents|*.txt";
         private const string MessageFileFormat = "BrokeredMessage_{0}_{1}.json";
+        private const int GrouperMessageCustomPropertiesWidth = 312;
         #endregion
 
         #region Private Fields
@@ -127,7 +128,6 @@ namespace ServiceBusExplorer.Controls
         private readonly Func<Task> stopLog;
         private readonly Action startLog;
         private BrokeredMessage brokeredMessage;
-        private int grouperMessageCustomPropertiesWidth;
         private int currentMessageRowIndex;
         private bool sorting;
         private string messagesFilterExpression;
@@ -255,6 +255,12 @@ namespace ServiceBusExplorer.Controls
             messagesSplitContainer.SplitterWidth = 16;
             messageMainSplitContainer.SplitterWidth = 8;
 
+            messagesSplitContainer.SplitterDistance = messagesSplitContainer.Width -
+                    LogicalToDeviceUnits(GrouperMessageCustomPropertiesWidth) -
+                    messagesSplitContainer.SplitterWidth;
+            messageMainSplitContainer.SplitterDistance = messageMainSplitContainer.Size.Height / 2 - messageMainSplitContainer.SplitterWidth;
+            messagePropertiesSplitContainer.SplitterDistance = messageMainSplitContainer.SplitterDistance;
+
             // Set Grid style
             messagesDataGridView.EnableHeadersVisualStyles = false;
             messagesDataGridView.AutoGenerateColumns = false;
@@ -312,9 +318,6 @@ namespace ServiceBusExplorer.Controls
             messagesBindingSource.DataSource = messageBindingList;
             messagesDataGridView.DataSource = messagesBindingSource;
 
-            // Set Grouper width
-            grouperMessageCustomPropertiesWidth = grouperMessageCustomProperties.Size.Width;
-
             // Refresh data
             timer_Elapsed(null, null);
 
@@ -369,7 +372,6 @@ namespace ServiceBusExplorer.Controls
                 writeToLog(string.Format(CultureInfo.CurrentCulture, InnerExceptionFormat, ex.InnerException.Message));
             }
         }
-
 
         private void button_MouseEnter(object sender, EventArgs e)
         {
@@ -514,9 +516,8 @@ namespace ServiceBusExplorer.Controls
                 messagesSplitContainer.SuspendDrawing();
                 messagesSplitContainer.SuspendLayout();
                 grouperMessageCustomProperties.Size = new Size(grouperMessageCustomProperties.Size.Width, messageMainSplitContainer.Panel2.Size.Height);
-                messagePropertyGrid.Size = new Size(grouperMessageSystemProperties.Size.Width - 32, messagePropertyGrid.Size.Height);
-                messageCustomPropertyGrid.Size = new Size(grouperMessageCustomProperties.Size.Width - 32, messageCustomPropertyGrid.Size.Height);
-                grouperMessageCustomPropertiesWidth = grouperMessageCustomProperties.Width;
+                messagePropertyGrid.Size = new Size(grouperMessageSystemProperties.Size.Width - LogicalToDeviceUnits(32), messagePropertyGrid.Size.Height);
+                messageCustomPropertyGrid.Size = new Size(grouperMessageCustomProperties.Size.Width - LogicalToDeviceUnits(32), messageCustomPropertyGrid.Size.Height);
             }
             finally
             {
@@ -1115,11 +1116,11 @@ namespace ServiceBusExplorer.Controls
             }
         }
 
-        private async void AsyncTrackMessage()
+        private async Task AsyncTrackMessage()
         {
             try
             {
-                while (!cancellationTokenSource.IsCancellationRequested && !logStopped)
+                while (cancellationTokenSource != null && !cancellationTokenSource.IsCancellationRequested && !logStopped)
                 {
                     try
                     {
