@@ -1567,8 +1567,8 @@ namespace ServiceBusExplorer.Controls
             {
                 grouperSenderStatistics.Visible = false;
                 chart.Visible = true;
-                chart.Size = new Size(tabPageGraph.Width - 160,
-                                      tabPageGraph.Height - 22);
+                chart.Size = new Size(tabPageGraph.Width - LogicalToDeviceUnits(160),
+                                      tabPageGraph.Height - LogicalToDeviceUnits(22));
             }
 
             if (receiverEnabledCheckBox.Checked)
@@ -1597,11 +1597,11 @@ namespace ServiceBusExplorer.Controls
                 text = "Receiver Performance Counters";
                 if (senderEnabledCheckBox.Checked)
                 {
-                    chart.Size = new Size(tabPageGraph.Width - 304,
-                                          tabPageGraph.Height - 22);
+                    chart.Size = new Size(tabPageGraph.Width - LogicalToDeviceUnits(304),
+                                          tabPageGraph.Height - LogicalToDeviceUnits(22));
                 }
                 grouperReceiverStatistics.Location = senderEnabledCheckBox.Checked ?
-                                                   new Point(grouperSenderStatistics.Width + chart.Width + 32, 8) :
+                                                   new Point(grouperSenderStatistics.Width + chart.Width + LogicalToDeviceUnits(32), 8) :
                                                    new Point(16, 8);
                 grouperReceiverStatistics.Anchor = senderEnabledCheckBox.Checked
                                                      ? AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Right
