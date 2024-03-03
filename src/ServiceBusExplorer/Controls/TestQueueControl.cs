@@ -1578,8 +1578,8 @@ namespace ServiceBusExplorer.Controls
             {
                 grouperSenderStatistics.Visible = false;
                 chart.Visible = true;
-                chart.Size = new Size(tabPageGraph.Width - 160,
-                                      tabPageGraph.Height - 22);
+                chart.Size = new Size(tabPageGraph.Width - LogicalToDeviceUnits(160),
+                                      tabPageGraph.Height - LogicalToDeviceUnits(22));
             }
 
             if (receiverEnabledCheckBox.Checked)
@@ -1608,11 +1608,11 @@ namespace ServiceBusExplorer.Controls
                 text = "Receiver Performance Counters";
                 if (senderEnabledCheckBox.Checked)
                 {
-                    chart.Size = new Size(tabPageGraph.Width - 304,
-                                          tabPageGraph.Height - 22);
+                    chart.Size = new Size(tabPageGraph.Width - LogicalToDeviceUnits(304),
+                                          tabPageGraph.Height - LogicalToDeviceUnits(22));
                 }
                 grouperReceiverStatistics.Location = senderEnabledCheckBox.Checked ?
-                                                   new Point(grouperSenderStatistics.Width + chart.Width + 32, 8) :
+                                                   new Point(grouperSenderStatistics.Width + chart.Width + LogicalToDeviceUnits(32), 8) :
                                                    new Point(16, 8);
                 grouperReceiverStatistics.Anchor = senderEnabledCheckBox.Checked
                                                      ? AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Right
@@ -1623,8 +1623,8 @@ namespace ServiceBusExplorer.Controls
             {
                 grouperReceiverStatistics.Visible = false;
                 chart.Visible = true;
-                chart.Size = new Size(tabPageGraph.Width - 160,
-                                      tabPageGraph.Height - 22);
+                chart.Size = new Size(tabPageGraph.Width - LogicalToDeviceUnits(160),
+                                      tabPageGraph.Height - LogicalToDeviceUnits(22));
             }
 
             if (senderEnabledCheckBox.Checked && receiverEnabledCheckBox.Checked)
@@ -1778,8 +1778,8 @@ namespace ServiceBusExplorer.Controls
 
         private void grouperMessageProperties_CustomPaint(PaintEventArgs e)
         {
-            propertiesDataGridView.Size = new Size(grouperMessageProperties.Size.Width - 32,
-                                                   grouperMessageProperties.Size.Height - 48);
+            propertiesDataGridView.Size = new Size(grouperMessageProperties.Size.Width - LogicalToDeviceUnits(32),
+                                                   grouperMessageProperties.Size.Height - LogicalToDeviceUnits(48));
             e.Graphics.DrawRectangle(new Pen(SystemColors.ActiveBorder, 1),
                                    propertiesDataGridView.Location.X - 1,
                                    propertiesDataGridView.Location.Y - 1,
@@ -1871,6 +1871,7 @@ namespace ServiceBusExplorer.Controls
                 radioButtonXmlTemplate.Checked = true;
             }
             btnClearFiles.Enabled = messageFileListView.Items.Count > 0;
+            messageFileListView.Columns[SizeListViewColumnIndex].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         private void messageFileListView_Resize(object sender, EventArgs e)
@@ -1885,7 +1886,7 @@ namespace ServiceBusExplorer.Controls
                     return;
                 }
                 var width = listView.Width - listView.Columns[SizeListViewColumnIndex].Width;
-                listView.Columns[NameListViewColumnIndex].Width = width - 4;
+                listView.Columns[NameListViewColumnIndex].Width = width - LogicalToDeviceUnits(4);
             }
             finally
             {
@@ -1926,8 +1927,12 @@ namespace ServiceBusExplorer.Controls
 
         private void grouperMessageFiles_CustomPaint(PaintEventArgs obj)
         {
-            checkBoxFileName.Location = new Point(messageFileListView.Location.X + 8,
-                                                  messageFileListView.Location.Y + 4);
+            var x = DeviceDpi <= 96 ? 8 : 6;
+            var y = DeviceDpi <= 96 ? 4 : 3;
+
+            nameColumnHeader.Text = string.Empty;
+            checkBoxFileName.Location = new Point(messageFileListView.Location.X + x,
+                                                  messageFileListView.Location.Y + y);
             var width = (grouperMessageFiles.Size.Width - 32) / 4;
             radioButtonBinaryFile.Location = new Point(width + 16, radioButtonJsonTemplate.Location.Y);
             radioButtonJsonTemplate.Location = new Point(2 * width + 16, radioButtonJsonTemplate.Location.Y);
