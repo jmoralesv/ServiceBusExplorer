@@ -1612,8 +1612,8 @@ namespace ServiceBusExplorer.Controls
             {
                 grouperReceiverStatistics.Visible = false;
                 chart.Visible = true;
-                chart.Size = new Size(tabPageGraph.Width - 160,
-                                      tabPageGraph.Height - 22);
+                chart.Size = new Size(tabPageGraph.Width - LogicalToDeviceUnits(160),
+                                      tabPageGraph.Height - LogicalToDeviceUnits(22));
             }
 
             if (senderEnabledCheckBox.Checked && receiverEnabledCheckBox.Checked)
