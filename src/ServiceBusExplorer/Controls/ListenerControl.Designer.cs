@@ -453,6 +453,7 @@
             this.grouperEntityInformation.ShadowThickness = 1;
             this.grouperEntityInformation.Size = new System.Drawing.Size(312, 304);
             this.grouperEntityInformation.TabIndex = 3;
+            this.grouperEntityInformation.CustomPaint += new System.Action<System.Windows.Forms.PaintEventArgs>(this.grouperEntityInformation_CustomPaint);
             // 
             // propertyListView
             // 

@@ -135,13 +135,13 @@ namespace ServiceBusExplorer.Forms
                     var listenerControl = new ListenerControl(WriteToLog, StopLog, StartLog, new ServiceBusHelper(WriteToLog, serviceBusHelper), queueDescription)
                     {
                         Location = new Point(1, panelMain.HeaderHeight + 1),
-                        Size = new Size(panelMain.Size.Width - 3, queueDescription.RequiresSession ? 544 : 520),
+                        Size = new Size(panelMain.Size.Width - LogicalToDeviceUnits(3), queueDescription.RequiresSession ? LogicalToDeviceUnits(544) : LogicalToDeviceUnits(520)),
                         Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
                     };
                     listenerControl.Focus();
 
                     Text = string.Format(QueueListenerFormat, queueDescription.Path);
-                    mainSplitContainer.SplitterDistance = queueDescription.RequiresSession ? 570 : listenerControl.Size.Height + 26;
+                    mainSplitContainer.SplitterDistance = queueDescription.RequiresSession ? LogicalToDeviceUnits(570) : listenerControl.Size.Height + LogicalToDeviceUnits(26);
                     panelMain.HeaderText = string.Format(HeaderTextQueueListenerFormat, queueDescription.Path);
                     panelMain.Controls.Add(listenerControl);
                 }

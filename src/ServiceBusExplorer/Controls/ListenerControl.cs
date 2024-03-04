@@ -1011,34 +1011,33 @@ namespace ServiceBusExplorer.Controls
             var requiresSession = RequiresSession();
             if (requiresSession)
             {
-                grouperOptions.Size = new Size(tabPageListener.Size.Width - 32, grouperOptions.Size.Height);
-                grouperEntityInformation.Size = new Size(grouperEntityInformation.Size.Width, tabPageListener.Size.Height - grouperStatistics.Size.Height - grouperOptions.Size.Height - 40);
-                grouperEntityInformation.Location = new Point(640, 136);
+                grouperOptions.Size = new Size(tabPageListener.Size.Width - LogicalToDeviceUnits(32), grouperOptions.Size.Height);
+                grouperEntityInformation.Size = new Size(grouperStatistics.Size.Width, tabPageListener.Size.Height - grouperStatistics.Size.Height - grouperOptions.Size.Height - LogicalToDeviceUnits(40));
             }
-            var width = requiresSession ? (grouperOptions.Size.Width - 112) / 6 : (grouperOptions.Size.Width - 80) / 4;
+            var width = requiresSession ? (grouperOptions.Size.Width - LogicalToDeviceUnits(112)) / 6 : (grouperOptions.Size.Width - LogicalToDeviceUnits(80)) / 4;
             txtMaxConcurrentCalls.Size = new Size(width, txtMaxConcurrentCalls.Size.Height);
             txtRefreshInformation.Size = new Size(width, txtRefreshInformation.Size.Height);
             txtPrefetchCount.Size = new Size(width, txtPrefetchCount.Size.Height);
             cboReceivedMode.Size = new Size(width, cboReceivedMode.Size.Height);
-            txtRefreshInformation.Location = new Point(width + 32, txtRefreshInformation.Location.Y);
-            lblRefreshInformation.Location = new Point(width + 32, lblRefreshInformation.Location.Y);
-            txtPrefetchCount.Location = new Point(2 * width + 48, cboReceivedMode.Location.Y);
-            lblPrefetchCount.Location = new Point(2 * width + 48, lblReceiveMode.Location.Y);
-            cboReceivedMode.Location = new Point(3 * width + 64, cboReceivedMode.Location.Y);
-            lblReceiveMode.Location = new Point(3 * width + 64, lblReceiveMode.Location.Y);
-            checkBoxLogging.Location = new Point(width + 32, checkBoxLogging.Location.Y);
-            checkBoxVerbose.Location = new Point(2 * width + 48, checkBoxVerbose.Location.Y);
-            checkBoxTrackMessages.Location = new Point(3 * width + 64, checkBoxTrackMessages.Location.Y);
+            txtRefreshInformation.Location = new Point(width + LogicalToDeviceUnits(32), txtRefreshInformation.Location.Y);
+            lblRefreshInformation.Location = new Point(width + LogicalToDeviceUnits(32), lblRefreshInformation.Location.Y);
+            txtPrefetchCount.Location = new Point(2 * width + LogicalToDeviceUnits(48), cboReceivedMode.Location.Y);
+            lblPrefetchCount.Location = new Point(2 * width + LogicalToDeviceUnits(48), lblReceiveMode.Location.Y);
+            cboReceivedMode.Location = new Point(3 * width + LogicalToDeviceUnits(64), cboReceivedMode.Location.Y);
+            lblReceiveMode.Location = new Point(3 * width + LogicalToDeviceUnits(64), lblReceiveMode.Location.Y);
+            checkBoxLogging.Location = new Point(width + LogicalToDeviceUnits(32), checkBoxLogging.Location.Y);
+            checkBoxVerbose.Location = new Point(2 * width + LogicalToDeviceUnits(48), checkBoxVerbose.Location.Y);
+            checkBoxTrackMessages.Location = new Point(3 * width + LogicalToDeviceUnits(64), checkBoxTrackMessages.Location.Y);
 
             if (requiresSession)
             {
                 txtAutoRenewTimeout.Size = new Size(width, txtAutoRenewTimeout.Size.Height);
                 txtMessageWaitTimeout.Size = new Size(width, txtMessageWaitTimeout.Size.Height);
-                txtAutoRenewTimeout.Location = new Point(4 * width + 80, cboReceivedMode.Location.Y);
-                lblAutoRenewTimeout.Location = new Point(4 * width + 80, lblReceiveMode.Location.Y);
-                txtMessageWaitTimeout.Location = new Point(5 * width + 96, cboReceivedMode.Location.Y);
-                lblMessageWaitTimeout.Location = new Point(5 * width + 96, lblReceiveMode.Location.Y);
-                checkBoxGraph.Location = new Point(4 * width + 80, checkBoxGraph.Location.Y);
+                txtAutoRenewTimeout.Location = new Point(4 * width + LogicalToDeviceUnits(80), cboReceivedMode.Location.Y);
+                lblAutoRenewTimeout.Location = new Point(4 * width + LogicalToDeviceUnits(80), lblReceiveMode.Location.Y);
+                txtMessageWaitTimeout.Location = new Point(5 * width + LogicalToDeviceUnits(96), cboReceivedMode.Location.Y);
+                lblMessageWaitTimeout.Location = new Point(5 * width + LogicalToDeviceUnits(96), lblReceiveMode.Location.Y);
+                checkBoxGraph.Location = new Point(4 * width + LogicalToDeviceUnits(80), checkBoxGraph.Location.Y);
             }
             else
             {
@@ -1046,7 +1045,7 @@ namespace ServiceBusExplorer.Controls
                 lblAutoRenewTimeout.Visible = false;
                 txtMessageWaitTimeout.Visible = false;
                 lblMessageWaitTimeout.Visible = false;
-                checkBoxGraph.Location = new Point(grouperOptions.Size.Width - checkBoxGraph.Size.Width - 12, checkBoxGraph.Location.Y);
+                checkBoxGraph.Location = new Point(grouperOptions.Size.Width - checkBoxGraph.Size.Width - LogicalToDeviceUnits(12), checkBoxGraph.Location.Y);
             }
         }
 
@@ -1407,6 +1406,13 @@ namespace ServiceBusExplorer.Controls
 
         private void grouperOptions_CustomPaint(PaintEventArgs e)
         {
+            // If the screen is high DPI, call Resize again to resize the controls
+            // This resolves the initial size issue of the controls when the form loads
+            if (DeviceDpi > 96)
+            {
+                grouperOptions_Resize(null, null);
+            }
+
             var pen = new Pen(SystemColors.ActiveBorder, 1);
             e.Graphics.DrawRectangle(pen,
                                      cboReceivedMode.Location.X - 1,
@@ -1678,5 +1684,11 @@ namespace ServiceBusExplorer.Controls
                                  DateTime.Now.ToString(CultureInfo.InvariantCulture).Replace('/', '-').Replace(':', '-'));
         }
         #endregion
+
+        private void grouperEntityInformation_CustomPaint(PaintEventArgs obj)
+        {
+            propertyListView.Size = new Size(grouperEntityInformation.Size.Width - LogicalToDeviceUnits(32),
+                grouperEntityInformation.Size.Height - LogicalToDeviceUnits(48));
+        }
     }
 }
