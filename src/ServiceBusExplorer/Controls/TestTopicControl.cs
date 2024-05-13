@@ -1772,7 +1772,7 @@ namespace ServiceBusExplorer.Controls
 
         private void grouperReceiver_CustomPaint(PaintEventArgs e)
         {
-            // The combo boxes are now inside the tableLayoutPanel3, so their location is relative to tableLayoutPanel9
+            // The combo boxes are now inside the tableLayoutPanel9, so their location is relative to tableLayoutPanel9
             // rather than the grouperReceiver control. We need to transform their location to the grouperReceiver control.
             var cboReceivedModeLocation = tableLayoutPanel9.PointToScreen(cboReceivedMode.Location);
             cboReceivedModeLocation = grouperReceiver.PointToClient(cboReceivedModeLocation);

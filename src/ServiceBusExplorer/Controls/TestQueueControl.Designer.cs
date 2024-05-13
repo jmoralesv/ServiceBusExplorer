@@ -16,13 +16,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestQueueControl));
             this.btnStart = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -186,6 +186,7 @@
             this.lblSenderMessageNumber = new System.Windows.Forms.Label();
             this.lblSenderCallsSuccessedCaption = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.mainTabControl.SuspendLayout();
             this.mainTabMessagePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -227,6 +228,7 @@
             this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
@@ -461,89 +463,89 @@
             this.chart.BorderSkin.BorderWidth = 0;
             this.chart.BorderSkin.PageColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
             this.chart.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.FrameTitle1;
-            chartArea2.Area3DStyle.Inclination = 15;
-            chartArea2.Area3DStyle.IsClustered = true;
-            chartArea2.Area3DStyle.IsRightAngleAxes = false;
-            chartArea2.Area3DStyle.Perspective = 10;
-            chartArea2.Area3DStyle.Rotation = 10;
-            chartArea2.Area3DStyle.WallWidth = 0;
-            chartArea2.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            chartArea1.Area3DStyle.Inclination = 15;
+            chartArea1.Area3DStyle.IsClustered = true;
+            chartArea1.Area3DStyle.IsRightAngleAxes = false;
+            chartArea1.Area3DStyle.Perspective = 10;
+            chartArea1.Area3DStyle.Rotation = 10;
+            chartArea1.Area3DStyle.WallWidth = 0;
+            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
-            chartArea2.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea2.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
-            chartArea2.AxisX.ScrollBar.Size = 10D;
-            chartArea2.AxisX.Title = "Messages";
-            chartArea2.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
-            chartArea2.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea2.AxisY.ScrollBar.LineColor = System.Drawing.Color.Black;
-            chartArea2.AxisY.ScrollBar.Size = 10D;
-            chartArea2.AxisY.Title = "Time - Msg/Sec";
-            chartArea2.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea2.AxisY2.Title = "Messages/Sec";
-            chartArea2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
-            chartArea2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            chartArea2.BackSecondaryColor = System.Drawing.Color.White;
-            chartArea2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea2.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.CursorX.IsUserEnabled = true;
-            chartArea2.CursorX.IsUserSelectionEnabled = true;
-            chartArea2.CursorY.IsUserEnabled = true;
-            chartArea2.CursorY.IsUserSelectionEnabled = true;
-            chartArea2.Name = "Default";
-            chartArea2.ShadowColor = System.Drawing.Color.White;
-            this.chart.ChartAreas.Add(chartArea2);
-            legend2.Alignment = System.Drawing.StringAlignment.Far;
-            legend2.BackColor = System.Drawing.Color.Transparent;
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            legend2.IsTextAutoFit = false;
-            legend2.MaximumAutoSize = 5F;
-            legend2.Name = "Default";
-            this.chart.Legends.Add(legend2);
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
+            chartArea1.AxisX.ScrollBar.Size = 10D;
+            chartArea1.AxisX.Title = "Messages";
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea1.AxisY.ScrollBar.LineColor = System.Drawing.Color.Black;
+            chartArea1.AxisY.ScrollBar.Size = 10D;
+            chartArea1.AxisY.Title = "Time - Msg/Sec";
+            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea1.AxisY2.Title = "Messages/Sec";
+            chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
+            chartArea1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chartArea1.BackSecondaryColor = System.Drawing.Color.White;
+            chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chartArea1.CursorX.IsUserEnabled = true;
+            chartArea1.CursorX.IsUserSelectionEnabled = true;
+            chartArea1.CursorY.IsUserEnabled = true;
+            chartArea1.CursorY.IsUserSelectionEnabled = true;
+            chartArea1.Name = "Default";
+            chartArea1.ShadowColor = System.Drawing.Color.White;
+            this.chart.ChartAreas.Add(chartArea1);
+            legend1.Alignment = System.Drawing.StringAlignment.Far;
+            legend1.BackColor = System.Drawing.Color.Transparent;
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            legend1.IsTextAutoFit = false;
+            legend1.MaximumAutoSize = 5F;
+            legend1.Name = "Default";
+            this.chart.Legends.Add(legend1);
             this.chart.Location = new System.Drawing.Point(152, 16);
             this.chart.Name = "chart";
-            series5.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            series5.BorderWidth = 2;
-            series5.ChartArea = "Default";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series5.Legend = "Default";
-            series5.LegendText = "Sender Latency";
-            series5.Name = "SenderLatency";
-            series6.BorderColor = System.Drawing.Color.Red;
-            series6.BorderWidth = 2;
-            series6.ChartArea = "Default";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series6.Legend = "Default";
-            series6.LegendText = "Receiver Latency";
-            series6.Name = "ReceiverLatency";
-            series7.BorderWidth = 2;
-            series7.ChartArea = "Default";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series7.Legend = "Default";
-            series7.LegendText = "Sender Throughput";
-            series7.Name = "SenderThroughput";
-            series8.BorderWidth = 2;
-            series8.ChartArea = "Default";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series8.Legend = "Default";
-            series8.LegendText = "Receiver Throughput";
-            series8.Name = "ReceiverThroughput";
-            this.chart.Series.Add(series5);
-            this.chart.Series.Add(series6);
-            this.chart.Series.Add(series7);
-            this.chart.Series.Add(series8);
+            series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            series1.BorderWidth = 2;
+            series1.ChartArea = "Default";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series1.Legend = "Default";
+            series1.LegendText = "Sender Latency";
+            series1.Name = "SenderLatency";
+            series2.BorderColor = System.Drawing.Color.Red;
+            series2.BorderWidth = 2;
+            series2.ChartArea = "Default";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series2.Legend = "Default";
+            series2.LegendText = "Receiver Latency";
+            series2.Name = "ReceiverLatency";
+            series3.BorderWidth = 2;
+            series3.ChartArea = "Default";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series3.Legend = "Default";
+            series3.LegendText = "Sender Throughput";
+            series3.Name = "SenderThroughput";
+            series4.BorderWidth = 2;
+            series4.ChartArea = "Default";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series4.Legend = "Default";
+            series4.LegendText = "Receiver Throughput";
+            series4.Name = "ReceiverThroughput";
+            this.chart.Series.Add(series1);
+            this.chart.Series.Add(series2);
+            this.chart.Series.Add(series3);
+            this.chart.Series.Add(series4);
             this.chart.Size = new System.Drawing.Size(668, 352);
             this.chart.TabIndex = 126;
-            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            title2.Name = "Title";
-            title2.ShadowColor = System.Drawing.Color.Transparent;
-            title2.ShadowOffset = 1;
-            title2.Text = "Sender & Receiver Performance Counters";
-            this.chart.Titles.Add(title2);
+            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            title1.Name = "Title";
+            title1.ShadowColor = System.Drawing.Color.Transparent;
+            title1.ShadowOffset = 1;
+            title1.Text = "Sender & Receiver Performance Counters";
+            this.chart.Titles.Add(title1);
             // 
             // btnOpenFile
             // 
@@ -968,30 +970,7 @@
             this.grouperSender.BackgroundGradientMode = ServiceBusExplorer.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouperSender.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.grouperSender.BorderThickness = 1F;
-            this.grouperSender.Controls.Add(this.checkBoxSendNewFactory);
-            this.grouperSender.Controls.Add(this.cboSenderInspector);
-            this.grouperSender.Controls.Add(this.lblSenderInspector);
-            this.grouperSender.Controls.Add(this.txtMessageCount);
-            this.grouperSender.Controls.Add(this.txtSenderThinkTime);
-            this.grouperSender.Controls.Add(this.lblSenderThinkTime);
-            this.grouperSender.Controls.Add(this.checkBoxSenderThinkTime);
-            this.grouperSender.Controls.Add(this.txtSendTaskCount);
-            this.grouperSender.Controls.Add(this.checkBoxSendBatch);
-            this.grouperSender.Controls.Add(this.checkBoxAddMessageNumber);
-            this.grouperSender.Controls.Add(this.checkBoxSenderEnableGraph);
-            this.grouperSender.Controls.Add(this.checkBoxSenderEnableStatistics);
-            this.grouperSender.Controls.Add(this.checkBoxOneSessionPerTask);
-            this.grouperSender.Controls.Add(this.checkBoxUpdateMessageId);
-            this.grouperSender.Controls.Add(this.checkBoxEnableSenderLogging);
-            this.grouperSender.Controls.Add(this.checkBoxSenderVerboseLogging);
-            this.grouperSender.Controls.Add(this.checkBoxSenderCommitTransaction);
-            this.grouperSender.Controls.Add(this.checkBoxSenderUseTransaction);
-            this.grouperSender.Controls.Add(this.lblSendBatchSize);
-            this.grouperSender.Controls.Add(this.txtSendBatchSize);
-            this.grouperSender.Controls.Add(this.lblBody);
-            this.grouperSender.Controls.Add(this.cboBodyType);
-            this.grouperSender.Controls.Add(this.lblSendTaskCount);
-            this.grouperSender.Controls.Add(this.lblCount);
+            this.grouperSender.Controls.Add(this.tableLayoutPanel3);
             this.grouperSender.CustomGroupBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.grouperSender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.grouperSender.ForeColor = System.Drawing.Color.White;
@@ -1011,9 +990,11 @@
             // 
             // checkBoxSendNewFactory
             // 
+            this.checkBoxSendNewFactory.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxSendNewFactory.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxSendNewFactory, 4);
             this.checkBoxSendNewFactory.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSendNewFactory.Location = new System.Drawing.Point(16, 236);
+            this.checkBoxSendNewFactory.Location = new System.Drawing.Point(3, 193);
             this.checkBoxSendNewFactory.Name = "checkBoxSendNewFactory";
             this.checkBoxSendNewFactory.Size = new System.Drawing.Size(254, 17);
             this.checkBoxSendNewFactory.TabIndex = 91;
@@ -1022,21 +1003,24 @@
             // 
             // cboSenderInspector
             // 
+            this.cboSenderInspector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel3.SetColumnSpan(this.cboSenderInspector, 3);
             this.cboSenderInspector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboSenderInspector.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cboSenderInspector.FormattingEnabled = true;
-            this.cboSenderInspector.Location = new System.Drawing.Point(96, 327);
+            this.cboSenderInspector.Location = new System.Drawing.Point(80, 284);
             this.cboSenderInspector.Name = "cboSenderInspector";
-            this.cboSenderInspector.Size = new System.Drawing.Size(216, 21);
+            this.cboSenderInspector.Size = new System.Drawing.Size(227, 21);
             this.cboSenderInspector.TabIndex = 87;
             // 
             // lblSenderInspector
             // 
+            this.lblSenderInspector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSenderInspector.AutoSize = true;
             this.lblSenderInspector.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSenderInspector.Location = new System.Drawing.Point(16, 329);
+            this.lblSenderInspector.Location = new System.Drawing.Point(3, 281);
             this.lblSenderInspector.Name = "lblSenderInspector";
-            this.lblSenderInspector.Size = new System.Drawing.Size(77, 13);
+            this.lblSenderInspector.Size = new System.Drawing.Size(71, 26);
             this.lblSenderInspector.TabIndex = 90;
             this.lblSenderInspector.Text = "Msg Inspector:";
             // 
@@ -1045,26 +1029,29 @@
             this.txtMessageCount.AllowDecimal = false;
             this.txtMessageCount.AllowNegative = false;
             this.txtMessageCount.AllowSpace = false;
+            this.txtMessageCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMessageCount.IsZeroWhenEmpty = false;
-            this.txtMessageCount.Location = new System.Drawing.Point(96, 264);
+            this.txtMessageCount.Location = new System.Drawing.Point(80, 222);
             this.txtMessageCount.Name = "txtMessageCount";
-            this.txtMessageCount.Size = new System.Drawing.Size(72, 20);
+            this.txtMessageCount.Size = new System.Drawing.Size(71, 20);
             this.txtMessageCount.TabIndex = 83;
             // 
             // txtSenderThinkTime
             // 
+            this.txtSenderThinkTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSenderThinkTime.Enabled = false;
-            this.txtSenderThinkTime.Location = new System.Drawing.Point(240, 200);
+            this.txtSenderThinkTime.Location = new System.Drawing.Point(234, 160);
             this.txtSenderThinkTime.Name = "txtSenderThinkTime";
-            this.txtSenderThinkTime.Size = new System.Drawing.Size(72, 20);
+            this.txtSenderThinkTime.Size = new System.Drawing.Size(73, 20);
             this.txtSenderThinkTime.TabIndex = 82;
             this.txtSenderThinkTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
             // lblSenderThinkTime
             // 
+            this.lblSenderThinkTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblSenderThinkTime.AutoSize = true;
             this.lblSenderThinkTime.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSenderThinkTime.Location = new System.Drawing.Point(176, 204);
+            this.lblSenderThinkTime.Location = new System.Drawing.Point(157, 164);
             this.lblSenderThinkTime.Name = "lblSenderThinkTime";
             this.lblSenderThinkTime.Size = new System.Drawing.Size(67, 13);
             this.lblSenderThinkTime.TabIndex = 83;
@@ -1072,9 +1059,11 @@
             // 
             // checkBoxSenderThinkTime
             // 
+            this.checkBoxSenderThinkTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxSenderThinkTime.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxSenderThinkTime, 2);
             this.checkBoxSenderThinkTime.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSenderThinkTime.Location = new System.Drawing.Point(16, 204);
+            this.checkBoxSenderThinkTime.Location = new System.Drawing.Point(3, 162);
             this.checkBoxSenderThinkTime.Name = "checkBoxSenderThinkTime";
             this.checkBoxSenderThinkTime.Size = new System.Drawing.Size(101, 17);
             this.checkBoxSenderThinkTime.TabIndex = 81;
@@ -1084,17 +1073,20 @@
             // 
             // txtSendTaskCount
             // 
-            this.txtSendTaskCount.Location = new System.Drawing.Point(240, 264);
+            this.txtSendTaskCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSendTaskCount.Location = new System.Drawing.Point(234, 222);
             this.txtSendTaskCount.Name = "txtSendTaskCount";
-            this.txtSendTaskCount.Size = new System.Drawing.Size(72, 20);
+            this.txtSendTaskCount.Size = new System.Drawing.Size(73, 20);
             this.txtSendTaskCount.TabIndex = 84;
             this.txtSendTaskCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
             // checkBoxSendBatch
             // 
+            this.checkBoxSendBatch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxSendBatch.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxSendBatch, 2);
             this.checkBoxSendBatch.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSendBatch.Location = new System.Drawing.Point(176, 172);
+            this.checkBoxSendBatch.Location = new System.Drawing.Point(157, 131);
             this.checkBoxSendBatch.Name = "checkBoxSendBatch";
             this.checkBoxSendBatch.Size = new System.Drawing.Size(82, 17);
             this.checkBoxSendBatch.TabIndex = 9;
@@ -1104,9 +1096,11 @@
             // 
             // checkBoxAddMessageNumber
             // 
+            this.checkBoxAddMessageNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxAddMessageNumber.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxAddMessageNumber, 2);
             this.checkBoxAddMessageNumber.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxAddMessageNumber.Location = new System.Drawing.Point(16, 172);
+            this.checkBoxAddMessageNumber.Location = new System.Drawing.Point(3, 131);
             this.checkBoxAddMessageNumber.Name = "checkBoxAddMessageNumber";
             this.checkBoxAddMessageNumber.Size = new System.Drawing.Size(85, 17);
             this.checkBoxAddMessageNumber.TabIndex = 8;
@@ -1115,10 +1109,12 @@
             // 
             // checkBoxSenderEnableGraph
             // 
+            this.checkBoxSenderEnableGraph.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxSenderEnableGraph.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxSenderEnableGraph, 2);
             this.checkBoxSenderEnableGraph.Enabled = false;
             this.checkBoxSenderEnableGraph.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSenderEnableGraph.Location = new System.Drawing.Point(176, 108);
+            this.checkBoxSenderEnableGraph.Location = new System.Drawing.Point(157, 69);
             this.checkBoxSenderEnableGraph.Name = "checkBoxSenderEnableGraph";
             this.checkBoxSenderEnableGraph.Size = new System.Drawing.Size(91, 17);
             this.checkBoxSenderEnableGraph.TabIndex = 5;
@@ -1127,9 +1123,11 @@
             // 
             // checkBoxSenderEnableStatistics
             // 
+            this.checkBoxSenderEnableStatistics.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxSenderEnableStatistics.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxSenderEnableStatistics, 2);
             this.checkBoxSenderEnableStatistics.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSenderEnableStatistics.Location = new System.Drawing.Point(16, 108);
+            this.checkBoxSenderEnableStatistics.Location = new System.Drawing.Point(3, 69);
             this.checkBoxSenderEnableStatistics.Name = "checkBoxSenderEnableStatistics";
             this.checkBoxSenderEnableStatistics.Size = new System.Drawing.Size(104, 17);
             this.checkBoxSenderEnableStatistics.TabIndex = 4;
@@ -1139,9 +1137,11 @@
             // 
             // checkBoxOneSessionPerTask
             // 
+            this.checkBoxOneSessionPerTask.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxOneSessionPerTask.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxOneSessionPerTask, 2);
             this.checkBoxOneSessionPerTask.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxOneSessionPerTask.Location = new System.Drawing.Point(16, 140);
+            this.checkBoxOneSessionPerTask.Location = new System.Drawing.Point(3, 100);
             this.checkBoxOneSessionPerTask.Name = "checkBoxOneSessionPerTask";
             this.checkBoxOneSessionPerTask.Size = new System.Drawing.Size(115, 17);
             this.checkBoxOneSessionPerTask.TabIndex = 6;
@@ -1151,11 +1151,13 @@
             // 
             // checkBoxUpdateMessageId
             // 
+            this.checkBoxUpdateMessageId.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxUpdateMessageId.AutoSize = true;
             this.checkBoxUpdateMessageId.Checked = true;
             this.checkBoxUpdateMessageId.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxUpdateMessageId, 2);
             this.checkBoxUpdateMessageId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxUpdateMessageId.Location = new System.Drawing.Point(176, 140);
+            this.checkBoxUpdateMessageId.Location = new System.Drawing.Point(157, 100);
             this.checkBoxUpdateMessageId.Name = "checkBoxUpdateMessageId";
             this.checkBoxUpdateMessageId.Size = new System.Drawing.Size(116, 17);
             this.checkBoxUpdateMessageId.TabIndex = 7;
@@ -1164,11 +1166,13 @@
             // 
             // checkBoxEnableSenderLogging
             // 
+            this.checkBoxEnableSenderLogging.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxEnableSenderLogging.AutoSize = true;
             this.checkBoxEnableSenderLogging.Checked = true;
             this.checkBoxEnableSenderLogging.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxEnableSenderLogging, 2);
             this.checkBoxEnableSenderLogging.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxEnableSenderLogging.Location = new System.Drawing.Point(16, 76);
+            this.checkBoxEnableSenderLogging.Location = new System.Drawing.Point(3, 38);
             this.checkBoxEnableSenderLogging.Name = "checkBoxEnableSenderLogging";
             this.checkBoxEnableSenderLogging.Size = new System.Drawing.Size(100, 17);
             this.checkBoxEnableSenderLogging.TabIndex = 2;
@@ -1178,9 +1182,11 @@
             // 
             // checkBoxSenderVerboseLogging
             // 
+            this.checkBoxSenderVerboseLogging.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxSenderVerboseLogging.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxSenderVerboseLogging, 2);
             this.checkBoxSenderVerboseLogging.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSenderVerboseLogging.Location = new System.Drawing.Point(177, 76);
+            this.checkBoxSenderVerboseLogging.Location = new System.Drawing.Point(157, 38);
             this.checkBoxSenderVerboseLogging.Name = "checkBoxSenderVerboseLogging";
             this.checkBoxSenderVerboseLogging.Size = new System.Drawing.Size(101, 17);
             this.checkBoxSenderVerboseLogging.TabIndex = 3;
@@ -1189,12 +1195,14 @@
             // 
             // checkBoxSenderCommitTransaction
             // 
+            this.checkBoxSenderCommitTransaction.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxSenderCommitTransaction.AutoSize = true;
             this.checkBoxSenderCommitTransaction.Checked = true;
             this.checkBoxSenderCommitTransaction.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxSenderCommitTransaction, 2);
             this.checkBoxSenderCommitTransaction.Enabled = false;
             this.checkBoxSenderCommitTransaction.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSenderCommitTransaction.Location = new System.Drawing.Point(176, 44);
+            this.checkBoxSenderCommitTransaction.Location = new System.Drawing.Point(157, 7);
             this.checkBoxSenderCommitTransaction.Name = "checkBoxSenderCommitTransaction";
             this.checkBoxSenderCommitTransaction.Size = new System.Drawing.Size(119, 17);
             this.checkBoxSenderCommitTransaction.TabIndex = 1;
@@ -1203,9 +1211,11 @@
             // 
             // checkBoxSenderUseTransaction
             // 
+            this.checkBoxSenderUseTransaction.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxSenderUseTransaction.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.checkBoxSenderUseTransaction, 2);
             this.checkBoxSenderUseTransaction.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSenderUseTransaction.Location = new System.Drawing.Point(16, 44);
+            this.checkBoxSenderUseTransaction.Location = new System.Drawing.Point(3, 7);
             this.checkBoxSenderUseTransaction.Name = "checkBoxSenderUseTransaction";
             this.checkBoxSenderUseTransaction.Size = new System.Drawing.Size(104, 17);
             this.checkBoxSenderUseTransaction.TabIndex = 0;
@@ -1215,9 +1225,10 @@
             // 
             // lblSendBatchSize
             // 
+            this.lblSendBatchSize.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblSendBatchSize.AutoSize = true;
             this.lblSendBatchSize.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSendBatchSize.Location = new System.Drawing.Point(176, 297);
+            this.lblSendBatchSize.Location = new System.Drawing.Point(157, 257);
             this.lblSendBatchSize.Name = "lblSendBatchSize";
             this.lblSendBatchSize.Size = new System.Drawing.Size(61, 13);
             this.lblSendBatchSize.TabIndex = 80;
@@ -1225,17 +1236,19 @@
             // 
             // txtSendBatchSize
             // 
-            this.txtSendBatchSize.Location = new System.Drawing.Point(240, 295);
+            this.txtSendBatchSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSendBatchSize.Location = new System.Drawing.Point(234, 253);
             this.txtSendBatchSize.Name = "txtSendBatchSize";
-            this.txtSendBatchSize.Size = new System.Drawing.Size(72, 20);
+            this.txtSendBatchSize.Size = new System.Drawing.Size(73, 20);
             this.txtSendBatchSize.TabIndex = 86;
             this.txtSendBatchSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
             // lblBody
             // 
+            this.lblBody.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblBody.AutoSize = true;
             this.lblBody.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblBody.Location = new System.Drawing.Point(16, 297);
+            this.lblBody.Location = new System.Drawing.Point(3, 257);
             this.lblBody.Name = "lblBody";
             this.lblBody.Size = new System.Drawing.Size(61, 13);
             this.lblBody.TabIndex = 75;
@@ -1243,6 +1256,7 @@
             // 
             // cboBodyType
             // 
+            this.cboBodyType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cboBodyType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboBodyType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cboBodyType.FormattingEnabled = true;
@@ -1250,16 +1264,17 @@
             "Stream",
             "String",
             "WCF"});
-            this.cboBodyType.Location = new System.Drawing.Point(96, 295);
+            this.cboBodyType.Location = new System.Drawing.Point(80, 253);
             this.cboBodyType.Name = "cboBodyType";
-            this.cboBodyType.Size = new System.Drawing.Size(72, 21);
+            this.cboBodyType.Size = new System.Drawing.Size(71, 21);
             this.cboBodyType.TabIndex = 85;
             // 
             // lblSendTaskCount
             // 
+            this.lblSendTaskCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblSendTaskCount.AutoSize = true;
             this.lblSendTaskCount.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSendTaskCount.Location = new System.Drawing.Point(176, 268);
+            this.lblSendTaskCount.Location = new System.Drawing.Point(157, 226);
             this.lblSendTaskCount.Name = "lblSendTaskCount";
             this.lblSendTaskCount.Size = new System.Drawing.Size(65, 13);
             this.lblSendTaskCount.TabIndex = 76;
@@ -1267,11 +1282,12 @@
             // 
             // lblCount
             // 
+            this.lblCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCount.AutoSize = true;
             this.lblCount.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblCount.Location = new System.Drawing.Point(16, 268);
+            this.lblCount.Location = new System.Drawing.Point(3, 219);
             this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(84, 13);
+            this.lblCount.Size = new System.Drawing.Size(71, 26);
             this.lblCount.TabIndex = 73;
             this.lblCount.Text = "Message Count:";
             // 
@@ -2568,6 +2584,53 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(557, 188);
             this.tableLayoutPanel1.TabIndex = 75;
             // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxSenderUseTransaction, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.cboSenderInspector, 1, 9);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxSendNewFactory, 0, 6);
+            this.tableLayoutPanel3.Controls.Add(this.lblSenderInspector, 0, 9);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxSenderCommitTransaction, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.txtSendBatchSize, 3, 8);
+            this.tableLayoutPanel3.Controls.Add(this.lblSendBatchSize, 2, 8);
+            this.tableLayoutPanel3.Controls.Add(this.txtSendTaskCount, 3, 7);
+            this.tableLayoutPanel3.Controls.Add(this.txtMessageCount, 1, 7);
+            this.tableLayoutPanel3.Controls.Add(this.cboBodyType, 1, 8);
+            this.tableLayoutPanel3.Controls.Add(this.lblBody, 0, 8);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxEnableSenderLogging, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxSenderVerboseLogging, 2, 1);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxSenderEnableStatistics, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.txtSenderThinkTime, 3, 5);
+            this.tableLayoutPanel3.Controls.Add(this.lblSendTaskCount, 2, 7);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxSenderEnableGraph, 2, 2);
+            this.tableLayoutPanel3.Controls.Add(this.lblSenderThinkTime, 2, 5);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxOneSessionPerTask, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.lblCount, 0, 7);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxSenderThinkTime, 0, 5);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxUpdateMessageId, 2, 3);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxAddMessageNumber, 0, 4);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxSendBatch, 2, 4);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(9, 35);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 10;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(310, 310);
+            this.tableLayoutPanel3.TabIndex = 92;
+            // 
             // TestQueueControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2608,7 +2671,6 @@
             this.grouperMessageProperties.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.propertiesDataGridView)).EndInit();
             this.grouperSender.ResumeLayout(false);
-            this.grouperSender.PerformLayout();
             this.grouperMessage.ResumeLayout(false);
             this.grouperReceiver.ResumeLayout(false);
             this.grouperReceiver.PerformLayout();
@@ -2630,6 +2692,8 @@
             this.tableLayoutPanel10.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2798,5 +2862,6 @@
         private FastColoredTextBoxNS.FastColoredTextBox txtMessageText;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
     }
 }
