@@ -1772,14 +1772,23 @@ namespace ServiceBusExplorer.Controls
 
         private void grouperReceiver_CustomPaint(PaintEventArgs e)
         {
+            // The combo boxes are now inside the tableLayoutPanel9, so their location is relative to tableLayoutPanel9
+            // rather than the grouperReceiver control. We need to transform their location to the grouperReceiver control.
+            var cboReceivedModeLocation = tableLayoutPanel9.PointToScreen(cboReceivedMode.Location);
+            cboReceivedModeLocation = grouperReceiver.PointToClient(cboReceivedModeLocation);
+
+            // The cboReceiverInspector is inside the flowLayoutPanel1 instead of the tableLayoutPanel9
+            var cboReceiverInspectorLocation = flowLayoutPanel1.PointToScreen(cboReceiverInspector.Location);
+            cboReceiverInspectorLocation = grouperReceiver.PointToClient(cboReceiverInspectorLocation);
+
             e.Graphics.DrawRectangle(new Pen(SystemColors.ActiveBorder, 1),
-                                    cboReceivedMode.Location.X - 1,
-                                    cboReceivedMode.Location.Y - 1,
+                                    cboReceivedModeLocation.X - 1,
+                                    cboReceivedModeLocation.Y - 1,
                                     cboReceivedMode.Size.Width + 1,
                                     cboReceivedMode.Size.Height + 1);
             e.Graphics.DrawRectangle(new Pen(SystemColors.ActiveBorder, 1),
-                                    cboReceiverInspector.Location.X - 1,
-                                    cboReceiverInspector.Location.Y - 1,
+                                    cboReceiverInspectorLocation.X - 1,
+                                    cboReceiverInspectorLocation.Y - 1,
                                     cboReceiverInspector.Size.Width + 1,
                                     cboReceiverInspector.Size.Height + 1);
         }
