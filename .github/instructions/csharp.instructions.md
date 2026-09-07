@@ -53,7 +53,7 @@ applyTo: '**/*.cs'
 
 ## WinForms and High DPI (Core Concern of This Fork)
 
-- The prior attempt (PR #797) declared **`system`** DPI awareness in `app.manifest` — that caused the 100%-scale blurriness that led to the revert (#807). The manifest does **not** exist on `main` today. The new approach should evaluate **PerMonitorV2**; confirm the final mode when implementing layer 440-1.
+- **DPI awareness mode — CURRENTLY UNDER TEST**: we are testing both **PerMonitorV2** and **system** awareness. The prior attempt (PR #797) declared **`system`** awareness in `app.manifest` — believed to be the cause of the 100%-scale blurriness that led to the revert (#807). The manifest does **not** exist on `main` today. **Once testing concludes, update this file and `copilot-instructions.md` with the chosen mode.**
 - Use .NET Framework 4.7.2 high-DPI APIs: `LogicalToDeviceUnits`, `ScaleBitmapLogicalToDevice`, `DeviceDpi`
 - **Prefer `TableLayoutPanel`** for scaling/resizing child controls over custom paint/resize logic
 - When fixing layout in a control, also update its `.Designer.cs` consistently

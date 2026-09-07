@@ -71,7 +71,7 @@ dotnet test -c Release
 ## High DPI Guidance (Core to This Fork)
 
 ### Approach
-- **DPI awareness mode** (to be decided when implementing layer 440-1): the prior attempt (PR #797) declared **`system`** DPI awareness in `app.manifest`, which is what caused the 100%-scale blurriness regression that led to the revert (#807). The new approach should evaluate **PerMonitorV2** for crisp text on multi-monitor / mixed-DPI setups. Some older code (e.g., the CheckBoxList spacing fix) already replicated PerMonitorV2-style behavior. The manifest currently does **not** exist on `main` (removed by the revert).
+- **DPI awareness mode — CURRENTLY UNDER TEST**: We are actively testing both **PerMonitorV2** and **system** awareness to decide which to adopt. The prior attempt (PR #797) declared **`system`** awareness in `app.manifest`, which is believed to be the cause of the 100%-scale blurriness that led to the revert (#807). The manifest does **not** exist on `main` today (removed by the revert). **Once testing concludes, this file and `csharp.instructions.md` MUST be updated to record the chosen mode** (do not forget this). Some older code (e.g., the CheckBoxList spacing fix) already replicated PerMonitorV2-style behavior.
 - **Framework helpers**: Use .NET Framework 4.7.2 high-DPI APIs such as `LogicalToDeviceUnits` and `ScaleBitmapLogicalToDevice`
 - **Layout strategy**: Prefer `TableLayoutPanel` for scaling/resizing child controls instead of custom paint/resize logic where possible
 - **Centralize calculations**: Put DPI math in helpers (e.g., `HeaderPanel.LogicalToDeviceUnits`) rather than repeating it per form
