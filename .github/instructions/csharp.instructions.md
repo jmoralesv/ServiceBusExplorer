@@ -53,7 +53,9 @@ applyTo: '**/*.cs'
 
 ## WinForms and High DPI (Core Concern of This Fork)
 
-- **DPI awareness mode — CURRENTLY UNDER TEST**: we are testing both **PerMonitorV2** and **system** awareness. The prior attempt (PR #797) declared **`system`** awareness in `app.manifest` — believed to be the cause of the 100%-scale blurriness that led to the revert (#807). The manifest does **not** exist on `main` today. **Once testing concludes, update this file and `copilot-instructions.md` with the chosen mode.**
+- **DPI awareness mode: PerMonitorV2** (decided 2026-09-20 after 5 test rounds). `system` awareness was rejected: it renders at the system DPI (primary monitor's scale at logon) and Windows bitmap-scales the window on other monitors — that is the blur that caused revert #807 (reproduced: `DeviceDpi=144` logged on a 96-DPI monitor). PerMonitorV2 renders natively per monitor and is migration-forward (.NET 6+ invests in PMv2; modern .NET still defaults to `SystemAware`, semantically equal to net472 `system`). Declared in `app.manifest` + `App.config` (`DpiAwareness=PerMonitorV2`).
+- **Always pair PMv2 with `AutoScaleMode.Dpi`** (`AutoScaleDimensions = 96F, 96F`) + `EnableWindowsFormsHighDpiAutoResizing=true` inside `System.Windows.Forms.ApplicationConfigurationSection` — never in `appSettings`, where WinForms silently ignores it. `AutoScaleMode.Font` is non-linear across DPI changes; do not use it.
+- Custom-painted controls with hardcoded logical sizes must recompute on `DpiChanged` using the new `DeviceDpi` / `LogicalToDeviceUnits`, then re-layout and repaint.
 - Use .NET Framework 4.7.2 high-DPI APIs: `LogicalToDeviceUnits`, `ScaleBitmapLogicalToDevice`, `DeviceDpi`
 - **Prefer `TableLayoutPanel`** for scaling/resizing child controls over custom paint/resize logic
 - When fixing layout in a control, also update its `.Designer.cs` consistently
