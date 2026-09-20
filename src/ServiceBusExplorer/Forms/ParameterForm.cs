@@ -34,7 +34,7 @@ namespace ServiceBusExplorer.Forms
     public partial class ParameterForm : Form
     {
         #region Private Fields
-        private IList<bool> canBeNullList;
+        private readonly IList<bool> canBeNullList;
         private readonly IList<Control> textBoxList; 
         #endregion
 
@@ -51,26 +51,36 @@ namespace ServiceBusExplorer.Forms
                 return;
             }
             this.canBeNullList = canBeNullList;
-            var labelY = 16;
-            var textBoxY = 32;
-            var textBoxWidth = mainPanel.Size.Width - 32;
+
+            var positionX = 16;
+            var labelY = LogicalToDeviceUnits(16);
+            var labelWidth = 400;
+            var labelHeight = LogicalToDeviceUnits(20);
+            var labelYStep = LogicalToDeviceUnits(48);
+
+            var textBoxY = LogicalToDeviceUnits(32);
+            var textBoxWidth = mainPanel.Size.Width - LogicalToDeviceUnits(32);
+            var textBoxHeight = LogicalToDeviceUnits(24);
+            var textBoxYStep = LogicalToDeviceUnits(48);
+
             for (var i = 0; i < parameterNameList.Count; i++)
             {
                 var parameter = parameterNameList[i];
                 var label = new Label
                 {
-                    Name = string.Format("lbl{0}", parameter),
-                    Text = string.Format("{0}:", parameter),
-                    Location = new Point(16, labelY),
-                    Size = new Size(400, 20)
+                    Name = $"lbl{parameter}",
+                    Text = $"{parameter}:",
+                    Location = new Point(positionX, labelY),
+                    Size = new Size(labelWidth, labelHeight)
                 };
                 mainPanel.Controls.Add(label);
+
                 var textBox = new TextBox
                 {
-                    Name = string.Format("txt{0}", parameter),
+                    Name = $"txt{parameter}",
                     AutoSize = false,
-                    Size = new Size(textBoxWidth, 24),
-                    Location = new Point(16, textBoxY),
+                    Size = new Size(textBoxWidth, textBoxHeight),
+                    Location = new Point(positionX, textBoxY),
                     Tag = i 
                 };
                 
@@ -85,11 +95,12 @@ namespace ServiceBusExplorer.Forms
                 }
                 mainPanel.Controls.Add(textBox);
                 textBox.BringToFront();
-                labelY += 48;
-                textBoxY += 48;
+                labelY += labelYStep;
+                textBoxY += textBoxYStep;
             }
+
             textBoxList = mainPanel.Controls.Cast<Control>().Where(c => c is TextBox).ToList();
-            var delta = parameterNameList.Count*48;
+            var delta = parameterNameList.Count * labelYStep;
             Size = new Size(Size.Width, Size.Height + delta);
             textBox_TextChanged(null, null);
         }
