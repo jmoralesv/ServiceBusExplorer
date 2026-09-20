@@ -527,6 +527,14 @@ namespace ServiceBusExplorer.Forms
         {
             lstLog.Items.Clear();
         }
+
+        // Custom-painted controls (HeaderPanel, Grouper) compute sizes from the current
+        // DPI at paint time, so a full repaint is enough to re-render after a DPI change.
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            base.OnDpiChanged(e);
+            Invalidate(true);
+        }
         #endregion
 
         #region Private Methods

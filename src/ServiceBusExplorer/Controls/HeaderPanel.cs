@@ -40,6 +40,7 @@ namespace ServiceBusExplorer.Controls
         private Color headerColor2 = SystemColors.ActiveCaption;
         private Color iconTransparentColor = Color.White;
         private Image icon = null;
+        private Bitmap iconBitmap = null;
         #endregion
 
         #region Public Properties
@@ -57,7 +58,7 @@ namespace ServiceBusExplorer.Controls
         [Browsable(true), Category("Custom")]
         public int HeaderHeight
         {
-            get { return headerHeight; }
+            get { return LogicalToDeviceUnits(headerHeight); }
             set
             {
                 headerHeight = value;
@@ -142,60 +143,57 @@ namespace ServiceBusExplorer.Controls
                 // Draw border;
                 DrawBorder(e.Graphics);
 
-                // Draw heaeder
+                // Draw header
                 DrawHeader(e.Graphics);
-
-                // Draw text
-                DrawText(e.Graphics);
 
                 // Draw Icon
                 DrawIcon(e.Graphics);
+
+                // Draw text
+                DrawText(e.Graphics);
             }
         }
 
         private void DrawBorder(Graphics graphics)
         {
-            using (var pen = new Pen(this.headerColor2))
-            {
-                graphics.DrawRectangle(pen, 0, 0, this.Width - 1, this.Height - 1);
-            }
+            using var pen = new Pen(this.headerColor2);
+            graphics.DrawRectangle(pen, 0, 0, this.Width - 1, this.Height - 1);
         }
 
         private void DrawHeader(Graphics graphics)
         {
-            var headerRect = new Rectangle(1, 1, this.Width - 2, this.headerHeight);
-            using (Brush brush = new LinearGradientBrush(headerRect, headerColor1, headerColor2, LinearGradientMode.Vertical))
-            {
-                graphics.FillRectangle(brush, headerRect);
-            }
+            var headerRect = new Rectangle(1, 1, this.Width - 2, HeaderHeight);
+            using Brush brush = new LinearGradientBrush(headerRect, headerColor1, headerColor2, LinearGradientMode.Vertical);
+            graphics.FillRectangle(brush, headerRect);
         }
 
         private void DrawText(Graphics graphics)
         {
             if (string.IsNullOrWhiteSpace(this.headerText)) return;
             var size = graphics.MeasureString(this.headerText, this.headerFont);
-            using (Brush brush = new SolidBrush(ForeColor))
+            using Brush brush = new SolidBrush(ForeColor);
+            float x;
+            if (this.iconBitmap != null)
             {
-                float x;
-                if (this.icon != null)
-                {
-                    x = this.icon.Width + 6;
-                }
-                else
-                {
-                    x = 4;
-                }
-                graphics.DrawString(this.headerText, this.headerFont, brush, x, (headerHeight - size.Height) / 2);
+                x = this.iconBitmap.Width + 6;
             }
+            else
+            {
+                x = 4;
+            }
+            graphics.DrawString(this.headerText, this.headerFont, brush, x, (HeaderHeight - size.Height) / 2);
         }
 
         private void DrawIcon(Graphics graphics)
         {
             if (icon != null)
             {
-                var point = new Point(4, (headerHeight - icon.Height) / 2);
                 var bitmap = new Bitmap(icon);
                 bitmap.MakeTransparent(iconTransparentColor);
+                ScaleBitmapLogicalToDevice(ref bitmap);
+                iconBitmap?.Dispose();
+                iconBitmap = bitmap;
+                var point = new Point(4, (HeaderHeight - bitmap.Height) / 2);
                 graphics.DrawImage(bitmap, point);
             }
         }

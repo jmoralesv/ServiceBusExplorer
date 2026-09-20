@@ -490,6 +490,11 @@ namespace ServiceBusExplorer.Forms
             argumentName = argument;
             argumentValue = value;
         }
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            base.OnDpiChanged(e);
+            Invalidate(true);
+        }
         #endregion
 
         #region Event Handlers
@@ -670,6 +675,7 @@ namespace ServiceBusExplorer.Forms
                 lstLog.Font = new Font(lstLog.Font.FontFamily, (float)optionForm.MainSettings.LogFontSize);
                 serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily,
                     (float)optionForm.MainSettings.TreeViewFontSize);
+                serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
                 RetryHelper.RetryCount = optionForm.MainSettings.RetryCount;
                 RetryHelper.RetryTimeout = optionForm.MainSettings.RetryTimeout;
                 ReceiveTimeout = optionForm.MainSettings.ReceiveTimeout;
@@ -4190,6 +4196,7 @@ namespace ServiceBusExplorer.Forms
             {
                 treeViewFontSize = tempTreeViewFontSize;
                 serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)treeViewFontSize);
+                serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
             }
 
             RetryHelper.RetryCount = readSettings.RetryCount;
@@ -4378,7 +4385,7 @@ namespace ServiceBusExplorer.Forms
                         ok = true;
                     }
                     var width = panelMain.Width - 4;
-                    var height = panelMain.Height - 26;
+                    var height = panelMain.Height - (panelMain.HeaderHeight + 6);
                     control.Width = width < ControlMinWidth ? ControlMinWidth : width;
                     control.Height = height < ControlMinHeight ? ControlMinHeight : height;
                 }
@@ -5408,7 +5415,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 eventGridNamespaceControl = new HandleEventGridNamespaceControl(eventGridNamespace);
                 eventGridNamespaceControl.SuspendDrawing();
-                eventGridNamespaceControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                eventGridNamespaceControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(eventGridNamespaceControl);
                 SetControlSize(eventGridNamespaceControl);
             }
@@ -5442,7 +5449,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 queueControl = new HandleQueueControl(WriteToLog, serviceBusHelper, queue, path, duplicateQueue);
                 queueControl.SuspendDrawing();
-                queueControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                queueControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(queueControl);
                 SetControlSize(queueControl);
                 queueControl.OnCancel += MainForm_OnCancel;
@@ -5478,7 +5485,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 topicControl = new HandleTopicControl(WriteToLog, serviceBusHelper, topic, path);
                 topicControl.SuspendDrawing();
-                topicControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                topicControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(topicControl);
                 SetControlSize(topicControl);
                 topicControl.OnCancel += MainForm_OnCancel;
@@ -5513,7 +5520,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.Controls.Clear();
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 topicControl = new HandleEventGridTopicControl(topic, NamespaceHostname);
-                topicControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                topicControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(topicControl);
             }
             catch (Exception ex)
@@ -5547,7 +5554,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 subscriptionControl = new HandleSubscriptionControl(WriteToLog, serviceBusHelper, wrapper, duplicateCurrentSubscription);
                 subscriptionControl.SuspendDrawing();
-                subscriptionControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                subscriptionControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(subscriptionControl);
                 SetControlSize(subscriptionControl);
                 subscriptionControl.OnCancel += MainForm_OnCancel;
@@ -5583,7 +5590,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 subscriptionControl = new HandleEventGridSubscriptionControl(WriteToLog, subscription, eventGridLibrary);
                 subscriptionControl.SuspendDrawing();
-                subscriptionControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                subscriptionControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(subscriptionControl);
                 SetControlSize(subscriptionControl);
             }
@@ -5616,7 +5623,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 relayServiceControl = new HandleRelayControl(WriteToLog, serviceBusHelper, relayService, path);
                 relayServiceControl.SuspendDrawing();
-                relayServiceControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                relayServiceControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(relayServiceControl);
                 SetControlSize(relayServiceControl);
                 relayServiceControl.OnCancel += MainForm_OnCancel;
@@ -5651,7 +5658,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 ruleControl = new HandleRuleControl(WriteToLog, serviceBusHelper, wrapper, isFirstRule);
                 ruleControl.SuspendDrawing();
-                ruleControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                ruleControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(ruleControl);
                 SetControlSize(ruleControl);
                 ruleControl.OnCancel += MainForm_OnCancel;
@@ -5685,7 +5692,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 eventHubControl = new HandleEventHubControl(WriteToLog, serviceBusHelper, eventHub);
                 eventHubControl.SuspendDrawing();
-                eventHubControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                eventHubControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(eventHubControl);
                 SetControlSize(eventHubControl);
                 eventHubControl.OnCancel += MainForm_OnCancel;
@@ -5730,7 +5737,7 @@ namespace ServiceBusExplorer.Forms
                 }
                 partitionControl = new HandlePartitionControl(WriteToLog, serviceBusHelper, partition);
                 partitionControl.SuspendDrawing();
-                partitionControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                partitionControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(partitionControl);
                 partitionControl.OnRefresh += MainForm_OnRefresh;
                 SetControlSize(partitionControl);
@@ -5764,7 +5771,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 notificationHubControl = new HandleConsumerGroupControl(WriteToLog, serviceBusHelper, notificationHub, eventHubname);
                 notificationHubControl.SuspendDrawing();
-                notificationHubControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                notificationHubControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(notificationHubControl);
                 SetControlSize(notificationHubControl);
                 notificationHubControl.OnCancel += MainForm_OnCancel;
@@ -5799,7 +5806,7 @@ namespace ServiceBusExplorer.Forms
                 panelMain.BackColor = SystemColors.GradientInactiveCaption;
                 notificationHubControl = new HandleNotificationHubControl(WriteToLog, serviceBusHelper, notificationHub);
                 notificationHubControl.SuspendDrawing();
-                notificationHubControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                notificationHubControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                 panelMain.Controls.Add(notificationHubControl);
                 SetControlSize(notificationHubControl);
                 notificationHubControl.OnCancel += MainForm_OnCancel;
@@ -5841,7 +5848,7 @@ namespace ServiceBusExplorer.Forms
                                                         serviceBusHelper,
                                                         queueDescription);
                     queueControl.SuspendDrawing();
-                    queueControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                    queueControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                     panelMain.Controls.Add(queueControl);
                     SetControlSize(queueControl);
                     queueControl.OnCancel += MainForm_OnCancel;
@@ -5889,7 +5896,7 @@ namespace ServiceBusExplorer.Forms
                                                         topicDescription,
                                                         subscriptionList);
                     topicControl.SuspendDrawing();
-                    topicControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                    topicControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                     panelMain.Controls.Add(topicControl);
                     SetControlSize(topicControl);
                     topicControl.OnCancel += MainForm_OnCancel;
@@ -5936,7 +5943,7 @@ namespace ServiceBusExplorer.Forms
                                                                       serviceBusHelper,
                                                                       subscriptionWrapper);
                     subscriptionControl.SuspendDrawing();
-                    subscriptionControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                    subscriptionControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                     panelMain.Controls.Add(subscriptionControl);
                     SetControlSize(subscriptionControl);
                     subscriptionControl.OnCancel += MainForm_OnCancel;
@@ -5983,7 +5990,7 @@ namespace ServiceBusExplorer.Forms
                                                                relayDescription,
                                                                serviceBusHelper);
                     relayServiceControl.SuspendDrawing();
-                    relayServiceControl.Location = new Point(1, panelLog.HeaderHeight + 1);
+                    relayServiceControl.Location = new Point(1, panelMain.HeaderHeight + 1);
                     panelMain.Controls.Add(relayServiceControl);
                     SetControlSize(relayServiceControl);
                     relayServiceControl.OnCancel += MainForm_OnCancel;
@@ -6864,6 +6871,7 @@ namespace ServiceBusExplorer.Forms
             splitContainer.SplitterDistance = splitterContainerDistance;
             lstLog.Font = new Font(lstLog.Font.FontFamily, (float)logFontSize);
             serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)treeViewFontSize);
+            serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
         }
 
         private void receiveMessages_Click(object sender, EventArgs e)
