@@ -43,7 +43,7 @@ namespace ServiceBusExplorer.Forms
     using System.Configuration;
     using Utilities.Helpers;
 
-    public partial class OptionForm : Form
+    public partial class OptionForm : DpiAwareForm
     {
         #region Private Constants
         // Messages

@@ -54,7 +54,7 @@ using System.Windows.Forms;
 
 namespace ServiceBusExplorer.Forms
 {
-    public partial class MainForm : Form
+    public partial class MainForm : DpiAwareForm
     {
         #region Private Constants
         //***************************
@@ -489,11 +489,6 @@ namespace ServiceBusExplorer.Forms
         {
             argumentName = argument;
             argumentValue = value;
-        }
-        protected override void OnDpiChanged(DpiChangedEventArgs e)
-        {
-            base.OnDpiChanged(e);
-            Invalidate(true);
         }
         #endregion
 

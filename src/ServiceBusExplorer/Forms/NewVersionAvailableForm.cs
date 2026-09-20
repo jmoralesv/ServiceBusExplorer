@@ -31,7 +31,7 @@ using System.Windows.Forms;
 
 namespace ServiceBusExplorer.Forms
 {
-    public partial class NewVersionAvailableForm : Form
+    public partial class NewVersionAvailableForm : DpiAwareForm
     {
         #region Public Constructor
         public NewVersionAvailableForm()

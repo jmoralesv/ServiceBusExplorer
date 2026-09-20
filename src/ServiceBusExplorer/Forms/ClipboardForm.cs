@@ -29,7 +29,7 @@ using System.Windows.Forms;
 
 namespace ServiceBusExplorer.Forms
 {
-    public partial class ClipboardForm : Form
+    public partial class ClipboardForm : DpiAwareForm
     {
         private const int widthPadding = 88;
 

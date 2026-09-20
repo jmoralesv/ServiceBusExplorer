@@ -39,7 +39,7 @@ using Microsoft.ServiceBus.Messaging;
 
 namespace ServiceBusExplorer.Forms
 {
-    public partial class ConnectForm : Form
+    public partial class ConnectForm : DpiAwareForm
     {
         #region Private Constants
 
