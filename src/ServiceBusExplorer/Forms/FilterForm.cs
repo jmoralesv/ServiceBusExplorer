@@ -35,7 +35,7 @@ using ServiceBusExplorer.Utilities.Helpers;
 
 namespace ServiceBusExplorer.Forms
 {
-    public partial class FilterForm : Form
+    public partial class FilterForm : DpiAwareForm
     {
         #region Private Constants
         //***************************

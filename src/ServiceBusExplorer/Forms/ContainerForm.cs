@@ -46,7 +46,7 @@ namespace ServiceBusExplorer.Forms
     using ServiceBusExplorer.UIHelpers;
     using ServiceBusExplorer.Utilities.Helpers;
 
-    public sealed partial class ContainerForm : Form
+    public sealed partial class ContainerForm : DpiAwareForm
     {
         #region Private Constants
         //***************************
@@ -526,14 +526,6 @@ namespace ServiceBusExplorer.Forms
         public void Clear()
         {
             lstLog.Items.Clear();
-        }
-
-        // Custom-painted controls (HeaderPanel, Grouper) compute sizes from the current
-        // DPI at paint time, so a full repaint is enough to re-render after a DPI change.
-        protected override void OnDpiChanged(DpiChangedEventArgs e)
-        {
-            base.OnDpiChanged(e);
-            Invalidate(true);
         }
         #endregion
 

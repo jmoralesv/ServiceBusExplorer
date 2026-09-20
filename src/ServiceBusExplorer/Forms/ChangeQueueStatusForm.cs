@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace ServiceBusExplorer.Forms
 {
-    public partial class ChangeQueueStatusForm : Form
+    public partial class ChangeQueueStatusForm : DpiAwareForm
     {
         public EntityStatus EntityStatus { get; private set; }
 

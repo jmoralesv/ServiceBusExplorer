@@ -40,7 +40,7 @@ namespace ServiceBusExplorer.Forms
 {
     using Abstractions;
 
-    public partial class EventDataForm : Form
+    public partial class EventDataForm : DpiAwareForm
     {
         #region Private Constants
         //***************************
