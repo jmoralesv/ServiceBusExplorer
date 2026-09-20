@@ -153,8 +153,8 @@ namespace ServiceBusExplorer.Controls
             // 
             // TimeSpanControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.lblMilliseconds);
             this.Controls.Add(this.txtMilliseconds);
             this.Controls.Add(this.lblSeconds);
