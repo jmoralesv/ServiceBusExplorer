@@ -265,7 +265,7 @@ namespace ServiceBusExplorer.Controls
 			if(GroupTitle==string.Empty){return;}
 			//------------------------------------------
 
-			//Set Graphics smoothing mode to Anit-Alias-- 
+			//Set Graphics smoothing mode to Anti-Alias-- 
 			g.SmoothingMode = SmoothingMode.AntiAlias;
 			//-------------------------------------------
 
@@ -278,7 +278,7 @@ namespace ServiceBusExplorer.Controls
 			var ArcX1 = 20;
 			var ArcX2 = (StringSize2.Width+34) - (ArcWidth + 1);
 			var ArcY1 = 0;
-			var ArcY2 = 24 - (ArcHeight + 1);
+			var ArcY2 = LogicalToDeviceUnits(24 - (ArcHeight + 1));
 			var path = new GraphicsPath();
 			Brush BorderBrush = new SolidBrush(this.BorderColor);
 			var BorderPen = new Pen(BorderBrush, this.BorderThickness);
@@ -340,7 +340,7 @@ namespace ServiceBusExplorer.Controls
 			}
 			//-----------------------------------
 
-			//Paint Borded-----------------------
+			//Paint Border-----------------------
 			g.DrawPath(BorderPen, path);
 			//-----------------------------------
 
@@ -374,7 +374,7 @@ namespace ServiceBusExplorer.Controls
 		/// <param name="g">The paint event graphics object.</param>
 		private void PaintBack(Graphics g)
 		{
-			//Set Graphics smoothing mode to Anit-Alias-- 
+			//Set Graphics smoothing mode to Anti-Alias-- 
 			g.SmoothingMode = SmoothingMode.AntiAlias;
 			//-------------------------------------------
 
@@ -436,7 +436,7 @@ namespace ServiceBusExplorer.Controls
 			}
 			//-----------------------------------
 
-			//Paint Borded-----------------------
+			//Paint Border-----------------------
 			g.DrawPath(BorderPen, path);
 			//-----------------------------------
 
