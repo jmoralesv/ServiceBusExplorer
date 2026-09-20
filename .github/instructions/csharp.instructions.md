@@ -7,7 +7,7 @@ applyTo: '**/*.cs'
 
 ## C# Version and Features
 - **Language version**: C# 8 (`LangVersion=8`)
-- **Target frameworks**: .NET Framework 4.7.2 (`net472`) for the app and some libraries; .NET Standard 2.0 (`netstandard2.0`) for the rest
+- **Target frameworks**: .NET Framework 4.8 (`net48`) for the app and tests; .NET Framework 4.7.2 (`net472`) for shared libraries; .NET Standard 2.0 (`netstandard2.0`) for the rest
 - Use modern features up to C# 8 where appropriate (e.g., `using` declarations, switch expressions, pattern matching, nullable reference type syntax)
 - **Do not** use features newer than C# 8 (no C# 9+ records, no file-scoped namespaces, no primary constructors, no collection expressions) — the compiler is pinned to C# 8
 
@@ -53,10 +53,10 @@ applyTo: '**/*.cs'
 
 ## WinForms and High DPI (Core Concern of This Fork)
 
-- **DPI awareness mode: PerMonitorV2** (decided 2026-09-20 after 5 test rounds). `system` awareness was rejected: it renders at the system DPI (primary monitor's scale at logon) and Windows bitmap-scales the window on other monitors — that is the blur that caused revert #807 (reproduced: `DeviceDpi=144` logged on a 96-DPI monitor). PerMonitorV2 renders natively per monitor and is migration-forward (.NET 6+ invests in PMv2; modern .NET still defaults to `SystemAware`, semantically equal to net472 `system`). Declared in `app.manifest` + `App.config` (`DpiAwareness=PerMonitorV2`).
-- **Always pair PMv2 with `AutoScaleMode.Dpi`** (`AutoScaleDimensions = 96F, 96F`) + `EnableWindowsFormsHighDpiAutoResizing=true` inside `System.Windows.Forms.ApplicationConfigurationSection` — never in `appSettings`, where WinForms silently ignores it. `AutoScaleMode.Font` is non-linear across DPI changes; do not use it.
+- **DPI awareness mode: PerMonitorV2**. Configure it in the executable's `App.config`; the manifest declares supported operating systems only. The .NET Framework 4.8 WinForms implementation provides native per-monitor DPI handling for ToolStrip items.
+- **Autoscaling**: This branch uses `AutoScaleMode.Dpi` (`AutoScaleDimensions = 96F, 96F`) and `EnableWindowsFormsHighDpiAutoResizing=true` in `System.Windows.Forms.ApplicationConfigurationSection`, never in `appSettings`.
 - Custom-painted controls with hardcoded logical sizes must recompute on `DpiChanged` using the new `DeviceDpi` / `LogicalToDeviceUnits`, then re-layout and repaint.
-- Use .NET Framework 4.7.2 high-DPI APIs: `LogicalToDeviceUnits`, `ScaleBitmapLogicalToDevice`, `DeviceDpi`
+- Use .NET Framework high-DPI APIs: `LogicalToDeviceUnits`, `ScaleBitmapLogicalToDevice`, `DeviceDpi`
 - **Prefer `TableLayoutPanel`** for scaling/resizing child controls over custom paint/resize logic
 - When fixing layout in a control, also update its `.Designer.cs` consistently
 - Custom `CustomPaint` handlers must account for the current DPI
