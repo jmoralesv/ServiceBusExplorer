@@ -6870,12 +6870,17 @@ namespace ServiceBusExplorer.Forms
         protected override void OnDpiScaleChanged()
         {
             UpdateTreeViewItemHeight();
+            // mainMenuStrip and statusStrip are constructed without the components
+            // container, so they are not reachable through components.Components.
+            var menuImageSize = DpiAwareForm.ScaleToCurrentDpi(this, 20);
+            mainMenuStrip.ImageScalingSize = new Size(menuImageSize, menuImageSize);
+            var statusImageSize = DpiAwareForm.ScaleToCurrentDpi(this, 24);
+            statusStrip.ImageScalingSize = new Size(statusImageSize, statusImageSize);
             foreach (var component in components.Components)
             {
                 if (component is ToolStrip toolStrip)
                 {
-                    var logical = ReferenceEquals(toolStrip, statusStrip) ? 24 : 20;
-                    var size = DpiAwareForm.ScaleToCurrentDpi(this, logical);
+                    var size = DpiAwareForm.ScaleToCurrentDpi(this, 20);
                     toolStrip.ImageScalingSize = new Size(size, size);
                 }
             }
