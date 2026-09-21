@@ -58,6 +58,27 @@ namespace ServiceBusExplorer.Controls
             writeToLog = log;
         }
 
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            UpdateDpiMetrics();
+        }
+
+        public void UpdateDpiMetrics()
+        {
+            if (dataGridView == null)
+            {
+                return;
+            }
+            var height = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 23);
+            if (dataGridView.ColumnHeadersHeight != height)
+            {
+                dataGridView.ColumnHeadersHeight = height;
+            }
+            // TEMP diagnostics for the current test round (drop before upstream PR)
+            writeToLog?.Invoke($"DashboardControl: dpi={ServiceBusExplorer.Forms.DpiAwareForm.GetCurrentDpi(this)}, ColumnHeadersHeight={dataGridView.ColumnHeadersHeight}, headerFont={headerFont.SizeInPoints:0.##}pt");
+        }
+
         private void InitializeControls()
         {
             SuspendLayout();

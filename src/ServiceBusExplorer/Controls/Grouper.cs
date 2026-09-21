@@ -278,7 +278,7 @@ namespace ServiceBusExplorer.Controls
 			var ArcX1 = 20;
 			var ArcX2 = (StringSize2.Width+34) - (ArcWidth + 1);
 			var ArcY1 = 0;
-			var ArcY2 = LogicalToDeviceUnits(24 - (ArcHeight + 1));
+			var ArcY2 = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 24 - (ArcHeight + 1));
 			var path = new GraphicsPath();
 			Brush BorderBrush = new SolidBrush(this.BorderColor);
 			var BorderPen = new Pen(BorderBrush, this.BorderThickness);

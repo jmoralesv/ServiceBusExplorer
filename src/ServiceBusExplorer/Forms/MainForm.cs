@@ -670,7 +670,7 @@ namespace ServiceBusExplorer.Forms
                 lstLog.Font = new Font(lstLog.Font.FontFamily, (float)optionForm.MainSettings.LogFontSize);
                 serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily,
                     (float)optionForm.MainSettings.TreeViewFontSize);
-                serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
+                UpdateTreeViewItemHeight();
                 RetryHelper.RetryCount = optionForm.MainSettings.RetryCount;
                 RetryHelper.RetryTimeout = optionForm.MainSettings.RetryTimeout;
                 ReceiveTimeout = optionForm.MainSettings.ReceiveTimeout;
@@ -4191,7 +4191,7 @@ namespace ServiceBusExplorer.Forms
             {
                 treeViewFontSize = tempTreeViewFontSize;
                 serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)treeViewFontSize);
-                serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
+                UpdateTreeViewItemHeight();
             }
 
             RetryHelper.RetryCount = readSettings.RetryCount;
@@ -6860,13 +6860,37 @@ namespace ServiceBusExplorer.Forms
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(url.Split('/').Aggregate((left, right) => left + '_' + right));
         }
 
+        private void UpdateTreeViewItemHeight()
+        {
+            // Font.Height uses the DPI captured when the Font was created (the system DPI at
+            // startup on net472); GetHeight(dpi) is exact for the monitor the window is on.
+            serviceBusTreeView.ItemHeight = (int)Math.Ceiling(serviceBusTreeView.Font.GetHeight(DpiAwareForm.GetCurrentDpi(this)));
+        }
+
+        protected override void OnDpiScaleChanged()
+        {
+            UpdateTreeViewItemHeight();
+            foreach (var component in components.Components)
+            {
+                if (component is ToolStrip toolStrip)
+                {
+                    var logical = ReferenceEquals(toolStrip, statusStrip) ? 24 : 20;
+                    var size = DpiAwareForm.ScaleToCurrentDpi(this, logical);
+                    toolStrip.ImageScalingSize = new Size(size, size);
+                }
+            }
+            dashboardControl.UpdateDpiMetrics();
+            // TEMP diagnostics for the current test round (drop before upstream PR)
+            WriteToLog($"DpiScaleChanged: dpi={DpiAwareForm.GetCurrentDpi(this)}, menuStrip.Height={mainMenuStrip.Height}, menuStrip.Font={mainMenuStrip.Font.SizeInPoints:0.##}pt, lstLog.Font={lstLog.Font.SizeInPoints:0.##}pt, treeView.ItemHeight={serviceBusTreeView.ItemHeight}");
+        }
+
         private void setDefaultLayouToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mainSplitContainer.SplitterDistance = mainSplitterDistance;
             splitContainer.SplitterDistance = splitterContainerDistance;
             lstLog.Font = new Font(lstLog.Font.FontFamily, (float)logFontSize);
             serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)treeViewFontSize);
-            serviceBusTreeView.ItemHeight = serviceBusTreeView.Font.Height;
+            UpdateTreeViewItemHeight();
         }
 
         private void receiveMessages_Click(object sender, EventArgs e)

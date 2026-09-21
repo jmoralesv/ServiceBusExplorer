@@ -323,7 +323,7 @@ namespace ServiceBusExplorer.Forms
             txtUri.Multiline = usesRawConnectionStringEditor;
             txtUri.Size = usesRawConnectionStringEditor
                 ? new Size(txtUri.Size.Width, txtIssuerSecret.Location.Y + txtIssuerSecret.Size.Height - txtUri.Location.Y)
-                : new Size(txtUri.Size.Width, LogicalToDeviceUnits(20));
+                : new Size(txtUri.Size.Width, DpiAwareForm.ScaleToCurrentDpi(this, 20));
             toolTip.SetToolTip(txtUri, usesRawConnectionStringEditor ? ConnectionStringTooltip : UriTooltip);
 
             lblEntityPath.Visible = !usesRawConnectionStringEditor;

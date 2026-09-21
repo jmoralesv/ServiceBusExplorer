@@ -53,15 +53,15 @@ namespace ServiceBusExplorer.Forms
             this.canBeNullList = canBeNullList;
 
             var positionX = 16;
-            var labelY = LogicalToDeviceUnits(16);
+            var labelY = DpiAwareForm.ScaleToCurrentDpi(this, 16);
             var labelWidth = 400;
-            var labelHeight = LogicalToDeviceUnits(20);
-            var labelYStep = LogicalToDeviceUnits(48);
+            var labelHeight = DpiAwareForm.ScaleToCurrentDpi(this, 20);
+            var labelYStep = DpiAwareForm.ScaleToCurrentDpi(this, 48);
 
-            var textBoxY = LogicalToDeviceUnits(32);
-            var textBoxWidth = mainPanel.Size.Width - LogicalToDeviceUnits(32);
-            var textBoxHeight = LogicalToDeviceUnits(24);
-            var textBoxYStep = LogicalToDeviceUnits(48);
+            var textBoxY = DpiAwareForm.ScaleToCurrentDpi(this, 32);
+            var textBoxWidth = mainPanel.Size.Width - DpiAwareForm.ScaleToCurrentDpi(this, 32);
+            var textBoxHeight = DpiAwareForm.ScaleToCurrentDpi(this, 24);
+            var textBoxYStep = DpiAwareForm.ScaleToCurrentDpi(this, 48);
 
             for (var i = 0; i < parameterNameList.Count; i++)
             {
