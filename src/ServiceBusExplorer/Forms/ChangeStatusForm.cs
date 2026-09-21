@@ -61,7 +61,7 @@ namespace ServiceBusExplorer.Forms
                 lblMessage.Text = string.Format(SetStatusFormat, entityType ?? Unknown, entityName ?? Unknown, desiredStatus.ToString());
             }
             
-            Width = lblMessage.Width + LogicalToDeviceUnits(widthPadding);
+            Width = lblMessage.Width + DpiAwareForm.ScaleToCurrentDpi(this, widthPadding);
         }
         #endregion
 

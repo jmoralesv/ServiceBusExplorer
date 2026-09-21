@@ -58,7 +58,7 @@ namespace ServiceBusExplorer.Controls
         [Browsable(true), Category("Custom")]
         public int HeaderHeight
         {
-            get { return LogicalToDeviceUnits(headerHeight); }
+            get { return ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, headerHeight); }
             set
             {
                 headerHeight = value;
@@ -135,6 +135,22 @@ namespace ServiceBusExplorer.Controls
         }
         #endregion
 
+        #region Protected Methods
+        protected override void OnLayout(LayoutEventArgs levent)
+        {
+            var padding = new Padding(
+                ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 5),
+                ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, headerHeight + 4),
+                ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 5),
+                ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 4));
+            if (Padding != padding)
+            {
+                Padding = padding;
+            }
+            base.OnLayout(levent);
+        }
+        #endregion
+
         #region Private Methods
         private void OutlookPanelEx_Paint(object sender, PaintEventArgs e)
         {
@@ -190,7 +206,7 @@ namespace ServiceBusExplorer.Controls
             {
                 var bitmap = new Bitmap(icon);
                 bitmap.MakeTransparent(iconTransparentColor);
-                ScaleBitmapLogicalToDevice(ref bitmap);
+                ServiceBusExplorer.Forms.DpiAwareForm.ScaleBitmapToCurrentDpi(this, ref bitmap);
                 iconBitmap?.Dispose();
                 iconBitmap = bitmap;
                 var point = new Point(4, (HeaderHeight - bitmap.Height) / 2);

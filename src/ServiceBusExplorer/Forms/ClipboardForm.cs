@@ -38,7 +38,7 @@ namespace ServiceBusExplorer.Forms
         {
             InitializeComponent();
             lblUrl.Text = string.Format(url);
-            Width = lblUrl.Width + LogicalToDeviceUnits(widthPadding);
+            Width = lblUrl.Width + DpiAwareForm.ScaleToCurrentDpi(this, widthPadding);
         }
         #endregion
 
