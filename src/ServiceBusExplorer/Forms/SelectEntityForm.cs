@@ -117,6 +117,7 @@ namespace ServiceBusExplorer.Forms
             Text = dialogTitle;
             grouperTreeView.GroupTitle = groupTitle;
             lblTargetQueueTopic.Text = labelText;
+            ApplyTreeViewFontSize();
         }
 
         public SelectEntityForm(string dialogTitle,
@@ -155,6 +156,19 @@ namespace ServiceBusExplorer.Forms
             this.topicDescriptionSource = topicDescriptionSource;
         }
         #endregion
+
+        protected override void OnDpiScaleChanged()
+        {
+            ScaleTreeViewItemHeight(serviceBusTreeView);
+        }
+
+        private void ApplyTreeViewFontSize()
+        {
+            var configuration = TwoFilesConfiguration.Create(TwoFilesConfiguration.GetCurrentConfigFileUse());
+            var fontSize = configuration.GetDecimalValue(ConfigurationParameters.TreeViewFontSize,
+                (decimal)serviceBusTreeView.Font.SizeInPoints);
+            serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)fontSize);
+        }
 
         #region Event Handlers
         private void SelectEntityForm_Load(object sender, EventArgs e)
