@@ -6862,9 +6862,7 @@ namespace ServiceBusExplorer.Forms
 
         private void UpdateTreeViewItemHeight()
         {
-            // Font.Height uses the DPI captured when the Font was created (the system DPI at
-            // startup on net472); GetHeight(dpi) is exact for the monitor the window is on.
-            serviceBusTreeView.ItemHeight = (int)Math.Ceiling(serviceBusTreeView.Font.GetHeight(DpiAwareForm.GetCurrentDpi(this)));
+            ScaleTreeViewItemHeight(serviceBusTreeView);
         }
 
         protected override void OnDpiScaleChanged()
@@ -6886,7 +6884,8 @@ namespace ServiceBusExplorer.Forms
             }
             dashboardControl.UpdateDpiMetrics();
             // TEMP diagnostics for the current test round (drop before upstream PR)
-            WriteToLog($"DpiScaleChanged: dpi={DpiAwareForm.GetCurrentDpi(this)}, menuStrip.Height={mainMenuStrip.Height}, menuStrip.Font={mainMenuStrip.Font.SizeInPoints:0.##}pt, lstLog.Font={lstLog.Font.SizeInPoints:0.##}pt, treeView.ItemHeight={serviceBusTreeView.ItemHeight}");
+            // Height is read before the layout pass that applies the new ImageScalingSize, so it can lag one change
+            WriteToLog($"DpiScaleChanged: dpi={DpiAwareForm.GetCurrentDpi(this)}, menuStrip.Height={mainMenuStrip.Height}, menuStrip.ImageScalingSize={mainMenuStrip.ImageScalingSize.Width}, menuStrip.Font={mainMenuStrip.Font.SizeInPoints:0.##}pt, lstLog.Font={lstLog.Font.SizeInPoints:0.##}pt, treeView.ItemHeight={serviceBusTreeView.ItemHeight}");
         }
 
         private void setDefaultLayouToolStripMenuItem_Click(object sender, EventArgs e)

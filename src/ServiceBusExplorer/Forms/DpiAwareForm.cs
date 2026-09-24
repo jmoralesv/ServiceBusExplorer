@@ -15,6 +15,7 @@ namespace ServiceBusExplorer.Forms
     /// </summary>
     public class DpiAwareForm : Form
     {
+        private const int TreeViewLogicalItemHeight = 20;
         private static readonly int systemDpi = GetSystemDpi();
         private bool startupDpiCorrected;
 
@@ -84,6 +85,16 @@ namespace ServiceBusExplorer.Forms
                 (int)Math.Round(bitmap.Height * factor));
             bitmap.Dispose();
             bitmap = scaled;
+        }
+
+        // Rows must fit the 16px node icons too: the designer ItemHeight (20 logical px) is the
+        // floor and the font line height may raise it. Font.GetHeight(dpi) is exact for the
+        // monitor the window is on; Font.Height uses the DPI captured when the Font was created.
+        protected void ScaleTreeViewItemHeight(TreeView treeView)
+        {
+            var dpi = GetCurrentDpi(this);
+            treeView.ItemHeight = Math.Max((int)Math.Ceiling(treeView.Font.GetHeight(dpi)),
+                ScaleToCurrentDpi(this, TreeViewLogicalItemHeight));
         }
 
         private static int GetSystemDpi()
