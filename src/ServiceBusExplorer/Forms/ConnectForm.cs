@@ -100,6 +100,9 @@ namespace ServiceBusExplorer.Forms
 
         private readonly ServiceBusHelper serviceBusHelper;
         private readonly ConfigFileUse configFileUse;
+        private readonly Dictionary<Control, Rectangle> logicalControlBounds = new Dictionary<Control, Rectangle>();
+        private readonly Dictionary<Control, Font> logicalControlFonts = new Dictionary<Control, Font>();
+        private Size logicalClientSize;
         private bool ignoreSelectedIndexChange;
         private bool ignoreAuthModeChange;
 
@@ -117,6 +120,11 @@ namespace ServiceBusExplorer.Forms
         public ConnectForm(ServiceBusHelper serviceBusHelper, ConfigFileUse configFileUse)
         {
             InitializeComponent();
+            var layoutDpi = DpiAwareForm.GetCurrentDpi(this);
+            logicalClientSize = ScaleLogicalSize(ClientSize, layoutDpi, 96);
+            CaptureLogicalLayout(this, layoutDpi);
+            logicalControlBounds[txtUri] = new Rectangle(16, 48, 336, 20);
+            logicalControlBounds[cboServiceBusNamespace] = new Rectangle(16, 32, 336, 21);
 
             this.configFileUse = configFileUse;
             SetConfigFileUseLabelText(lblConfigFileUse);
@@ -320,10 +328,7 @@ namespace ServiceBusExplorer.Forms
             cboAuthMode.Enabled = connectionStringType != ServiceBusNamespaceType.OnPremises && !containsStsEndpoint;
 
             lblUri.Text = usesRawConnectionStringEditor ? ConnectionStringLabel : UriLabel;
-            txtUri.Multiline = usesRawConnectionStringEditor;
-            txtUri.Size = usesRawConnectionStringEditor
-                ? new Size(txtUri.Size.Width, txtIssuerSecret.Location.Y + txtIssuerSecret.Size.Height - txtUri.Location.Y)
-                : new Size(txtUri.Size.Width, DpiAwareForm.ScaleToCurrentDpi(this, 20));
+            UpdateUriEditorLayout(usesRawConnectionStringEditor);
             toolTip.SetToolTip(txtUri, usesRawConnectionStringEditor ? ConnectionStringTooltip : UriTooltip);
 
             lblEntityPath.Visible = !usesRawConnectionStringEditor;
@@ -356,6 +361,109 @@ namespace ServiceBusExplorer.Forms
                 lblIssuerName.Text = SharedAccessKeyNameLabel;
                 lblIssuerSecret.Text = SharedAccessKeyLabel;
                 toolTip.SetToolTip(txtIssuerName, "Gets or sets the shared secret issuer name.");
+            }
+        }
+
+        protected override void OnDpiScaleChanged()
+        {
+            RestoreLogicalLayout(DpiAwareForm.GetCurrentDpi(this));
+            GetSelectionState(out var connectionStringType, out var containsStsEndpoint, out _);
+            UpdateUriEditorLayout(UsesRawConnectionStringEditor(connectionStringType, containsStsEndpoint));
+        }
+
+        protected override string GetDpiDiagnosticDetails()
+        {
+            return $"uriBounds={txtUri.Bounds}, uriFont={txtUri.Font.SizeInPoints:0.##}pt, uriMultiline={txtUri.Multiline}, namespaceComboBounds={cboServiceBusNamespace.Bounds}, authComboBounds={cboAuthMode.Bounds}";
+        }
+
+        private void CaptureLogicalLayout(Control parent, int layoutDpi)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                var bounds = child.Bounds;
+                logicalControlBounds[child] = new Rectangle(
+                    DpiAwareForm.ScaleBetweenDpi(bounds.X, layoutDpi, 96),
+                    DpiAwareForm.ScaleBetweenDpi(bounds.Y, layoutDpi, 96),
+                    DpiAwareForm.ScaleBetweenDpi(bounds.Width, layoutDpi, 96),
+                    DpiAwareForm.ScaleBetweenDpi(bounds.Height, layoutDpi, 96));
+                logicalControlFonts[child] = child.Font;
+                CaptureLogicalLayout(child, layoutDpi);
+            }
+        }
+
+        private void RestoreLogicalLayout(int dpi)
+        {
+            SuspendLayoutTree(this);
+            try
+            {
+                ClientSize = ScaleLogicalSize(logicalClientSize, 96, dpi);
+                RestoreLogicalControlBounds(this, dpi);
+            }
+            finally
+            {
+                ResumeLayoutTree(this);
+            }
+
+            PerformLayout();
+        }
+
+        private void RestoreLogicalControlBounds(Control parent, int dpi)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                if (logicalControlBounds.TryGetValue(child, out var bounds))
+                {
+                    child.Bounds = new Rectangle(
+                        DpiAwareForm.ScaleBetweenDpi(bounds.X, 96, dpi),
+                        DpiAwareForm.ScaleBetweenDpi(bounds.Y, 96, dpi),
+                        DpiAwareForm.ScaleBetweenDpi(bounds.Width, 96, dpi),
+                        DpiAwareForm.ScaleBetweenDpi(bounds.Height, 96, dpi));
+                }
+
+                if (logicalControlFonts.TryGetValue(child, out var font))
+                {
+                    child.Font = font;
+                }
+
+                RestoreLogicalControlBounds(child, dpi);
+            }
+        }
+
+        private static Size ScaleLogicalSize(Size logicalSize, int sourceDpi, int targetDpi)
+        {
+            return new Size(
+                DpiAwareForm.ScaleBetweenDpi(logicalSize.Width, sourceDpi, targetDpi),
+                DpiAwareForm.ScaleBetweenDpi(logicalSize.Height, sourceDpi, targetDpi));
+        }
+
+        private static void SuspendLayoutTree(Control control)
+        {
+            control.SuspendLayout();
+            foreach (Control child in control.Controls)
+            {
+                SuspendLayoutTree(child);
+            }
+        }
+
+        private static void ResumeLayoutTree(Control control)
+        {
+            foreach (Control child in control.Controls)
+            {
+                ResumeLayoutTree(child);
+            }
+
+            control.ResumeLayout(false);
+        }
+
+        private void UpdateUriEditorLayout(bool usesRawConnectionStringEditor)
+        {
+            txtUri.Multiline = usesRawConnectionStringEditor;
+            var height = usesRawConnectionStringEditor
+                ? txtIssuerSecret.Bottom - txtUri.Top
+                : DpiAwareForm.ScaleToCurrentDpi(this, 20);
+            if (txtUri.Height != height)
+            {
+                txtUri.Height = height;
             }
         }
 
