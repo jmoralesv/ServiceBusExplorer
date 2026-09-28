@@ -10,12 +10,18 @@ namespace ServiceBusExplorer.Controls
 {
     public partial class DashboardControl : UserControl
     {
+        private const int LogicalToolbarHeight = 36;
+        private const int LogicalWarningPanelHeight = 24;
+        private const int LogicalHintHeight = 20;
+        private const int LogicalGridColumnHeaderHeight = 23;
+        private const int LogicalGridRowHeight = 20;
+
         private DataGridView dataGridView;
         private Button refreshButton;
         private CheckBox autoRefreshCheckBox;
         private ComboBox intervalComboBox;
         private Label statusLabel;
-        private Panel toolbarPanel;
+        private TableLayoutPanel toolbarPanel;
         private Timer autoRefreshTimer;
         private ContextMenuStrip contextMenu;
         private Label hintLabel;
@@ -38,6 +44,7 @@ namespace ServiceBusExplorer.Controls
         private Font headerFont;
         private Font cellFont;
         private Font totalFont;
+        private Font toolbarFont;
         private Font hintFont;
         private Font warningFont;
 
@@ -70,50 +77,119 @@ namespace ServiceBusExplorer.Controls
             {
                 return;
             }
-            var height = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 23);
-            if (dataGridView.ColumnHeadersHeight != height)
+
+            toolbarPanel.Height = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, LogicalToolbarHeight);
+            warningPanel.Height = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, LogicalWarningPanelHeight);
+            hintLabel.Height = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, LogicalHintHeight);
+
+            toolbarPanel.Font = toolbarFont;
+            refreshButton.Font = toolbarFont;
+            autoRefreshCheckBox.Font = toolbarFont;
+            intervalComboBox.Font = toolbarFont;
+            syncWithTreeViewCheckBox.Font = toolbarFont;
+            statusLabel.Font = toolbarFont;
+            refreshButton.Size = new Size(
+                ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 75),
+                ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 24));
+            intervalComboBox.Width = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 90);
+            intervalComboBox.Height = Math.Max(
+                ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 24),
+                intervalComboBox.PreferredHeight);
+
+            dataGridView.ColumnHeadersDefaultCellStyle.Font = headerFont;
+            dataGridView.DefaultCellStyle.Font = cellFont;
+            dataGridView.Columns["Total"].DefaultCellStyle.Font = totalFont;
+            hintLabel.Font = hintFont;
+            if (warningPanel.Controls.Count > 0)
             {
-                dataGridView.ColumnHeadersHeight = height;
+                warningPanel.Controls[0].Font = warningFont;
             }
-            // TEMP diagnostics for the current test round (drop before upstream PR)
-            writeToLog?.Invoke($"DashboardControl: dpi={ServiceBusExplorer.Forms.DpiAwareForm.GetCurrentDpi(this)}, ColumnHeadersHeight={dataGridView.ColumnHeadersHeight}, headerFont={headerFont.SizeInPoints:0.##}pt");
+
+            var headerHeight = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, LogicalGridColumnHeaderHeight);
+            if (dataGridView.ColumnHeadersHeight != headerHeight)
+            {
+                dataGridView.ColumnHeadersHeight = headerHeight;
+            }
+
+            var rowHeight = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, LogicalGridRowHeight);
+            dataGridView.RowTemplate.Height = rowHeight;
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                if (!row.IsNewRow && row.Height != rowHeight)
+                {
+                    row.Height = rowHeight;
+                }
+            }
+
+            toolbarPanel.PerformLayout();
+            ServiceBusExplorer.Forms.MainForm.WriteDpiDiagnostic(
+                $"Dashboard metrics updated {GetDpiDiagnosticDetails()}");
+        }
+
+        internal string GetDpiDiagnosticDetails()
+        {
+            var firstRowHeight = dataGridView.Rows.Count > 0 ? dataGridView.Rows[0].Height : 0;
+            return $"bounds={Bounds}, toolbar={toolbarPanel.Bounds}, refresh={refreshButton.Bounds}, interval={intervalComboBox.Bounds}, sync={syncWithTreeViewCheckBox.Bounds}, status={statusLabel.Bounds}, grid={dataGridView.Bounds}, headerHeight={dataGridView.ColumnHeadersHeight}, rowTemplateHeight={dataGridView.RowTemplate.Height}, firstRowHeight={firstRowHeight}, headerFont={headerFont.SizeInPoints:0.##}pt, cellFont={cellFont.SizeInPoints:0.##}pt";
         }
 
         private void InitializeControls()
         {
             SuspendLayout();
 
+            // Fonts (disposed in Dispose)
+            headerFont = new Font("Segoe UI", 8.25F, FontStyle.Bold);
+            cellFont = new Font("Segoe UI", 8.25F);
+            totalFont = new Font("Segoe UI", 8.25F, FontStyle.Bold);
+            toolbarFont = new Font("Microsoft Sans Serif", 8.25F);
+            hintFont = new Font("Segoe UI", 8F);
+            warningFont = new Font("Segoe UI", 8.5F);
+
             // Toolbar panel
-            toolbarPanel = new Panel
+            toolbarPanel = new TableLayoutPanel
             {
                 Dock = DockStyle.Top,
-                Height = 36,
-                Padding = new Padding(4)
+                Height = LogicalToolbarHeight,
+                Padding = new Padding(4),
+                ColumnCount = 5,
+                RowCount = 1,
+                GrowStyle = TableLayoutPanelGrowStyle.FixedSize
             };
+            toolbarPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            toolbarPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            toolbarPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            toolbarPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            toolbarPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            toolbarPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
             refreshButton = new Button
             {
                 Text = "Refresh",
-                Location = new Point(4, 6),
                 Size = new Size(75, 24),
-                FlatStyle = FlatStyle.System
+                Font = toolbarFont,
+                FlatStyle = FlatStyle.System,
+                Margin = new Padding(0, 0, 6, 0),
+                Anchor = AnchorStyles.Left
             };
             refreshButton.Click += async (s, e) => await RequestRefreshAsync();
 
             autoRefreshCheckBox = new CheckBox
             {
                 Text = "Auto-refresh",
-                Location = new Point(88, 8),
-                AutoSize = true
+                Font = toolbarFont,
+                AutoSize = true,
+                Margin = new Padding(0, 0, 6, 0),
+                Anchor = AnchorStyles.Left
             };
             autoRefreshCheckBox.CheckedChanged += AutoRefreshCheckBox_CheckedChanged;
 
             intervalComboBox = new ComboBox
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                Location = new Point(190, 6),
                 Size = new Size(90, 24),
-                Enabled = false
+                Font = toolbarFont,
+                Enabled = false,
+                Margin = new Padding(0, 0, 6, 0),
+                Anchor = AnchorStyles.Left
             };
             intervalComboBox.Items.AddRange(new object[] { "1min", "5min", "15min", "30min", "60min" });
             intervalComboBox.SelectedIndex = 0;
@@ -122,26 +198,36 @@ namespace ServiceBusExplorer.Controls
             syncWithTreeViewCheckBox = new CheckBox
             {
                 Text = "Sync with treeview",
-                Location = new Point(290, 8),
+                Font = toolbarFont,
                 AutoSize = true,
-                Checked = true
+                Checked = true,
+                Margin = new Padding(0, 0, 6, 0),
+                Anchor = AnchorStyles.Left
             };
             syncWithTreeViewCheckBox.CheckedChanged += (s, e) => OnSyncWithTreeViewChanged?.Invoke();
 
             statusLabel = new Label
             {
-                Location = new Point(430, 10),
-                AutoSize = true,
-                ForeColor = SystemColors.GrayText
+                AutoSize = false,
+                Dock = DockStyle.Fill,
+                Font = toolbarFont,
+                ForeColor = SystemColors.GrayText,
+                AutoEllipsis = true,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Margin = new Padding(4, 0, 0, 0)
             };
 
-            toolbarPanel.Controls.AddRange(new Control[] { refreshButton, autoRefreshCheckBox, intervalComboBox, syncWithTreeViewCheckBox, statusLabel });
+            toolbarPanel.Controls.Add(refreshButton, 0, 0);
+            toolbarPanel.Controls.Add(autoRefreshCheckBox, 1, 0);
+            toolbarPanel.Controls.Add(intervalComboBox, 2, 0);
+            toolbarPanel.Controls.Add(syncWithTreeViewCheckBox, 3, 0);
+            toolbarPanel.Controls.Add(statusLabel, 4, 0);
 
             // Warning panel (shown when auto-refresh is enabled)
             warningPanel = new Panel
             {
                 Dock = DockStyle.Top,
-                Height = 24,
+                Height = LogicalWarningPanelHeight,
                 BackColor = Color.FromArgb(255, 243, 205),
                 Visible = false,
                 Padding = new Padding(8, 4, 0, 0)
@@ -155,13 +241,6 @@ namespace ServiceBusExplorer.Controls
                 AutoSize = false
             };
             warningPanel.Controls.Add(warningLabel);
-
-            // Fonts (disposed in Dispose)
-            headerFont = new Font("Segoe UI", 9F, FontStyle.Bold);
-            cellFont = new Font("Segoe UI", 9F);
-            totalFont = new Font("Segoe UI", 9F, FontStyle.Bold);
-            hintFont = new Font("Segoe UI", 8F);
-            warningFont = new Font("Segoe UI", 8.5F);
 
             // DataGridView
             dataGridView = new DataGridView
@@ -227,7 +306,7 @@ namespace ServiceBusExplorer.Controls
                 Text = "Single click: sync tree  |  Double click: open in Explorer",
                 Dock = DockStyle.Bottom,
                 AutoSize = false,
-                Height = 20,
+                Height = LogicalHintHeight,
                 Font = hintFont,
                 ForeColor = SystemColors.GrayText,
                 Padding = new Padding(4, 2, 0, 0)
@@ -588,6 +667,7 @@ namespace ServiceBusExplorer.Controls
                 totalFont?.Dispose();
                 hintFont?.Dispose();
                 warningFont?.Dispose();
+                toolbarFont?.Dispose();
             }
             base.Dispose(disposing);
         }

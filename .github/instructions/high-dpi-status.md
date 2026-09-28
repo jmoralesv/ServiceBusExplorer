@@ -43,7 +43,7 @@ Do NOT blind cherry-pick: the 2024 base is far behind current `main` (Dashboard 
 | `e61154a` | DpiAwareForm base + 28 forms reparented |
 | `cb3f900` | GetDpiForWindow probe fix + OnDpiScaleChanged hook + metric recompute (HeaderPanel/Grouper/dialogs/MainForm/DashboardControl) + TEMP metric logging |
 | `9b36cb1` | Explicit mainMenuStrip (20 logical) + statusStrip (24 logical) ImageScalingSize normalization |
-| `079ccaa` | TreeView rows = Max(font line height, scaled designer 20px); SelectEntityForm honors treeViewFontSize + recomputes on DPI change (adapts old d18235a) |
+| `d288c30` | TreeView rows = Max(font line height, scaled designer 20px); SelectEntityForm honors treeViewFontSize + recomputes on DPI change (adapts old d18235a) |
 
 ## DpiAwareForm mechanism (`src/ServiceBusExplorer/Forms/DpiAwareForm.cs`)
 
@@ -71,13 +71,39 @@ Do NOT blind cherry-pick: the 2024 base is far behind current `main` (Dashboard 
 - R4: system mode confirmed = bitmap-scale softness on non-primary-scale monitors (Erik's #807 blur, log-proven).
 - R5: PMv2 + AutoScaleMode.Dpi hypothesis CONFIRMED — startup @150% crisp; residuals scoped to custom-painted controls + cross-monitor moves. **Mode locked: PMv2 + Dpi + custom DPI-change code.**
 - R6–R9: rebuilt 440-1 iterations; GetDpiForWindow startup correction works (`correction=fired` on mismatch launches); menu 33px root-caused (components gotcha) and fixed; settings confounder identified and removed.
-- R10: settings removal verified (8.25pt everywhere, sxs matches GA for menus/toolbar/grid/log); tiny-treeview regression from the font-only ItemHeight formula found and fixed (`079ccaa`).
+- R10: settings removal verified (8.25pt everywhere, sxs matches GA for menus/toolbar/grid/log); tiny-treeview regression from the font-only ItemHeight formula found and fixed (`d288c30`, current branch tip).
+
+## Round 11 visual results and follow-up implementation (2026-09-27)
+
+The latest side-by-side screenshots confirm that the main window at 150% is the only reported good result. At 100%, the dev build appears larger than GA in tabs, the Refresh button, TreeView text, and grid spacing. Launching on a 100% monitor while the primary is at 150% still looks oversized, and moving 150%→100% with the keyboard shortcut can leave the window badly laid out. Mouse moves also show oversized fonts/spacing in some areas. The Connect dialog looks generally good at 150%, but its URI editor and namespace dropdown are clipped.
+
+The first follow-up build improved the Dashboard toolbar layout, but the user reported little visible difference. The 2026-09-27 diagnostics provide specific causes:
+
+- 100% startup runs report TreeView and tab fonts at 12pt, while 150% startup runs report 8pt. Compare the saved TreeView font setting with GA before judging that font difference; the diagnostic line now records both actual and configured font sizes.
+- After 150%→100%, a single `DpiChanged` callback is logged (`144→96`), so the move is detected. However, the callback ends with `AutoScaleDimensions` still at 144, the TreeView/tab fonts reduced to 5.33pt, and splitter distances still at 1.5× their 96-DPI logical values. The remaining failure is stale/re-scaled layout state after the event, not a missing DPI notification.
+- In the 100%-startup correction scenario, `ConnectForm`'s child controls did not retain their designer-relative bounds after the whole form was scaled.
+
+**Current working-tree iteration (build and tests pass; visual gate pending):**
+
+- Synchronize DPI `AutoScaleDimensions` after startup correction and DPI changes.
+- Reapply the configured TreeView/log fonts and an 8.25pt logical main-tab font after framework scaling; preserve split-container distances using the observed old/new window DPI, including startup-correction cases where `DeviceDpiOld` may not describe the monitor the window was actually on.
+- Keep Dashboard toolbar fonts and button/combo dimensions at their logical sizes per DPI, in addition to its table-based layout and grid metric updates.
+- Capture ConnectForm child bounds/fonts and client size at construction, normalize them to 96-DPI logical units, then restore at the active DPI and recalculate the URI editor. This avoids multiplying an already system-DPI-scaled snapshot a second time.
+- Continue writing timestamped diagnostics to the app log and `%LOCALAPPDATA%\ServiceBusExplorer\DpiDiagnostics\DpiDiagnostics-<timestamp>.log`. Logs include form/monitor DPI, window/control bounds, autoscale dimensions, fonts, splitters, Dashboard metrics, and DPI/size/location transition ordering.
+
+## Round 13 screenshot and log review (2026-09-27)
+
+The latest 100% side-by-side screenshots still show larger TreeView text in the dev build. The matching 100%-startup diagnostics identify the configured TreeView font as 12pt; compare at the same Options value (8.25pt for a default comparison) before changing the app's user-configurable font behavior.
+
+The shortcut move is now visibly improved: the diagnostics show one `144→96` transition and finish with 96-DPI splitter distances (`566` and `372` logical pixels), 8pt TreeView text, and an 8.25pt tab font. The Connect dialog is the remaining regression from this iteration. At 150%, its `ClientSize` grew from `1176×716` to `1764×1074`; the logical-layout snapshot was captured after the designer had already scaled it to 144 DPI and was then scaled again. The snapshot is now normalized to 96 DPI when captured. **That correction is included in the current commit but still needs a visual retest.**
+
+**Next visual gate (Round 14):** retest Connect at 150%, 100%, and on the 100% monitor with primary at 150%; verify its size, namespace dropdown, URI field, and other controls. Also compare GA/dev at 100% using the same 8.25pt TreeView setting, then repeat the 150%→100% mouse and Windows+Shift+Arrow moves and the return trip. Keep the taskbar clock visible and retain the matching DPI log.
 
 ## What remains before PR1 (upstream)
 
-1. **Round 11 visual gate** (short): (a) launch 4K@100% sxs GA → roomy tree, log `treeView.ItemHeight=20`; (b) launch 4K@150% → `ItemHeight=30`; (c) move 150%↔100% both ways → tree stays correct; (d) launch FullHD w/ primary@150% (correction path) → tree correct + `menuStrip.ImageScalingSize=20`; (e) dead-letter Move/transfer dialog (SelectEntityForm) tree at 150%; (f) optional: Options → treeViewFontSize=12 → rows grow in MainForm AND SelectEntityForm.
-2. **Known residuals (not blocking)**: Dashboard/Explorer tabs slightly chunky (vanilla TabControl — layer 440-4 TabControlHelper territory); interval combo clipped ("in") only on the correction-fired path (DashboardControl toolbar fixed-px layout, DashboardControl.cs:97-134); "New Version" link overlaps "Microsoft Azure" header text (dev builds only); window keeps 150% size after move to 100% (content correct, acceptable).
-3. **Before opening the upstream PR**: drop TEMP code (commit `49c7a91` + the TEMP log lines in `DpiAwareForm.OnHandleCreated` and `MainForm.OnDpiScaleChanged`), rebase to drop the fork-tooling layer (this file + copilot-instructions.md are fork-only), push, open PR to paolosalvatori/ServiceBusExplorer referencing issue #440. Ask maintainers about merge strategy on #440 when the first PR is ready, not before.
+1. **Round 14 visual gate** above is pending user retest; the Connect layout snapshot normalization in particular is not yet visually verified.
+2. **Known residual**: the "New Version" link can overlap the "Microsoft Azure" header text in development builds. Recheck the 100% tabs and Refresh size after the new toolbar/font/layout changes; decide whether remaining tab differences belong in the later TabControl layer.
+3. **Before opening the upstream PR**: remove or explicitly retain the temporary diagnostic P/Invokes and DPI diagnostic file logging after the test cycle; review the new Dashboard/Connect changes; rebase to drop the fork-tooling layer (this file + copilot-instructions.md are fork-only), push, and open the PR to paolosalvatori/ServiceBusExplorer referencing issue #440. Ask maintainers about merge strategy on #440 when the first PR is ready, not before.
 
 ## Build / test / conventions
 

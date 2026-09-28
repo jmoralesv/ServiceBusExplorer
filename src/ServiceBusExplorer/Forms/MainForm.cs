@@ -230,6 +230,7 @@ namespace ServiceBusExplorer.Forms
         private bool importing;
         private readonly int mainSplitterDistance;
         private readonly int splitterContainerDistance;
+        private bool dpiLayoutInitialized;
         private ConfigFileUse configFileUse;
         private decimal treeViewFontSize;
         private decimal logFontSize;
@@ -286,6 +287,7 @@ namespace ServiceBusExplorer.Forms
             logFontSize = (decimal)lstLog.Font.Size;
             Trace.Listeners.Add(new LogTraceListener(MainForm.StaticWriteToLog));
             mainSingletonMainForm = this;
+            WriteDpiDiagnostic($"DPI diagnostic session started; file={DpiDiagnosticsLog.LogFilePath}");
             serviceBusHelper = new ServiceBusHelper(WriteToLog);
             serviceBusHelper.OnCreate += serviceBusHelper_OnCreate;
             serviceBusHelper.OnDelete += serviceBusHelper_OnDelete;
@@ -490,6 +492,20 @@ namespace ServiceBusExplorer.Forms
             argumentName = argument;
             argumentValue = value;
         }
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            var oldWindowDpi = LastObservedWindowDpi > 0 ? LastObservedWindowDpi : e.DeviceDpiOld;
+            var newWindowDpi = DpiAwareForm.GetCurrentDpi(this);
+            var scaledMainSplitterDistance = DpiAwareForm.ScaleBetweenDpi(
+                mainSplitContainer.SplitterDistance, oldWindowDpi, newWindowDpi);
+            var scaledTreeSplitterDistance = DpiAwareForm.ScaleBetweenDpi(
+                splitContainer.SplitterDistance, oldWindowDpi, newWindowDpi);
+            base.OnDpiChanged(e);
+            SetSplitterDistance(mainSplitContainer, scaledMainSplitterDistance);
+            SetSplitterDistance(splitContainer, scaledTreeSplitterDistance);
+            PerformLayout();
+            Invalidate(true);
+        }
         #endregion
 
         #region Event Handlers
@@ -667,6 +683,8 @@ namespace ServiceBusExplorer.Forms
                     UpdateSavedConnectionsMenu();
                 }
 
+                logFontSize = optionForm.MainSettings.LogFontSize;
+                treeViewFontSize = optionForm.MainSettings.TreeViewFontSize;
                 lstLog.Font = new Font(lstLog.Font.FontFamily, (float)optionForm.MainSettings.LogFontSize);
                 serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily,
                     (float)optionForm.MainSettings.TreeViewFontSize);
@@ -4413,6 +4431,27 @@ namespace ServiceBusExplorer.Forms
                 MessageBox.Show(message);
             }
         }
+
+        internal static void WriteDpiDiagnostic(string message)
+        {
+            var line = $"{DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss.fff zzz} [DPI] {message}";
+            var mainForm = mainSingletonMainForm;
+            var fileWritten = DpiDiagnosticsLog.TryWrite(line, out var error);
+
+            if (mainForm != null)
+            {
+                mainForm.WriteToLog(line, false);
+                if (!fileWritten && !mainForm.dpiDiagnosticFileErrorLogged)
+                {
+                    mainForm.dpiDiagnosticFileErrorLogged = true;
+                    mainForm.WriteToLog(error, false);
+                }
+            }
+            else if (!fileWritten)
+            {
+                Debug.WriteLine(error);
+            }
+        }
         #endregion
 
         #region Private Static Methods
@@ -6867,6 +6906,16 @@ namespace ServiceBusExplorer.Forms
 
         protected override void OnDpiScaleChanged()
         {
+            if (!dpiLayoutInitialized)
+            {
+                SetSplitterDistance(mainSplitContainer, DpiAwareForm.ScaleToCurrentDpi(this, mainSplitterDistance));
+                SetSplitterDistance(splitContainer, DpiAwareForm.ScaleToCurrentDpi(this, splitterContainerDistance));
+                dpiLayoutInitialized = true;
+            }
+
+            SetFontSize(serviceBusTreeView, treeViewFontSize);
+            SetFontSize(lstLog, logFontSize);
+            SetFontSize(mainTabControl, 8.25m);
             UpdateTreeViewItemHeight();
             // mainMenuStrip and statusStrip are constructed without the components
             // container, so they are not reachable through components.Components.
@@ -6883,18 +6932,45 @@ namespace ServiceBusExplorer.Forms
                 }
             }
             dashboardControl.UpdateDpiMetrics();
-            // TEMP diagnostics for the current test round (drop before upstream PR)
-            // Height is read before the layout pass that applies the new ImageScalingSize, so it can lag one change
-            WriteToLog($"DpiScaleChanged: dpi={DpiAwareForm.GetCurrentDpi(this)}, menuStrip.Height={mainMenuStrip.Height}, menuStrip.ImageScalingSize={mainMenuStrip.ImageScalingSize.Width}, menuStrip.Font={mainMenuStrip.Font.SizeInPoints:0.##}pt, lstLog.Font={lstLog.Font.SizeInPoints:0.##}pt, treeView.ItemHeight={serviceBusTreeView.ItemHeight}");
+        }
+
+        protected override string GetDpiDiagnosticDetails()
+        {
+            return $"treeBounds={serviceBusTreeView.Bounds}, treeFont={serviceBusTreeView.Font.SizeInPoints:0.##}pt, configuredTreeFont={treeViewFontSize:0.##}pt, treeItemHeight={serviceBusTreeView.ItemHeight}, menuBounds={mainMenuStrip.Bounds}, menuFont={mainMenuStrip.Font.SizeInPoints:0.##}pt, menuImageSize={mainMenuStrip.ImageScalingSize}, tabs={mainTabControl.Bounds}, tabFont={mainTabControl.Font.SizeInPoints:0.##}pt, logBounds={lstLog.Bounds}, logFont={lstLog.Font.SizeInPoints:0.##}pt, configuredLogFont={logFontSize:0.##}pt, mainSplitDistance={mainSplitContainer.SplitterDistance}, treeSplitDistance={splitContainer.SplitterDistance}, dashboard=[{dashboardControl.GetDpiDiagnosticDetails()}]";
         }
 
         private void setDefaultLayouToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            mainSplitContainer.SplitterDistance = mainSplitterDistance;
-            splitContainer.SplitterDistance = splitterContainerDistance;
-            lstLog.Font = new Font(lstLog.Font.FontFamily, (float)logFontSize);
-            serviceBusTreeView.Font = new Font(serviceBusTreeView.Font.FontFamily, (float)treeViewFontSize);
+            SetSplitterDistance(mainSplitContainer, DpiAwareForm.ScaleToCurrentDpi(this, mainSplitterDistance));
+            SetSplitterDistance(splitContainer, DpiAwareForm.ScaleToCurrentDpi(this, splitterContainerDistance));
+            SetFontSize(lstLog, logFontSize);
+            SetFontSize(serviceBusTreeView, treeViewFontSize);
             UpdateTreeViewItemHeight();
+        }
+
+        private static void SetFontSize(Control control, decimal fontSize)
+        {
+            if (Math.Abs((decimal)control.Font.SizeInPoints - fontSize) < 0.01m)
+            {
+                return;
+            }
+
+            control.Font = new Font(control.Font.FontFamily, (float)fontSize, control.Font.Style, GraphicsUnit.Point);
+        }
+
+        private static void SetSplitterDistance(SplitContainer splitContainer, int distance)
+        {
+            var availableLength = splitContainer.Orientation == Orientation.Horizontal
+                ? splitContainer.ClientSize.Height
+                : splitContainer.ClientSize.Width;
+            var maximumDistance = availableLength - splitContainer.SplitterWidth - splitContainer.Panel2MinSize;
+            if (maximumDistance < splitContainer.Panel1MinSize)
+            {
+                return;
+            }
+
+            splitContainer.SplitterDistance = Math.Max(splitContainer.Panel1MinSize,
+                Math.Min(distance, maximumDistance));
         }
 
         private void receiveMessages_Click(object sender, EventArgs e)

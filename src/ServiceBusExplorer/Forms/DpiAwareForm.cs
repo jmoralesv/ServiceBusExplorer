@@ -18,6 +18,8 @@ namespace ServiceBusExplorer.Forms
         private const int TreeViewLogicalItemHeight = 20;
         private static readonly int systemDpi = GetSystemDpi();
         private bool startupDpiCorrected;
+        private bool dpiChangeInProgress;
+        private int lastObservedWindowDpi;
 
         [DllImport("user32.dll")]
         private static extern uint GetDpiForWindow(IntPtr hwnd);
@@ -29,28 +31,70 @@ namespace ServiceBusExplorer.Forms
             {
                 return;
             }
+
             startupDpiCorrected = true;
             var windowDpi = (int)GetDpiForWindow(Handle);
-            // TEMP diagnostics: prove whether the startup correction fires (drop before upstream PR)
-            MainForm.StaticWriteToLog($"DpiAwareForm: {GetType().Name} systemDpi={systemDpi}, windowDpi={windowDpi}, correction={(windowDpi == systemDpi ? "skipped" : "fired")}");
+            lastObservedWindowDpi = windowDpi;
+            LogDpiDiagnostic($"HandleCreated begin {GetDpiDiagnosticSnapshot()}, systemDpi={systemDpi}");
             if (windowDpi != systemDpi)
             {
                 var factor = (float)windowDpi / systemDpi;
+                LogDpiDiagnostic($"{GetType().Name} startup correction begin factor={factor:0.####}, {GetDpiDiagnosticSnapshot()}");
                 Scale(new SizeF(factor, factor));
+                LogDpiDiagnostic($"{GetType().Name} startup correction end {GetDpiDiagnosticSnapshot()}");
             }
+
+            SynchronizeDpiAutoScaleDimensions(this, windowDpi);
             OnDpiScaleChanged();
             PerformLayout();
             Invalidate(true);
+            LogDpiDiagnostic($"HandleCreated complete {GetDpiDiagnosticSnapshot()}");
         }
 
         protected override void OnDpiChanged(DpiChangedEventArgs e)
         {
-            base.OnDpiChanged(e);
-            // Custom-painted controls compute sizes from the current DPI at paint time;
-            // force re-layout and repaint after the framework rescale.
-            OnDpiScaleChanged();
-            PerformLayout();
-            Invalidate(true);
+            dpiChangeInProgress = true;
+            LogDpiDiagnostic($"DpiChanged begin form={GetType().Name}, oldDpi={e.DeviceDpiOld}, newDpi={e.DeviceDpiNew}, {GetDpiDiagnosticSnapshot()}");
+            try
+            {
+                base.OnDpiChanged(e);
+                SynchronizeDpiAutoScaleDimensions(this, e.DeviceDpiNew);
+                OnDpiScaleChanged();
+                PerformLayout();
+                Invalidate(true);
+                lastObservedWindowDpi = GetCurrentDpi(this);
+            }
+            finally
+            {
+                dpiChangeInProgress = false;
+            }
+
+            LogDpiDiagnostic($"DpiChanged complete form={GetType().Name}, oldDpi={e.DeviceDpiOld}, newDpi={e.DeviceDpiNew}, {GetDpiDiagnosticSnapshot()}");
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            if (startupDpiCorrected && dpiChangeInProgress)
+            {
+                LogDpiDiagnostic($"Size changed during DPI transition form={GetType().Name}, {GetDpiDiagnosticSnapshot()}");
+            }
+        }
+
+        protected override void OnLocationChanged(EventArgs e)
+        {
+            base.OnLocationChanged(e);
+            if (!startupDpiCorrected)
+            {
+                return;
+            }
+
+            var windowDpi = GetCurrentDpi(this);
+            if (dpiChangeInProgress || windowDpi != lastObservedWindowDpi)
+            {
+                lastObservedWindowDpi = windowDpi;
+                LogDpiDiagnostic($"Monitor location changed form={GetType().Name}, windowDpi={windowDpi}, {GetDpiDiagnosticSnapshot()}");
+            }
         }
 
         /// <summary>
@@ -61,16 +105,33 @@ namespace ServiceBusExplorer.Forms
         {
         }
 
-        // Control.DeviceDpi and Control.LogicalToDeviceUnits report the system DPI (fixed at
-        // logon) when called at creation time on net472; GetDpiForWindow is the OS truth.
+        protected virtual string GetDpiDiagnosticDetails()
+        {
+            return string.Empty;
+        }
+
+        protected int LastObservedWindowDpi => lastObservedWindowDpi;
+
         internal static int GetCurrentDpi(Control control)
         {
             return control.IsHandleCreated ? (int)GetDpiForWindow(control.Handle) : systemDpi;
         }
 
+        protected void LogDpiDiagnostic(string message)
+        {
+            MainForm.WriteDpiDiagnostic(message);
+        }
+
         internal static int ScaleToCurrentDpi(Control control, int logicalValue)
         {
             return (int)Math.Round(logicalValue * GetCurrentDpi(control) / 96.0);
+        }
+
+        internal static int ScaleBetweenDpi(int value, int sourceDpi, int targetDpi)
+        {
+            return sourceDpi > 0
+                ? (int)Math.Round(value * (double)targetDpi / sourceDpi)
+                : value;
         }
 
         internal static void ScaleBitmapToCurrentDpi(Control control, ref Bitmap bitmap)
@@ -95,6 +156,34 @@ namespace ServiceBusExplorer.Forms
             var dpi = GetCurrentDpi(this);
             treeView.ItemHeight = Math.Max((int)Math.Ceiling(treeView.Font.GetHeight(dpi)),
                 ScaleToCurrentDpi(this, TreeViewLogicalItemHeight));
+        }
+
+        private string GetDpiDiagnosticSnapshot()
+        {
+            var screen = IsHandleCreated ? Screen.FromHandle(Handle) : null;
+            var screenDetails = screen == null
+                ? string.Empty
+                : $", screen={screen.DeviceName}, screenBounds={screen.Bounds}";
+            var customDetails = GetDpiDiagnosticDetails();
+            var customDetailsSuffix = string.IsNullOrWhiteSpace(customDetails)
+                ? string.Empty
+                : $", {customDetails}";
+
+            return $"form={GetType().Name}, windowDpi={GetCurrentDpi(this)}, DeviceDpi={DeviceDpi}, AutoScaleMode={AutoScaleMode}, AutoScaleDimensions={AutoScaleDimensions}, bounds={Bounds}, clientSize={ClientSize}, windowState={WindowState}{screenDetails}{customDetailsSuffix}";
+        }
+
+        private static void SynchronizeDpiAutoScaleDimensions(Control control, int dpi)
+        {
+            if (control is ContainerControl containerControl &&
+                containerControl.AutoScaleMode == AutoScaleMode.Dpi)
+            {
+                containerControl.AutoScaleDimensions = new SizeF(dpi, dpi);
+            }
+
+            foreach (Control child in control.Controls)
+            {
+                SynchronizeDpiAutoScaleDimensions(child, dpi);
+            }
         }
 
         private static int GetSystemDpi()
