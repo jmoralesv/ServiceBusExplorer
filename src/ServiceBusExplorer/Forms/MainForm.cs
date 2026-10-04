@@ -231,6 +231,10 @@ namespace ServiceBusExplorer.Forms
         private readonly int mainSplitterDistance;
         private readonly int splitterContainerDistance;
         private bool dpiLayoutInitialized;
+        private bool dpiLayoutUpdatePending;
+        private int dpiLayoutRevision;
+        private double pendingMainSplitterRatio;
+        private double pendingTreeSplitterRatio;
         private ConfigFileUse configFileUse;
         private decimal treeViewFontSize;
         private decimal logFontSize;
@@ -494,17 +498,10 @@ namespace ServiceBusExplorer.Forms
         }
         protected override void OnDpiChanged(DpiChangedEventArgs e)
         {
-            var oldWindowDpi = LastObservedWindowDpi > 0 ? LastObservedWindowDpi : e.DeviceDpiOld;
-            var newWindowDpi = DpiAwareForm.GetCurrentDpi(this);
-            var scaledMainSplitterDistance = DpiAwareForm.ScaleBetweenDpi(
-                mainSplitContainer.SplitterDistance, oldWindowDpi, newWindowDpi);
-            var scaledTreeSplitterDistance = DpiAwareForm.ScaleBetweenDpi(
-                splitContainer.SplitterDistance, oldWindowDpi, newWindowDpi);
+            var mainSplitterRatio = GetSplitterRatio(mainSplitContainer);
+            var treeSplitterRatio = GetSplitterRatio(splitContainer);
             base.OnDpiChanged(e);
-            SetSplitterDistance(mainSplitContainer, scaledMainSplitterDistance);
-            SetSplitterDistance(splitContainer, scaledTreeSplitterDistance);
-            PerformLayout();
-            Invalidate(true);
+            QueueDpiLayout(mainSplitterRatio, treeSplitterRatio);
         }
         #endregion
 
@@ -6971,6 +6968,73 @@ namespace ServiceBusExplorer.Forms
 
             splitContainer.SplitterDistance = Math.Max(splitContainer.Panel1MinSize,
                 Math.Min(distance, maximumDistance));
+        }
+
+        private static double GetSplitterRatio(SplitContainer splitContainer)
+        {
+            var availableLength = splitContainer.Orientation == Orientation.Horizontal
+                ? splitContainer.ClientSize.Height
+                : splitContainer.ClientSize.Width;
+            var paneLength = availableLength - splitContainer.SplitterWidth;
+            return paneLength > 0
+                ? Math.Max(0, Math.Min(1, splitContainer.SplitterDistance / (double)paneLength))
+                : 0.5;
+        }
+
+        private static void SetSplitterDistanceFromRatio(SplitContainer splitContainer, double ratio)
+        {
+            var availableLength = splitContainer.Orientation == Orientation.Horizontal
+                ? splitContainer.ClientSize.Height
+                : splitContainer.ClientSize.Width;
+            var paneLength = Math.Max(0, availableLength - splitContainer.SplitterWidth);
+            SetSplitterDistance(splitContainer, (int)Math.Round(paneLength * ratio));
+        }
+
+        private void QueueDpiLayout(double mainSplitterRatio, double treeSplitterRatio)
+        {
+            if (!dpiLayoutUpdatePending)
+            {
+                pendingMainSplitterRatio = mainSplitterRatio;
+                pendingTreeSplitterRatio = treeSplitterRatio;
+                dpiLayoutUpdatePending = true;
+            }
+
+            var revision = ++dpiLayoutRevision;
+            if (!IsHandleCreated || IsDisposed)
+            {
+                ApplyDpiLayout(pendingMainSplitterRatio, pendingTreeSplitterRatio);
+                dpiLayoutUpdatePending = false;
+                return;
+            }
+
+            BeginInvoke(new Action(() =>
+            {
+                if (IsDisposed || revision != dpiLayoutRevision)
+                {
+                    return;
+                }
+
+                dpiLayoutUpdatePending = false;
+                ApplyDpiLayout(pendingMainSplitterRatio, pendingTreeSplitterRatio);
+            }));
+        }
+
+        private void ApplyDpiLayout(double mainSplitterRatio, double treeSplitterRatio)
+        {
+            PerformLayoutTree(this);
+            SetSplitterDistanceFromRatio(mainSplitContainer, mainSplitterRatio);
+            SetSplitterDistanceFromRatio(splitContainer, treeSplitterRatio);
+            PerformLayoutTree(this);
+            Invalidate(true);
+        }
+
+        private static void PerformLayoutTree(Control control)
+        {
+            control.PerformLayout();
+            foreach (Control child in control.Controls)
+            {
+                PerformLayoutTree(child);
+            }
         }
 
         private void receiveMessages_Click(object sender, EventArgs e)

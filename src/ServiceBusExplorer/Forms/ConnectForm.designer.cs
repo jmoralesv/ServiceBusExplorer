@@ -663,8 +663,7 @@ namespace ServiceBusExplorer.Forms
             // 
             // txtUri
             // 
-            this.txtUri.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUri.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             this.txtUri.ForeColor = System.Drawing.SystemColors.ControlText;
             this.txtUri.Location = new System.Drawing.Point(16, 48);
             this.txtUri.Multiline = true;
@@ -750,8 +749,7 @@ namespace ServiceBusExplorer.Forms
             // 
             // cboServiceBusNamespace
             // 
-            this.cboServiceBusNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboServiceBusNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
             this.cboServiceBusNamespace.BackColor = System.Drawing.SystemColors.Window;
             this.cboServiceBusNamespace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboServiceBusNamespace.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
