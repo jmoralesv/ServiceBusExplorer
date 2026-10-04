@@ -54,10 +54,27 @@ namespace ServiceBusExplorer.Forms
         protected override void OnDpiChanged(DpiChangedEventArgs e)
         {
             dpiChangeInProgress = true;
-            LogDpiDiagnostic($"DpiChanged begin form={GetType().Name}, oldDpi={e.DeviceDpiOld}, newDpi={e.DeviceDpiNew}, {GetDpiDiagnosticSnapshot()}");
+            var previousWindowDpi = lastObservedWindowDpi > 0 ? lastObservedWindowDpi : e.DeviceDpiOld;
+            var windowDpi = GetCurrentDpi(this);
+            var frameworkScaleFactor = e.DeviceDpiOld > 0
+                ? (float)e.DeviceDpiNew / e.DeviceDpiOld
+                : 1.0F;
+            var actualScaleFactor = previousWindowDpi > 0
+                ? (float)windowDpi / previousWindowDpi
+                : frameworkScaleFactor;
+            var correctiveScaleFactor = frameworkScaleFactor > 0
+                ? actualScaleFactor / frameworkScaleFactor
+                : actualScaleFactor;
+
+            LogDpiDiagnostic($"DpiChanged begin form={GetType().Name}, oldDpi={e.DeviceDpiOld}, newDpi={e.DeviceDpiNew}, previousWindowDpi={previousWindowDpi}, actualWindowDpi={windowDpi}, frameworkScaleFactor={frameworkScaleFactor:0.####}, correctiveScaleFactor={correctiveScaleFactor:0.####}, {GetDpiDiagnosticSnapshot()}");
             try
             {
                 base.OnDpiChanged(e);
+                if (Math.Abs(correctiveScaleFactor - 1.0F) > 0.001F)
+                {
+                    ScaleChildControls(this, correctiveScaleFactor);
+                }
+
                 SynchronizeDpiAutoScaleDimensions(this, e.DeviceDpiNew);
                 OnDpiScaleChanged();
                 PerformLayout();
@@ -69,7 +86,7 @@ namespace ServiceBusExplorer.Forms
                 dpiChangeInProgress = false;
             }
 
-            LogDpiDiagnostic($"DpiChanged complete form={GetType().Name}, oldDpi={e.DeviceDpiOld}, newDpi={e.DeviceDpiNew}, {GetDpiDiagnosticSnapshot()}");
+            LogDpiDiagnostic($"DpiChanged complete form={GetType().Name}, oldDpi={e.DeviceDpiOld}, newDpi={e.DeviceDpiNew}, previousWindowDpi={previousWindowDpi}, actualWindowDpi={windowDpi}, frameworkScaleFactor={frameworkScaleFactor:0.####}, correctiveScaleFactor={correctiveScaleFactor:0.####}, {GetDpiDiagnosticSnapshot()}");
         }
 
         protected override void OnSizeChanged(EventArgs e)
@@ -183,6 +200,14 @@ namespace ServiceBusExplorer.Forms
             foreach (Control child in control.Controls)
             {
                 SynchronizeDpiAutoScaleDimensions(child, dpi);
+            }
+        }
+
+        private static void ScaleChildControls(Control control, float factor)
+        {
+            foreach (Control child in control.Controls)
+            {
+                child.Scale(new SizeF(factor, factor));
             }
         }
 

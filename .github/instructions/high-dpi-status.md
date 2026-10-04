@@ -110,9 +110,19 @@ For the main-form comparison, logs from 12:00–12:13 report a configured TreeVi
 
 **Next visual gate (Round 15):** use the default 8.25pt TreeView setting in both apps; compare 100% and 150% startup; open Connect at 150% and at 100% with primary 150%; move 150%→100% by mouse and Windows+Shift+Arrow with both default and previously adjusted split positions, then return 100%→150%. Confirm the Connect window remains the normal 150% size, URI bounds are within the Connection Settings group, and the namespace selector/popup are not clipped. Confirm main child bounds and splitters fit the final 100% window after both move methods. Save screenshots with the taskbar clock and retain the matching DPI log; no visual fix is considered verified until this gate passes.
 
+## Round 15 screenshots/logs and DPI reconciliation (2026-10-04)
+
+The new code fixes the Connect form's measured geometry: the 144-DPI run reports the expected `1176×716` client size, URI bounds around `(24,72,504,26)`, and namespace selector/dropdown width `504`. The 96-DPI startup correction reports the URI field at `(16,48,336,26)` and selector width `336`. The remaining button-label size observation is not yet diagnosed; diagnostics now record OK/Cancel, URI-label, and Connection Settings group font sizes for comparison.
+
+The main form's deferred splitter layout produces a window close to the direct-100% bounds, but the user still sees larger fonts/elements after a 150%→100% move. Logs show the specific mismatch: on a run started at 150%, `GetDpiForWindow` reports 144 while WinForms `DeviceDpi` remains 96. On the subsequent move, the framework can report `DpiChanged 96→96` even though the actual window DPI changed 144→96. The prior change fixed container geometry but therefore had no scale factor to reverse the startup correction for all child controls.
+
+**New working-tree change (not yet visually verified):** `DpiAwareForm` now compares the actual DPI ratio from `GetDpiForWindow` with the ratio reported by `DpiChangedEventArgs`. When they differ, it applies only the missing scale factor to child controls (not the outer window), then recomputes custom metrics; MainForm's deferred split-ratio layout runs afterward. Connect diagnostics now include the button and label font sizes to determine whether OK/Cancel need a separate font adjustment.
+
+**Next visual gate (Round 16):** use 8.25pt TreeView settings in both apps; compare direct 100% and 150% startup; launch on 100% with primary 150%; move 150%→100% by mouse and Windows+Shift+Arrow, then back to 150%. Check Connect at 150%, direct 100%, and 100% after startup correction. Specifically verify the 100% fonts match direct-100 startup, window/control bounds remain inside the client area, and the Connect URI/selector remain correctly placed. Include the new button/label font metrics and retain the DPI log paired with each screenshot.
+
 ## What remains before PR1 (upstream)
 
-1. **Round 15 visual gate** above is pending user retest; the explicit Connect bounds and deferred splitter re-layout are not yet visually verified.
+1. **Round 16 visual gate** above is pending user retest; the actual-DPI child-scaling fallback and Connect bounds/font comparison are not yet visually verified.
 2. **Known residual**: the "New Version" link can overlap the "Microsoft Azure" header text in development builds. Recheck the 100% tabs and Refresh size after the new toolbar/font/layout changes; decide whether remaining tab differences belong in the later TabControl layer.
 3. **Before opening the upstream PR**: remove or explicitly retain the temporary diagnostic P/Invokes and DPI diagnostic file logging after the test cycle; review the new Dashboard/Connect changes; rebase to drop the fork-tooling layer (this file + copilot-instructions.md are fork-only), push, and open the PR to paolosalvatori/ServiceBusExplorer referencing issue #440. Ask maintainers about merge strategy on #440 when the first PR is ready, not before.
 
