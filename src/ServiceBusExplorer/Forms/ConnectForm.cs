@@ -176,6 +176,7 @@ namespace ServiceBusExplorer.Forms
             toolTip.SetToolTip(cboSelectedEntities, SelectedEntitiesTooltip);
 
             cboServiceBusNamespace_SelectedIndexChanged(cboServiceBusNamespace, EventArgs.Empty);
+            UpdateNamespaceSelectorLayout();
             validation_TextChanged(this, EventArgs.Empty);
         }
 
@@ -367,13 +368,14 @@ namespace ServiceBusExplorer.Forms
         protected override void OnDpiScaleChanged()
         {
             RestoreLogicalLayout(DpiAwareForm.GetCurrentDpi(this));
+            UpdateNamespaceSelectorLayout();
             GetSelectionState(out var connectionStringType, out var containsStsEndpoint, out _);
             UpdateUriEditorLayout(UsesRawConnectionStringEditor(connectionStringType, containsStsEndpoint));
         }
 
         protected override string GetDpiDiagnosticDetails()
         {
-            return $"uriBounds={txtUri.Bounds}, uriFont={txtUri.Font.SizeInPoints:0.##}pt, uriMultiline={txtUri.Multiline}, namespaceComboBounds={cboServiceBusNamespace.Bounds}, authComboBounds={cboAuthMode.Bounds}";
+            return $"uriBounds={txtUri.Bounds}, uriParent={txtUri.Parent.Name}, uriParentBounds={txtUri.Parent.Bounds}, uriFont={txtUri.Font.SizeInPoints:0.##}pt, uriMultiline={txtUri.Multiline}, namespaceComboBounds={cboServiceBusNamespace.Bounds}, namespaceParentBounds={grouperServiceBusNamespaces.Bounds}, namespaceDropDownWidth={cboServiceBusNamespace.DropDownWidth}, authComboBounds={cboAuthMode.Bounds}";
         }
 
         private void CaptureLogicalLayout(Control parent, int layoutDpi)
@@ -458,13 +460,27 @@ namespace ServiceBusExplorer.Forms
         private void UpdateUriEditorLayout(bool usesRawConnectionStringEditor)
         {
             txtUri.Multiline = usesRawConnectionStringEditor;
+            var margin = DpiAwareForm.ScaleToCurrentDpi(this, 16);
+            var top = DpiAwareForm.ScaleToCurrentDpi(this, 48);
+            var width = Math.Max(0, grouperServiceBusNamespaceSettings.Width - margin * 2);
             var height = usesRawConnectionStringEditor
-                ? txtIssuerSecret.Bottom - txtUri.Top
-                : DpiAwareForm.ScaleToCurrentDpi(this, 20);
-            if (txtUri.Height != height)
-            {
-                txtUri.Height = height;
-            }
+                ? txtIssuerSecret.Bottom - top
+                : Math.Max(DpiAwareForm.ScaleToCurrentDpi(this, 20), txtUri.PreferredSize.Height);
+
+            txtUri.SetBounds(margin, top, width, height);
+        }
+
+        private void UpdateNamespaceSelectorLayout()
+        {
+            var margin = DpiAwareForm.ScaleToCurrentDpi(this, 16);
+            var top = DpiAwareForm.ScaleToCurrentDpi(this, 32);
+            var width = Math.Max(0, grouperServiceBusNamespaces.Width - margin * 2);
+            var height = Math.Max(
+                DpiAwareForm.ScaleToCurrentDpi(this, 21),
+                cboServiceBusNamespace.PreferredSize.Height);
+
+            cboServiceBusNamespace.SetBounds(margin, top, width, height);
+            cboServiceBusNamespace.DropDownWidth = width;
         }
 
         private void UpdateSelectedEntitiesUi(bool isAad)
