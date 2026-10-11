@@ -287,8 +287,12 @@ namespace ServiceBusExplorer.Forms
             });
             mainSplitterDistance = mainSplitContainer.SplitterDistance;
             splitterContainerDistance = splitContainer.SplitterDistance;
-            treeViewFontSize = (decimal)serviceBusTreeView.Font.Size;
-            logFontSize = (decimal)lstLog.Font.Size;
+            var defaultSettings = new MainSettings();
+            defaultSettings.SetDefault();
+            treeViewFontSize = defaultSettings.TreeViewFontSize;
+            logFontSize = defaultSettings.LogFontSize;
+            SetFontSize(serviceBusTreeView, treeViewFontSize);
+            SetFontSize(lstLog, logFontSize);
             Trace.Listeners.Add(new LogTraceListener(MainForm.StaticWriteToLog));
             mainSingletonMainForm = this;
             WriteDpiDiagnostic($"DPI diagnostic session started; file={DpiDiagnosticsLog.LogFilePath}");
@@ -496,6 +500,13 @@ namespace ServiceBusExplorer.Forms
             argumentName = argument;
             argumentValue = value;
         }
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            LayoutMainSplitContainer();
+            PerformLayoutTree(mainSplitContainer);
+            SynchronizeDpiAutoScaleDimensions(DpiAwareForm.GetCurrentDpi(this));
+        }
         protected override void OnDpiChanged(DpiChangedEventArgs e)
         {
             var mainSplitterRatio = GetSplitterRatio(mainSplitContainer);
@@ -613,8 +624,8 @@ namespace ServiceBusExplorer.Forms
         {
             var mainSettings = new MainSettings
             {
-                LogFontSize = (decimal)lstLog.Font.Size,
-                TreeViewFontSize = (decimal)serviceBusTreeView.Font.Size,
+                LogFontSize = logFontSize,
+                TreeViewFontSize = treeViewFontSize,
                 RetryCount = RetryHelper.RetryCount,
                 RetryTimeout = RetryHelper.RetryTimeout,
                 ReceiveTimeout = ReceiveTimeout,
@@ -6929,6 +6940,7 @@ namespace ServiceBusExplorer.Forms
                 }
             }
             dashboardControl.UpdateDpiMetrics();
+            LayoutMainSplitContainer();
         }
 
         protected override string GetDpiDiagnosticDetails()
@@ -7021,10 +7033,13 @@ namespace ServiceBusExplorer.Forms
 
         private void ApplyDpiLayout(double mainSplitterRatio, double treeSplitterRatio)
         {
-            PerformLayoutTree(this);
+            PerformLayout();
+            LayoutMainSplitContainer();
+            PerformLayoutTree(mainSplitContainer);
             SetSplitterDistanceFromRatio(mainSplitContainer, mainSplitterRatio);
             SetSplitterDistanceFromRatio(splitContainer, treeSplitterRatio);
-            PerformLayoutTree(this);
+            PerformLayoutTree(mainSplitContainer);
+            SynchronizeDpiAutoScaleDimensions(DpiAwareForm.GetCurrentDpi(this));
             Invalidate(true);
         }
 
@@ -7034,6 +7049,18 @@ namespace ServiceBusExplorer.Forms
             foreach (Control child in control.Controls)
             {
                 PerformLayoutTree(child);
+            }
+        }
+
+        private void LayoutMainSplitContainer()
+        {
+            var margin = DpiAwareForm.ScaleToCurrentDpi(this, 16);
+            var top = mainMenuStrip.Bottom + margin;
+            var width = ClientSize.Width - margin * 2;
+            var height = statusStrip.Top - top;
+            if (width > 0 && height > 0)
+            {
+                mainSplitContainer.SetBounds(margin, top, width, height);
             }
         }
 

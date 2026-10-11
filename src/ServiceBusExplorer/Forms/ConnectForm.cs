@@ -120,6 +120,11 @@ namespace ServiceBusExplorer.Forms
         public ConnectForm(ServiceBusHelper serviceBusHelper, ConfigFileUse configFileUse)
         {
             InitializeComponent();
+            btnOk.Font = lblUri.Font;
+            btnCancel.Font = lblUri.Font;
+            btnSave.Font = lblUri.Font;
+            btnRename.Font = lblUri.Font;
+            btnDelete.Font = lblUri.Font;
             var layoutDpi = DpiAwareForm.GetCurrentDpi(this);
             logicalClientSize = ScaleLogicalSize(ClientSize, layoutDpi, 96);
             CaptureLogicalLayout(this, layoutDpi);
