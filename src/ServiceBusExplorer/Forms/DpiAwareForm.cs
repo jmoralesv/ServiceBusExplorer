@@ -44,9 +44,9 @@ namespace ServiceBusExplorer.Forms
                 LogDpiDiagnostic($"{GetType().Name} startup correction end {GetDpiDiagnosticSnapshot()}");
             }
 
-            SynchronizeDpiAutoScaleDimensions(this, windowDpi);
             OnDpiScaleChanged();
             PerformLayout();
+            SynchronizeDpiAutoScaleDimensions(windowDpi);
             Invalidate(true);
             LogDpiDiagnostic($"HandleCreated complete {GetDpiDiagnosticSnapshot()}");
         }
@@ -69,15 +69,16 @@ namespace ServiceBusExplorer.Forms
             LogDpiDiagnostic($"DpiChanged begin form={GetType().Name}, oldDpi={e.DeviceDpiOld}, newDpi={e.DeviceDpiNew}, previousWindowDpi={previousWindowDpi}, actualWindowDpi={windowDpi}, frameworkScaleFactor={frameworkScaleFactor:0.####}, correctiveScaleFactor={correctiveScaleFactor:0.####}, {GetDpiDiagnosticSnapshot()}");
             try
             {
+                SynchronizeDpiAutoScaleDimensions(previousWindowDpi);
                 base.OnDpiChanged(e);
                 if (Math.Abs(correctiveScaleFactor - 1.0F) > 0.001F)
                 {
                     ScaleChildControls(this, correctiveScaleFactor);
                 }
 
-                SynchronizeDpiAutoScaleDimensions(this, e.DeviceDpiNew);
                 OnDpiScaleChanged();
                 PerformLayout();
+                SynchronizeDpiAutoScaleDimensions(GetCurrentDpi(this));
                 Invalidate(true);
                 lastObservedWindowDpi = GetCurrentDpi(this);
             }
@@ -137,6 +138,11 @@ namespace ServiceBusExplorer.Forms
         protected void LogDpiDiagnostic(string message)
         {
             MainForm.WriteDpiDiagnostic(message);
+        }
+
+        protected void SynchronizeDpiAutoScaleDimensions(int dpi)
+        {
+            SynchronizeDpiAutoScaleDimensions(this, dpi);
         }
 
         internal static int ScaleToCurrentDpi(Control control, int logicalValue)
