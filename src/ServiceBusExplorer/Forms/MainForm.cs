@@ -56,6 +56,8 @@ namespace ServiceBusExplorer.Forms
 {
     public partial class MainForm : DpiAwareForm
     {
+        protected override bool HandlesDpiScaleManually => true;
+
         #region Private Constants
         //***************************
         // Formats
@@ -505,7 +507,7 @@ namespace ServiceBusExplorer.Forms
             base.OnHandleCreated(e);
             LayoutMainSplitContainer();
             PerformLayoutTree(mainSplitContainer);
-            SynchronizeDpiAutoScaleDimensions(DpiAwareForm.GetCurrentDpi(this));
+            SynchronizeDpiAutoScaleDimensions(DeviceDpi);
         }
         protected override void OnDpiChanged(DpiChangedEventArgs e)
         {
@@ -7039,7 +7041,7 @@ namespace ServiceBusExplorer.Forms
             SetSplitterDistanceFromRatio(mainSplitContainer, mainSplitterRatio);
             SetSplitterDistanceFromRatio(splitContainer, treeSplitterRatio);
             PerformLayoutTree(mainSplitContainer);
-            SynchronizeDpiAutoScaleDimensions(DpiAwareForm.GetCurrentDpi(this));
+            SynchronizeDpiAutoScaleDimensions(DeviceDpi);
             Invalidate(true);
         }
 

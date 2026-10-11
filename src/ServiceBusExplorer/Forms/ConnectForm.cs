@@ -41,6 +41,8 @@ namespace ServiceBusExplorer.Forms
 {
     public partial class ConnectForm : DpiAwareForm
     {
+        protected override bool HandlesDpiScaleManually => true;
+
         #region Private Constants
 
         //***************************
