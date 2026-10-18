@@ -104,6 +104,7 @@ namespace ServiceBusExplorer.Forms
         private readonly ConfigFileUse configFileUse;
         private readonly Dictionary<Control, Rectangle> logicalControlBounds = new Dictionary<Control, Rectangle>();
         private readonly Dictionary<Control, Font> logicalControlFonts = new Dictionary<Control, Font>();
+        private readonly Dictionary<Control, Font> dpiAdjustedControlFonts = new Dictionary<Control, Font>();
         private Size logicalClientSize;
         private bool ignoreSelectedIndexChange;
         private bool ignoreAuthModeChange;
@@ -122,6 +123,7 @@ namespace ServiceBusExplorer.Forms
         public ConnectForm(ServiceBusHelper serviceBusHelper, ConfigFileUse configFileUse)
         {
             InitializeComponent();
+            Disposed += ConnectForm_Disposed;
             btnOk.Font = lblUri.Font;
             btnCancel.Font = lblUri.Font;
             btnSave.Font = lblUri.Font;
@@ -382,7 +384,7 @@ namespace ServiceBusExplorer.Forms
 
         protected override string GetDpiDiagnosticDetails()
         {
-            return $"uriBounds={txtUri.Bounds}, uriParent={txtUri.Parent.Name}, uriParentBounds={txtUri.Parent.Bounds}, uriFont={txtUri.Font.SizeInPoints:0.##}pt, uriMultiline={txtUri.Multiline}, namespaceComboBounds={cboServiceBusNamespace.Bounds}, namespaceParentBounds={grouperServiceBusNamespaces.Bounds}, namespaceDropDownWidth={cboServiceBusNamespace.DropDownWidth}, authComboBounds={cboAuthMode.Bounds}, okFont={btnOk.Font.SizeInPoints:0.##}pt, cancelFont={btnCancel.Font.SizeInPoints:0.##}pt, uriLabelFont={lblUri.Font.SizeInPoints:0.##}pt, grouperFont={grouperServiceBusNamespaceSettings.Font.SizeInPoints:0.##}pt";
+            return $"fontScale={DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, uriBounds={txtUri.Bounds}, uriParent={txtUri.Parent.Name}, uriParentBounds={txtUri.Parent.Bounds}, uriFont={txtUri.Font.SizeInPoints:0.##}pt, uriMultiline={txtUri.Multiline}, namespaceComboBounds={cboServiceBusNamespace.Bounds}, namespaceParentBounds={grouperServiceBusNamespaces.Bounds}, namespaceDropDownWidth={cboServiceBusNamespace.DropDownWidth}, authComboBounds={cboAuthMode.Bounds}, okFont={btnOk.Font.SizeInPoints:0.##}pt, cancelFont={btnCancel.Font.SizeInPoints:0.##}pt, uriLabelFont={lblUri.Font.SizeInPoints:0.##}pt, grouperFont={grouperServiceBusNamespaceSettings.Font.SizeInPoints:0.##}pt";
         }
 
         private void CaptureLogicalLayout(Control parent, int layoutDpi)
@@ -431,10 +433,44 @@ namespace ServiceBusExplorer.Forms
 
                 if (logicalControlFonts.TryGetValue(child, out var font))
                 {
-                    child.Font = font;
+                    SetLogicalFont(child, font);
                 }
 
                 RestoreLogicalControlBounds(child, dpi);
+            }
+        }
+
+        private void SetLogicalFont(Control control, Font logicalFont)
+        {
+            var effectiveFontSize = DpiAwareForm.ScaleFontSizeForCurrentDpi(this, logicalFont.SizeInPoints);
+            dpiAdjustedControlFonts.TryGetValue(control, out var previousFont);
+            if (previousFont != null && Math.Abs(previousFont.SizeInPoints - effectiveFontSize) < 0.01F)
+            {
+                return;
+            }
+
+            var effectiveFont = Math.Abs(effectiveFontSize - logicalFont.SizeInPoints) < 0.01F
+                ? logicalFont
+                : new Font(logicalFont.FontFamily, effectiveFontSize, logicalFont.Style, GraphicsUnit.Point);
+            control.Font = effectiveFont;
+
+            if (ReferenceEquals(effectiveFont, logicalFont))
+            {
+                dpiAdjustedControlFonts.Remove(control);
+            }
+            else
+            {
+                dpiAdjustedControlFonts[control] = effectiveFont;
+            }
+
+            previousFont?.Dispose();
+        }
+
+        private void ConnectForm_Disposed(object sender, EventArgs e)
+        {
+            foreach (var font in dpiAdjustedControlFonts.Values)
+            {
+                font.Dispose();
             }
         }
 
