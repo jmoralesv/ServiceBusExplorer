@@ -232,11 +232,20 @@ namespace ServiceBusExplorer.Forms
         private bool importing;
         private readonly int mainSplitterDistance;
         private readonly int splitterContainerDistance;
+        private readonly Dictionary<ToolStrip, decimal> toolStripFontSizes = new Dictionary<ToolStrip, decimal>();
         private bool dpiLayoutInitialized;
         private bool dpiLayoutUpdatePending;
         private int dpiLayoutRevision;
         private double pendingMainSplitterRatio;
         private double pendingTreeSplitterRatio;
+        private decimal mainMenuFontSize;
+        private decimal statusStripFontSize;
+        private decimal newVersionFontSize;
+        private decimal treePanelHeaderFontSize;
+        private decimal mainPanelHeaderFontSize;
+        private decimal logPanelHeaderFontSize;
+        private readonly Dictionary<HeaderPanel, Font> logicalHeaderFonts = new Dictionary<HeaderPanel, Font>();
+        private readonly Dictionary<HeaderPanel, Font> appliedHeaderFonts = new Dictionary<HeaderPanel, Font>();
         private ConfigFileUse configFileUse;
         private decimal treeViewFontSize;
         private decimal logFontSize;
@@ -280,6 +289,23 @@ namespace ServiceBusExplorer.Forms
         public MainForm(string logMessage)
         {
             InitializeComponent();
+            mainMenuFontSize = (decimal)mainMenuStrip.Font.SizeInPoints;
+            statusStripFontSize = (decimal)statusStrip.Font.SizeInPoints;
+            newVersionFontSize = (decimal)linkLabelNewVersionAvailable.Font.SizeInPoints;
+            treePanelHeaderFontSize = (decimal)panelTreeView.HeaderFont.SizeInPoints;
+            mainPanelHeaderFontSize = (decimal)panelMain.HeaderFont.SizeInPoints;
+            logPanelHeaderFontSize = (decimal)panelLog.HeaderFont.SizeInPoints;
+            logicalHeaderFonts.Add(panelTreeView, panelTreeView.HeaderFont);
+            logicalHeaderFonts.Add(panelMain, panelMain.HeaderFont);
+            logicalHeaderFonts.Add(panelLog, panelLog.HeaderFont);
+            foreach (var component in components.Components)
+            {
+                if (component is ToolStrip toolStrip && !toolStripFontSizes.ContainsKey(toolStrip))
+                {
+                    toolStripFontSizes.Add(toolStrip, (decimal)toolStrip.Font.SizeInPoints);
+                }
+            }
+
             logTask = Task.Factory.StartNew(AsyncWriteToLog).ContinueWith(t =>
             {
                 if (t.IsFaulted && t.Exception != null)
@@ -6926,6 +6952,14 @@ namespace ServiceBusExplorer.Forms
             SetFontSize(serviceBusTreeView, treeViewFontSize);
             SetFontSize(lstLog, logFontSize);
             SetFontSize(mainTabControl, 8.25m);
+            SetFontSize(mainMenuStrip, mainMenuFontSize);
+            SetFontSize(statusStrip, statusStripFontSize);
+            SetFontSize(linkLabelNewVersionAvailable, newVersionFontSize);
+            SetFontSize(filterTreeViewTextBox, 8.25m);
+            SetFontSize(clearFilterButton, 9m);
+            SetHeaderPanelFont(panelTreeView, treePanelHeaderFontSize);
+            SetHeaderPanelFont(panelMain, mainPanelHeaderFontSize);
+            SetHeaderPanelFont(panelLog, logPanelHeaderFontSize);
             UpdateTreeViewItemHeight();
             // mainMenuStrip and statusStrip are constructed without the components
             // container, so they are not reachable through components.Components.
@@ -6937,6 +6971,11 @@ namespace ServiceBusExplorer.Forms
             {
                 if (component is ToolStrip toolStrip)
                 {
+                    if (toolStripFontSizes.TryGetValue(toolStrip, out var fontSize))
+                    {
+                        SetFontSize(toolStrip, fontSize);
+                    }
+
                     var size = DpiAwareForm.ScaleToCurrentDpi(this, 20);
                     toolStrip.ImageScalingSize = new Size(size, size);
                 }
@@ -6947,7 +6986,7 @@ namespace ServiceBusExplorer.Forms
 
         protected override string GetDpiDiagnosticDetails()
         {
-            return $"treeBounds={serviceBusTreeView.Bounds}, treeFont={serviceBusTreeView.Font.SizeInPoints:0.##}pt, configuredTreeFont={treeViewFontSize:0.##}pt, treeItemHeight={serviceBusTreeView.ItemHeight}, menuBounds={mainMenuStrip.Bounds}, menuFont={mainMenuStrip.Font.SizeInPoints:0.##}pt, menuImageSize={mainMenuStrip.ImageScalingSize}, tabs={mainTabControl.Bounds}, tabFont={mainTabControl.Font.SizeInPoints:0.##}pt, logBounds={lstLog.Bounds}, logFont={lstLog.Font.SizeInPoints:0.##}pt, configuredLogFont={logFontSize:0.##}pt, mainSplitDistance={mainSplitContainer.SplitterDistance}, treeSplitDistance={splitContainer.SplitterDistance}, dashboard=[{dashboardControl.GetDpiDiagnosticDetails()}]";
+            return $"fontScale={DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, treeBounds={serviceBusTreeView.Bounds}, treeFont={serviceBusTreeView.Font.SizeInPoints:0.##}pt, configuredTreeFont={treeViewFontSize:0.##}pt, treeItemHeight={serviceBusTreeView.ItemHeight}, menuBounds={mainMenuStrip.Bounds}, menuFont={mainMenuStrip.Font.SizeInPoints:0.##}pt, menuImageSize={mainMenuStrip.ImageScalingSize}, tabs={mainTabControl.Bounds}, tabFont={mainTabControl.Font.SizeInPoints:0.##}pt, logBounds={lstLog.Bounds}, logFont={lstLog.Font.SizeInPoints:0.##}pt, configuredLogFont={logFontSize:0.##}pt, mainSplitDistance={mainSplitContainer.SplitterDistance}, treeSplitDistance={splitContainer.SplitterDistance}, dashboard=[{dashboardControl.GetDpiDiagnosticDetails()}]";
         }
 
         private void setDefaultLayouToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6959,14 +6998,40 @@ namespace ServiceBusExplorer.Forms
             UpdateTreeViewItemHeight();
         }
 
-        private static void SetFontSize(Control control, decimal fontSize)
+        private void SetFontSize(Control control, decimal fontSize)
         {
-            if (Math.Abs((decimal)control.Font.SizeInPoints - fontSize) < 0.01m)
+            var effectiveFontSize = DpiAwareForm.ScaleFontSizeForCurrentDpi(this, (float)fontSize);
+            if (Math.Abs((decimal)control.Font.SizeInPoints - (decimal)effectiveFontSize) < 0.01m)
             {
                 return;
             }
 
-            control.Font = new Font(control.Font.FontFamily, (float)fontSize, control.Font.Style, GraphicsUnit.Point);
+            control.Font = new Font(control.Font.FontFamily, effectiveFontSize, control.Font.Style, GraphicsUnit.Point);
+        }
+
+        private void SetHeaderPanelFont(HeaderPanel headerPanel, decimal logicalFontSize)
+        {
+            var logicalFont = logicalHeaderFonts[headerPanel];
+            var effectiveFontSize = DpiAwareForm.ScaleFontSizeForCurrentDpi(this, (float)logicalFontSize);
+            var effectiveFont = Math.Abs(effectiveFontSize - (float)logicalFontSize) < 0.01F
+                ? logicalFont
+                : new Font(logicalFont.FontFamily, effectiveFontSize, logicalFont.Style, GraphicsUnit.Point);
+            appliedHeaderFonts.TryGetValue(headerPanel, out var previousFont);
+            headerPanel.HeaderFont = effectiveFont;
+
+            if (ReferenceEquals(effectiveFont, logicalFont))
+            {
+                appliedHeaderFonts.Remove(headerPanel);
+            }
+            else
+            {
+                appliedHeaderFonts[headerPanel] = effectiveFont;
+            }
+
+            if (previousFont != null && !ReferenceEquals(previousFont, effectiveFont))
+            {
+                previousFont.Dispose();
+            }
         }
 
         private static void SetSplitterDistance(SplitContainer splitContainer, int distance)
