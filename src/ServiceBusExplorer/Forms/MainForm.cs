@@ -235,6 +235,8 @@ namespace ServiceBusExplorer.Forms
         private readonly Dictionary<ToolStrip, decimal> toolStripFontSizes = new Dictionary<ToolStrip, decimal>();
         private readonly Dictionary<ToolStripItem, Font> logicalToolStripItemFonts = new Dictionary<ToolStripItem, Font>();
         private readonly Dictionary<ToolStripItem, Font> dpiToolStripItemFonts = new Dictionary<ToolStripItem, Font>();
+        private readonly Dictionary<ToolStripItem, Size> logicalToolStripItemSizes = new Dictionary<ToolStripItem, Size>();
+        private readonly HashSet<ToolStripDropDownItem> dpiAwareDropDownItems = new HashSet<ToolStripDropDownItem>();
         private bool dpiLayoutInitialized;
         private bool dpiLayoutUpdatePending;
         private int dpiLayoutRevision;
@@ -471,6 +473,11 @@ namespace ServiceBusExplorer.Forms
 
         private void UpdateSavedConnectionsMenu()
         {
+            foreach (ToolStripItem item in savedConnectionsToolStripMenuItem.DropDownItems)
+            {
+                ForgetToolStripItemMetrics(item);
+            }
+
             savedConnectionsToolStripMenuItem.DropDownItems.Clear();
             savedConnectionsToolStripMenuItem.Enabled = false;
 
@@ -499,6 +506,8 @@ namespace ServiceBusExplorer.Forms
                     menuItem.Click += SavedConnectionToolStripMenuItem_Click;
 
                     savedConnectionsToolStripMenuItem.DropDownItems.Add(menuItem);
+                    CaptureToolStripItemFont(menuItem, logicalToolStripItemFonts[savedConnectionsToolStripMenuItem]);
+                    SetToolStripItemMetrics(menuItem, logicalToolStripItemFonts[menuItem]);
                 }
             }
 
@@ -6965,7 +6974,7 @@ namespace ServiceBusExplorer.Forms
             SetFontSize(clearFilterButton, 9m);
             foreach (var itemFont in logicalToolStripItemFonts)
             {
-                SetToolStripItemFont(itemFont.Key, itemFont.Value);
+                SetToolStripItemMetrics(itemFont.Key, itemFont.Value);
             }
 
             SetHeaderPanelFont(panelTreeView, treePanelHeaderFontSize);
@@ -7049,10 +7058,7 @@ namespace ServiceBusExplorer.Forms
         {
             foreach (ToolStripItem item in items)
             {
-                if (!logicalToolStripItemFonts.ContainsKey(item))
-                {
-                    logicalToolStripItemFonts.Add(item, item.Font);
-                }
+                CaptureToolStripItemFont(item);
 
                 if (item is ToolStripDropDownItem dropDownItem)
                 {
@@ -7061,37 +7067,118 @@ namespace ServiceBusExplorer.Forms
             }
         }
 
-        private void SetToolStripItemFont(ToolStripItem item, Font logicalFont)
+        private void CaptureToolStripItemFont(ToolStripItem item, Font logicalFont = null)
+        {
+            if (!logicalToolStripItemFonts.ContainsKey(item))
+            {
+                logicalToolStripItemFonts.Add(item, logicalFont ?? item.Font);
+            }
+
+            if (item.Owner is ToolStripDropDown owner && !logicalToolStripItemSizes.ContainsKey(item))
+            {
+                var sourceDpi = owner.DeviceDpi > 0 ? owner.DeviceDpi : DpiAwareForm.GetCurrentDpi(this);
+                logicalToolStripItemSizes.Add(item, new Size(
+                    DpiAwareForm.ScaleBetweenDpi(item.Size.Width, sourceDpi, 96),
+                    DpiAwareForm.ScaleBetweenDpi(item.Size.Height, sourceDpi, 96)));
+            }
+
+            if (item is ToolStripDropDownItem dropDownItem && dpiAwareDropDownItems.Add(dropDownItem))
+            {
+                dropDownItem.DropDownOpening += MainMenu_DropDownOpening;
+            }
+        }
+
+        private void SetToolStripItemMetrics(ToolStripItem item, Font logicalFont)
         {
             var effectiveFontSize = DpiAwareForm.ScaleFontSizeForCurrentDpi(this, logicalFont.SizeInPoints);
             dpiToolStripItemFonts.TryGetValue(item, out var previousFont);
-            if (previousFont != null && Math.Abs(previousFont.SizeInPoints - effectiveFontSize) < 0.01F)
+            if (previousFont == null || Math.Abs(previousFont.SizeInPoints - effectiveFontSize) >= 0.01F)
             {
-                return;
+                var effectiveFont = Math.Abs(effectiveFontSize - logicalFont.SizeInPoints) < 0.01F
+                    ? logicalFont
+                    : new Font(logicalFont.FontFamily, effectiveFontSize, logicalFont.Style, GraphicsUnit.Point);
+                item.Font = effectiveFont;
+
+                if (ReferenceEquals(effectiveFont, logicalFont))
+                {
+                    dpiToolStripItemFonts.Remove(item);
+                }
+                else
+                {
+                    dpiToolStripItemFonts[item] = effectiveFont;
+                }
+
+                previousFont?.Dispose();
             }
 
-            var effectiveFont = Math.Abs(effectiveFontSize - logicalFont.SizeInPoints) < 0.01F
-                ? logicalFont
-                : new Font(logicalFont.FontFamily, effectiveFontSize, logicalFont.Style, GraphicsUnit.Point);
-            item.Font = effectiveFont;
-
-            if (ReferenceEquals(effectiveFont, logicalFont))
+            if (logicalToolStripItemSizes.TryGetValue(item, out var logicalSize))
             {
+                item.AutoSize = false;
+                var effectiveSize = new Size(
+                    DpiAwareForm.ScaleToCurrentDpi(this, logicalSize.Width),
+                    DpiAwareForm.ScaleToCurrentDpi(this, logicalSize.Height));
+                if (item.Size != effectiveSize)
+                {
+                    item.Size = effectiveSize;
+                }
+            }
+        }
+
+        private void MainMenu_DropDownOpening(object sender, EventArgs e)
+        {
+            if (sender is ToolStripDropDownItem dropDownItem)
+            {
+                CaptureToolStripItemFonts(dropDownItem.DropDownItems);
+                foreach (var itemFont in logicalToolStripItemFonts)
+                {
+                    SetToolStripItemMetrics(itemFont.Key, itemFont.Value);
+                }
+            }
+        }
+
+        private void ForgetToolStripItemMetrics(ToolStripItem item)
+        {
+            if (item is ToolStripDropDownItem dropDownItem)
+            {
+                foreach (ToolStripItem child in dropDownItem.DropDownItems)
+                {
+                    ForgetToolStripItemMetrics(child);
+                }
+
+                dpiAwareDropDownItems.Remove(dropDownItem);
+                dropDownItem.DropDownOpening -= MainMenu_DropDownOpening;
+            }
+
+            if (dpiToolStripItemFonts.TryGetValue(item, out var dpiFont))
+            {
+                dpiFont.Dispose();
                 dpiToolStripItemFonts.Remove(item);
             }
-            else
-            {
-                dpiToolStripItemFonts[item] = effectiveFont;
-            }
 
-            previousFont?.Dispose();
+            logicalToolStripItemFonts.Remove(item);
+            logicalToolStripItemSizes.Remove(item);
         }
 
         private string GetMainMenuItemFontDiagnostics()
         {
-            return string.Join(",", mainMenuStrip.Items.OfType<ToolStripDropDownItem>()
-                .SelectMany(item => item.DropDownItems.Cast<ToolStripItem>())
-                .Select(item => $"{item.Name}:{item.Font.SizeInPoints:0.##}pt"));
+            return string.Join(",", GetToolStripItemDescendants(mainMenuStrip.Items)
+                .Select(item => $"{item.Name}:{item.Font.SizeInPoints:0.##}pt/{item.Size.Width}x{item.Size.Height}/autoSize={item.AutoSize}"));
+        }
+
+        private IEnumerable<ToolStripItem> GetToolStripItemDescendants(ToolStripItemCollection items)
+        {
+            foreach (ToolStripItem item in items)
+            {
+                yield return item;
+
+                if (item is ToolStripDropDownItem dropDownItem)
+                {
+                    foreach (var child in GetToolStripItemDescendants(dropDownItem.DropDownItems))
+                    {
+                        yield return child;
+                    }
+                }
+            }
         }
 
         private void MainForm_Disposed(object sender, EventArgs e)
