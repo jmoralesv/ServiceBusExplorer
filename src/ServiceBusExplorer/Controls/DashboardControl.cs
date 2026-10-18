@@ -47,6 +47,7 @@ namespace ServiceBusExplorer.Controls
         private Font toolbarFont;
         private Font hintFont;
         private Font warningFont;
+        private readonly List<Font> dpiAdjustedFonts = new List<Font>();
 
         public DashboardControl()
         {
@@ -82,12 +83,22 @@ namespace ServiceBusExplorer.Controls
             warningPanel.Height = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, LogicalWarningPanelHeight);
             hintLabel.Height = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, LogicalHintHeight);
 
-            toolbarPanel.Font = toolbarFont;
-            refreshButton.Font = toolbarFont;
-            autoRefreshCheckBox.Font = toolbarFont;
-            intervalComboBox.Font = toolbarFont;
-            syncWithTreeViewCheckBox.Font = toolbarFont;
-            statusLabel.Font = toolbarFont;
+            var previousDpiFonts = dpiAdjustedFonts.ToArray();
+            dpiAdjustedFonts.Clear();
+            var currentToolbarFont = GetDpiAdjustedFont(toolbarFont);
+            var currentHeaderFont = GetDpiAdjustedFont(headerFont);
+            var currentCellFont = GetDpiAdjustedFont(cellFont);
+            var currentTotalFont = GetDpiAdjustedFont(totalFont);
+            var currentHintFont = GetDpiAdjustedFont(hintFont);
+            var currentWarningFont = GetDpiAdjustedFont(warningFont);
+
+            toolbarPanel.Font = currentToolbarFont;
+            refreshButton.Font = currentToolbarFont;
+            autoRefreshCheckBox.Font = currentToolbarFont;
+            intervalComboBox.Font = currentToolbarFont;
+            syncWithTreeViewCheckBox.Font = currentToolbarFont;
+            statusLabel.Font = currentToolbarFont;
+            contextMenu.Font = currentToolbarFont;
             refreshButton.Size = new Size(
                 ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 75),
                 ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 24));
@@ -96,13 +107,13 @@ namespace ServiceBusExplorer.Controls
                 ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, 24),
                 intervalComboBox.PreferredHeight);
 
-            dataGridView.ColumnHeadersDefaultCellStyle.Font = headerFont;
-            dataGridView.DefaultCellStyle.Font = cellFont;
-            dataGridView.Columns["Total"].DefaultCellStyle.Font = totalFont;
-            hintLabel.Font = hintFont;
+            dataGridView.ColumnHeadersDefaultCellStyle.Font = currentHeaderFont;
+            dataGridView.DefaultCellStyle.Font = currentCellFont;
+            dataGridView.Columns["Total"].DefaultCellStyle.Font = currentTotalFont;
+            hintLabel.Font = currentHintFont;
             if (warningPanel.Controls.Count > 0)
             {
-                warningPanel.Controls[0].Font = warningFont;
+                warningPanel.Controls[0].Font = currentWarningFont;
             }
 
             var headerHeight = ServiceBusExplorer.Forms.DpiAwareForm.ScaleToCurrentDpi(this, LogicalGridColumnHeaderHeight);
@@ -122,14 +133,32 @@ namespace ServiceBusExplorer.Controls
             }
 
             toolbarPanel.PerformLayout();
+            foreach (var font in previousDpiFonts)
+            {
+                font.Dispose();
+            }
+
             ServiceBusExplorer.Forms.MainForm.WriteDpiDiagnostic(
                 $"Dashboard metrics updated {GetDpiDiagnosticDetails()}");
+        }
+
+        private Font GetDpiAdjustedFont(Font logicalFont)
+        {
+            var size = ServiceBusExplorer.Forms.DpiAwareForm.ScaleFontSizeForCurrentDpi(this, logicalFont.SizeInPoints);
+            if (Math.Abs(size - logicalFont.SizeInPoints) < 0.01F)
+            {
+                return logicalFont;
+            }
+
+            var scaledFont = new Font(logicalFont.FontFamily, size, logicalFont.Style, GraphicsUnit.Point);
+            dpiAdjustedFonts.Add(scaledFont);
+            return scaledFont;
         }
 
         internal string GetDpiDiagnosticDetails()
         {
             var firstRowHeight = dataGridView.Rows.Count > 0 ? dataGridView.Rows[0].Height : 0;
-            return $"bounds={Bounds}, toolbar={toolbarPanel.Bounds}, refresh={refreshButton.Bounds}, interval={intervalComboBox.Bounds}, sync={syncWithTreeViewCheckBox.Bounds}, status={statusLabel.Bounds}, grid={dataGridView.Bounds}, headerHeight={dataGridView.ColumnHeadersHeight}, rowTemplateHeight={dataGridView.RowTemplate.Height}, firstRowHeight={firstRowHeight}, headerFont={headerFont.SizeInPoints:0.##}pt, cellFont={cellFont.SizeInPoints:0.##}pt";
+            return $"bounds={Bounds}, toolbar={toolbarPanel.Bounds}, refresh={refreshButton.Bounds}, interval={intervalComboBox.Bounds}, sync={syncWithTreeViewCheckBox.Bounds}, status={statusLabel.Bounds}, grid={dataGridView.Bounds}, headerHeight={dataGridView.ColumnHeadersHeight}, rowTemplateHeight={dataGridView.RowTemplate.Height}, firstRowHeight={firstRowHeight}, fontScale={ServiceBusExplorer.Forms.DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, headerFont={dataGridView.ColumnHeadersDefaultCellStyle.Font.SizeInPoints:0.##}pt/{headerFont.SizeInPoints:0.##}pt logical, cellFont={dataGridView.DefaultCellStyle.Font.SizeInPoints:0.##}pt/{cellFont.SizeInPoints:0.##}pt logical";
         }
 
         private void InitializeControls()
@@ -668,6 +697,10 @@ namespace ServiceBusExplorer.Controls
                 hintFont?.Dispose();
                 warningFont?.Dispose();
                 toolbarFont?.Dispose();
+                foreach (var font in dpiAdjustedFonts)
+                {
+                    font.Dispose();
+                }
             }
             base.Dispose(disposing);
         }

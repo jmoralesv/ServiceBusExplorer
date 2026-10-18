@@ -160,6 +160,14 @@ namespace ServiceBusExplorer.Forms
                 : value;
         }
 
+        internal static float ScaleFontSizeForCurrentDpi(Control control, float logicalSizeInPoints)
+        {
+            var frameworkDpi = control.DeviceDpi;
+            return frameworkDpi > 0
+                ? logicalSizeInPoints * GetCurrentDpi(control) / frameworkDpi
+                : logicalSizeInPoints;
+        }
+
         internal static void ScaleBitmapToCurrentDpi(Control control, ref Bitmap bitmap)
         {
             var factor = GetCurrentDpi(control) / 96.0;
