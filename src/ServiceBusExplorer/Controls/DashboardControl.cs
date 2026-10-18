@@ -108,8 +108,21 @@ namespace ServiceBusExplorer.Controls
                 intervalComboBox.PreferredHeight);
 
             dataGridView.ColumnHeadersDefaultCellStyle.Font = currentHeaderFont;
+            dataGridView.Font = currentCellFont;
             dataGridView.DefaultCellStyle.Font = currentCellFont;
-            dataGridView.Columns["Total"].DefaultCellStyle.Font = currentTotalFont;
+            dataGridView.RowsDefaultCellStyle.Font = currentCellFont;
+            dataGridView.AlternatingRowsDefaultCellStyle.Font = currentCellFont;
+            dataGridView.RowTemplate.DefaultCellStyle.Font = currentCellFont;
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.DefaultCellStyle.Font = column.Name == "Total" ? currentTotalFont : currentCellFont;
+            }
+            var totalColumnIndex = dataGridView.Columns["Total"].Index;
+            if (totalColumnIndex < dataGridView.RowTemplate.Cells.Count)
+            {
+                dataGridView.RowTemplate.Cells[totalColumnIndex].Style.Font = currentTotalFont;
+            }
+
             hintLabel.Font = currentHintFont;
             if (warningPanel.Controls.Count > 0)
             {
@@ -130,6 +143,9 @@ namespace ServiceBusExplorer.Controls
                 {
                     row.Height = rowHeight;
                 }
+
+                row.DefaultCellStyle.Font = currentCellFont;
+                row.Cells[totalColumnIndex].Style.Font = currentTotalFont;
             }
 
             toolbarPanel.PerformLayout();
@@ -140,6 +156,12 @@ namespace ServiceBusExplorer.Controls
 
             ServiceBusExplorer.Forms.MainForm.WriteDpiDiagnostic(
                 $"Dashboard metrics updated {GetDpiDiagnosticDetails()}");
+        }
+
+        private void DataGridView_HandleCreated(object sender, EventArgs e)
+        {
+            dataGridView.HandleCreated -= DataGridView_HandleCreated;
+            UpdateDpiMetrics();
         }
 
         private Font GetDpiAdjustedFont(Font logicalFont)
@@ -158,7 +180,10 @@ namespace ServiceBusExplorer.Controls
         internal string GetDpiDiagnosticDetails()
         {
             var firstRowHeight = dataGridView.Rows.Count > 0 ? dataGridView.Rows[0].Height : 0;
-            return $"bounds={Bounds}, toolbar={toolbarPanel.Bounds}, refresh={refreshButton.Bounds}, interval={intervalComboBox.Bounds}, sync={syncWithTreeViewCheckBox.Bounds}, status={statusLabel.Bounds}, grid={dataGridView.Bounds}, headerHeight={dataGridView.ColumnHeadersHeight}, rowTemplateHeight={dataGridView.RowTemplate.Height}, firstRowHeight={firstRowHeight}, fontScale={ServiceBusExplorer.Forms.DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, headerFont={dataGridView.ColumnHeadersDefaultCellStyle.Font.SizeInPoints:0.##}pt/{headerFont.SizeInPoints:0.##}pt logical, cellFont={dataGridView.DefaultCellStyle.Font.SizeInPoints:0.##}pt/{cellFont.SizeInPoints:0.##}pt logical";
+            var firstCellFont = dataGridView.Rows.Count > 0
+                ? dataGridView.Rows[0].Cells[0].InheritedStyle.Font
+                : null;
+            return $"bounds={Bounds}, toolbar={toolbarPanel.Bounds}, refresh={refreshButton.Bounds}, interval={intervalComboBox.Bounds}, sync={syncWithTreeViewCheckBox.Bounds}, status={statusLabel.Bounds}, grid={dataGridView.Bounds}, headerHeight={dataGridView.ColumnHeadersHeight}, rowTemplateHeight={dataGridView.RowTemplate.Height}, firstRowHeight={firstRowHeight}, fontScale={ServiceBusExplorer.Forms.DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, gridFont={dataGridView.Font.SizeInPoints:0.##}pt, headerFont={dataGridView.ColumnHeadersDefaultCellStyle.Font.SizeInPoints:0.##}pt/{headerFont.SizeInPoints:0.##}pt logical, cellFont={dataGridView.DefaultCellStyle.Font.SizeInPoints:0.##}pt/{cellFont.SizeInPoints:0.##}pt logical, firstCellFont={firstCellFont?.SizeInPoints:0.##}pt";
         }
 
         private void InitializeControls()
@@ -316,6 +341,7 @@ namespace ServiceBusExplorer.Controls
             dataGridView.CellClick += DataGridView_CellClick;
             dataGridView.CellDoubleClick += DataGridView_CellDoubleClick;
             dataGridView.KeyDown += DataGridView_KeyDown;
+            dataGridView.HandleCreated += DataGridView_HandleCreated;
 
             // Context menu
             contextMenu = new ContextMenuStrip();
