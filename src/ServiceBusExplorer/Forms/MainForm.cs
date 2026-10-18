@@ -233,6 +233,8 @@ namespace ServiceBusExplorer.Forms
         private readonly int mainSplitterDistance;
         private readonly int splitterContainerDistance;
         private readonly Dictionary<ToolStrip, decimal> toolStripFontSizes = new Dictionary<ToolStrip, decimal>();
+        private readonly Dictionary<ToolStripItem, Font> logicalToolStripItemFonts = new Dictionary<ToolStripItem, Font>();
+        private readonly Dictionary<ToolStripItem, Font> dpiToolStripItemFonts = new Dictionary<ToolStripItem, Font>();
         private bool dpiLayoutInitialized;
         private bool dpiLayoutUpdatePending;
         private int dpiLayoutRevision;
@@ -289,6 +291,7 @@ namespace ServiceBusExplorer.Forms
         public MainForm(string logMessage)
         {
             InitializeComponent();
+            Disposed += MainForm_Disposed;
             mainMenuFontSize = (decimal)mainMenuStrip.Font.SizeInPoints;
             statusStripFontSize = (decimal)statusStrip.Font.SizeInPoints;
             newVersionFontSize = (decimal)linkLabelNewVersionAvailable.Font.SizeInPoints;
@@ -303,8 +306,11 @@ namespace ServiceBusExplorer.Forms
                 if (component is ToolStrip toolStrip && !toolStripFontSizes.ContainsKey(toolStrip))
                 {
                     toolStripFontSizes.Add(toolStrip, (decimal)toolStrip.Font.SizeInPoints);
+                    CaptureToolStripItemFonts(toolStrip.Items);
                 }
             }
+            CaptureToolStripItemFonts(mainMenuStrip.Items);
+            CaptureToolStripItemFonts(statusStrip.Items);
 
             logTask = Task.Factory.StartNew(AsyncWriteToLog).ContinueWith(t =>
             {
@@ -6957,6 +6963,11 @@ namespace ServiceBusExplorer.Forms
             SetFontSize(linkLabelNewVersionAvailable, newVersionFontSize);
             SetFontSize(filterTreeViewTextBox, 8.25m);
             SetFontSize(clearFilterButton, 9m);
+            foreach (var itemFont in logicalToolStripItemFonts)
+            {
+                SetToolStripItemFont(itemFont.Key, itemFont.Value);
+            }
+
             SetHeaderPanelFont(panelTreeView, treePanelHeaderFontSize);
             SetHeaderPanelFont(panelMain, mainPanelHeaderFontSize);
             SetHeaderPanelFont(panelLog, logPanelHeaderFontSize);
@@ -6986,7 +6997,7 @@ namespace ServiceBusExplorer.Forms
 
         protected override string GetDpiDiagnosticDetails()
         {
-            return $"fontScale={DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, treeBounds={serviceBusTreeView.Bounds}, treeFont={serviceBusTreeView.Font.SizeInPoints:0.##}pt, configuredTreeFont={treeViewFontSize:0.##}pt, treeItemHeight={serviceBusTreeView.ItemHeight}, menuBounds={mainMenuStrip.Bounds}, menuFont={mainMenuStrip.Font.SizeInPoints:0.##}pt, menuImageSize={mainMenuStrip.ImageScalingSize}, tabs={mainTabControl.Bounds}, tabFont={mainTabControl.Font.SizeInPoints:0.##}pt, logBounds={lstLog.Bounds}, logFont={lstLog.Font.SizeInPoints:0.##}pt, configuredLogFont={logFontSize:0.##}pt, mainSplitDistance={mainSplitContainer.SplitterDistance}, treeSplitDistance={splitContainer.SplitterDistance}, dashboard=[{dashboardControl.GetDpiDiagnosticDetails()}]";
+            return $"fontScale={DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, treeBounds={serviceBusTreeView.Bounds}, treeFont={serviceBusTreeView.Font.SizeInPoints:0.##}pt, configuredTreeFont={treeViewFontSize:0.##}pt, treeItemHeight={serviceBusTreeView.ItemHeight}, menuBounds={mainMenuStrip.Bounds}, menuFont={mainMenuStrip.Font.SizeInPoints:0.##}pt, menuItemFonts={GetMainMenuItemFontDiagnostics()}, menuImageSize={mainMenuStrip.ImageScalingSize}, tabs={mainTabControl.Bounds}, tabFont={mainTabControl.Font.SizeInPoints:0.##}pt, logBounds={lstLog.Bounds}, logFont={lstLog.Font.SizeInPoints:0.##}pt, configuredLogFont={logFontSize:0.##}pt, mainSplitDistance={mainSplitContainer.SplitterDistance}, treeSplitDistance={splitContainer.SplitterDistance}, dashboard=[{dashboardControl.GetDpiDiagnosticDetails()}]";
         }
 
         private void setDefaultLayouToolStripMenuItem_Click(object sender, EventArgs e)
@@ -7031,6 +7042,63 @@ namespace ServiceBusExplorer.Forms
             if (previousFont != null && !ReferenceEquals(previousFont, effectiveFont))
             {
                 previousFont.Dispose();
+            }
+        }
+
+        private void CaptureToolStripItemFonts(ToolStripItemCollection items)
+        {
+            foreach (ToolStripItem item in items)
+            {
+                if (!logicalToolStripItemFonts.ContainsKey(item))
+                {
+                    logicalToolStripItemFonts.Add(item, item.Font);
+                }
+
+                if (item is ToolStripDropDownItem dropDownItem)
+                {
+                    CaptureToolStripItemFonts(dropDownItem.DropDownItems);
+                }
+            }
+        }
+
+        private void SetToolStripItemFont(ToolStripItem item, Font logicalFont)
+        {
+            var effectiveFontSize = DpiAwareForm.ScaleFontSizeForCurrentDpi(this, logicalFont.SizeInPoints);
+            dpiToolStripItemFonts.TryGetValue(item, out var previousFont);
+            if (previousFont != null && Math.Abs(previousFont.SizeInPoints - effectiveFontSize) < 0.01F)
+            {
+                return;
+            }
+
+            var effectiveFont = Math.Abs(effectiveFontSize - logicalFont.SizeInPoints) < 0.01F
+                ? logicalFont
+                : new Font(logicalFont.FontFamily, effectiveFontSize, logicalFont.Style, GraphicsUnit.Point);
+            item.Font = effectiveFont;
+
+            if (ReferenceEquals(effectiveFont, logicalFont))
+            {
+                dpiToolStripItemFonts.Remove(item);
+            }
+            else
+            {
+                dpiToolStripItemFonts[item] = effectiveFont;
+            }
+
+            previousFont?.Dispose();
+        }
+
+        private string GetMainMenuItemFontDiagnostics()
+        {
+            return string.Join(",", mainMenuStrip.Items.OfType<ToolStripDropDownItem>()
+                .SelectMany(item => item.DropDownItems.Cast<ToolStripItem>())
+                .Select(item => $"{item.Name}:{item.Font.SizeInPoints:0.##}pt"));
+        }
+
+        private void MainForm_Disposed(object sender, EventArgs e)
+        {
+            foreach (var font in dpiToolStripItemFonts.Values)
+            {
+                font.Dispose();
             }
         }
 
