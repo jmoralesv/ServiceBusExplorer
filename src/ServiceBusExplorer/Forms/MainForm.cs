@@ -236,6 +236,7 @@ namespace ServiceBusExplorer.Forms
         private readonly Dictionary<ToolStripItem, Font> logicalToolStripItemFonts = new Dictionary<ToolStripItem, Font>();
         private readonly Dictionary<ToolStripItem, Font> dpiToolStripItemFonts = new Dictionary<ToolStripItem, Font>();
         private readonly Dictionary<ToolStripItem, Size> logicalToolStripItemSizes = new Dictionary<ToolStripItem, Size>();
+        private readonly HashSet<ToolStripItem> autoSizedToolStripItems = new HashSet<ToolStripItem>();
         private readonly HashSet<ToolStripDropDownItem> dpiAwareDropDownItems = new HashSet<ToolStripDropDownItem>();
         private bool dpiLayoutInitialized;
         private bool dpiLayoutUpdatePending;
@@ -506,7 +507,8 @@ namespace ServiceBusExplorer.Forms
                     menuItem.Click += SavedConnectionToolStripMenuItem_Click;
 
                     savedConnectionsToolStripMenuItem.DropDownItems.Add(menuItem);
-                    CaptureToolStripItemFont(menuItem, logicalToolStripItemFonts[savedConnectionsToolStripMenuItem]);
+                    CaptureToolStripItemFont(
+                        menuItem, logicalToolStripItemFonts[savedConnectionsToolStripMenuItem], captureSize: false);
                     SetToolStripItemMetrics(menuItem, logicalToolStripItemFonts[menuItem]);
                 }
             }
@@ -7067,14 +7069,21 @@ namespace ServiceBusExplorer.Forms
             }
         }
 
-        private void CaptureToolStripItemFont(ToolStripItem item, Font logicalFont = null)
+        private void CaptureToolStripItemFont(ToolStripItem item, Font logicalFont = null, bool captureSize = true)
         {
             if (!logicalToolStripItemFonts.ContainsKey(item))
             {
                 logicalToolStripItemFonts.Add(item, logicalFont ?? item.Font);
             }
 
-            if (item.Owner is ToolStripDropDown owner && !logicalToolStripItemSizes.ContainsKey(item))
+            if (!captureSize)
+            {
+                autoSizedToolStripItems.Add(item);
+            }
+
+            if (!autoSizedToolStripItems.Contains(item) &&
+                item.Owner is ToolStripDropDown owner &&
+                !logicalToolStripItemSizes.ContainsKey(item))
             {
                 var sourceDpi = owner.DeviceDpi > 0 ? owner.DeviceDpi : DpiAwareForm.GetCurrentDpi(this);
                 logicalToolStripItemSizes.Add(item, new Size(
@@ -7111,7 +7120,8 @@ namespace ServiceBusExplorer.Forms
                 previousFont?.Dispose();
             }
 
-            if (logicalToolStripItemSizes.TryGetValue(item, out var logicalSize))
+            if (!autoSizedToolStripItems.Contains(item) &&
+                logicalToolStripItemSizes.TryGetValue(item, out var logicalSize))
             {
                 item.AutoSize = false;
                 var effectiveSize = new Size(
@@ -7157,12 +7167,13 @@ namespace ServiceBusExplorer.Forms
 
             logicalToolStripItemFonts.Remove(item);
             logicalToolStripItemSizes.Remove(item);
+            autoSizedToolStripItems.Remove(item);
         }
 
         private string GetMainMenuItemFontDiagnostics()
         {
             return string.Join(",", GetToolStripItemDescendants(mainMenuStrip.Items)
-                .Select(item => $"{item.Name}:{item.Font.SizeInPoints:0.##}pt/{item.Size.Width}x{item.Size.Height}/autoSize={item.AutoSize}"));
+                .Select(item => $"{item.Name}:{item.Font.SizeInPoints:0.##}pt/{item.Size.Width}x{item.Size.Height}/autoSize={item.AutoSize}/bounds={item.Bounds}"));
         }
 
         private IEnumerable<ToolStripItem> GetToolStripItemDescendants(ToolStripItemCollection items)
