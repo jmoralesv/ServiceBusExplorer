@@ -6974,10 +6974,7 @@ namespace ServiceBusExplorer.Forms
             SetFontSize(linkLabelNewVersionAvailable, newVersionFontSize);
             SetFontSize(filterTreeViewTextBox, 8.25m);
             SetFontSize(clearFilterButton, 9m);
-            foreach (var itemFont in logicalToolStripItemFonts)
-            {
-                SetToolStripItemMetrics(itemFont.Key, itemFont.Value);
-            }
+            ApplyToolStripItemMetrics();
 
             SetHeaderPanelFont(panelTreeView, treePanelHeaderFontSize);
             SetHeaderPanelFont(panelMain, mainPanelHeaderFontSize);
@@ -7123,7 +7120,7 @@ namespace ServiceBusExplorer.Forms
 
             if (autoSizedToolStripItems.Contains(item))
             {
-                SetMeasuredSavedConnectionMenuItemSize(item);
+                item.AutoSize = true;
             }
             else if (logicalToolStripItemSizes.TryGetValue(item, out var logicalSize))
             {
@@ -7138,24 +7135,52 @@ namespace ServiceBusExplorer.Forms
             }
         }
 
-        private void SetMeasuredSavedConnectionMenuItemSize(ToolStripItem item)
+        private void ApplyToolStripItemMetrics()
         {
-            if (!(item.Owner is ToolStripDropDown owner) ||
-                !owner.IsHandleCreated ||
-                !logicalToolStripItemSizes.TryGetValue(savedConnectionsToolStripMenuItem, out var logicalParentSize))
+            foreach (var itemFont in logicalToolStripItemFonts)
             {
-                return;
+                SetToolStripItemMetrics(itemFont.Key, itemFont.Value);
             }
 
-            item.AutoSize = true;
-            owner.PerformLayout();
-            var itemWidth = item.Width;
-            var itemHeight = DpiAwareForm.ScaleToCurrentDpi(this, logicalParentSize.Height);
-            item.AutoSize = false;
-            var effectiveSize = new Size(itemWidth, itemHeight);
-            if (item.Size != effectiveSize)
+            LayoutSavedConnectionMenuItems();
+        }
+
+        private void LayoutSavedConnectionMenuItems()
+        {
+            var owners = autoSizedToolStripItems
+                .Select(item => item.Owner as ToolStripDropDown)
+                .Where(owner => owner != null && owner.IsHandleCreated)
+                .Distinct()
+                .ToArray();
+            foreach (var owner in owners)
             {
-                item.Size = effectiveSize;
+                var items = autoSizedToolStripItems
+                    .Where(item => ReferenceEquals(item.Owner, owner))
+                    .ToArray();
+                if (items.Length == 0)
+                {
+                    continue;
+                }
+
+                owner.AutoSize = true;
+                owner.PerformLayout();
+                var itemWidth = items.Max(item => item.GetPreferredSize(Size.Empty).Width);
+                var logicalRowHeight = logicalToolStripItemSizes.TryGetValue(
+                    savedConnectionsToolStripMenuItem, out var parentSize)
+                    ? parentSize.Height
+                    : 22;
+                var itemHeight = DpiAwareForm.ScaleToCurrentDpi(this, logicalRowHeight);
+                foreach (var item in items)
+                {
+                    item.AutoSize = false;
+                    var effectiveSize = new Size(itemWidth, itemHeight);
+                    if (item.Size != effectiveSize)
+                    {
+                        item.Size = effectiveSize;
+                    }
+                }
+
+                owner.PerformLayout();
             }
         }
 
@@ -7178,10 +7203,7 @@ namespace ServiceBusExplorer.Forms
         private void UpdateDropDownItemMetrics(ToolStripDropDownItem dropDownItem)
         {
             CaptureToolStripItemFonts(dropDownItem.DropDownItems);
-            foreach (var itemFont in logicalToolStripItemFonts)
-            {
-                SetToolStripItemMetrics(itemFont.Key, itemFont.Value);
-            }
+            ApplyToolStripItemMetrics();
         }
 
         private void ForgetToolStripItemMetrics(ToolStripItem item)
