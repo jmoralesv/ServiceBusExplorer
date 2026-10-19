@@ -7125,7 +7125,8 @@ namespace ServiceBusExplorer.Forms
                 previousFont?.Dispose();
             }
 
-            if (autoSizedToolStripItems.Contains(item))
+            if (autoSizedToolStripItems.Contains(item) ||
+                (mainMenuToolStripItems.Contains(item) && item.Owner is ToolStripDropDown))
             {
                 item.AutoSize = true;
             }
@@ -7167,19 +7168,19 @@ namespace ServiceBusExplorer.Forms
                 SetToolStripItemMetrics(itemFont.Key, itemFont.Value);
             }
 
-            LayoutSavedConnectionMenuItems();
+            LayoutMainMenuDropDowns();
         }
 
-        private void LayoutSavedConnectionMenuItems()
+        private void LayoutMainMenuDropDowns()
         {
-            var owners = autoSizedToolStripItems
+            var owners = mainMenuToolStripItems
                 .Select(item => item.Owner as ToolStripDropDown)
                 .Where(owner => owner != null && owner.IsHandleCreated)
                 .Distinct()
                 .ToArray();
             foreach (var owner in owners)
             {
-                var items = autoSizedToolStripItems
+                var items = mainMenuToolStripItems
                     .Where(item => ReferenceEquals(item.Owner, owner))
                     .ToArray();
                 if (items.Length == 0)
@@ -7189,15 +7190,20 @@ namespace ServiceBusExplorer.Forms
 
                 owner.AutoSize = true;
                 owner.PerformLayout();
-                var itemWidth = items.Max(item => item.GetPreferredSize(Size.Empty).Width);
-                var logicalRowHeight = logicalToolStripItemSizes.TryGetValue(
-                    savedConnectionsToolStripMenuItem, out var parentSize)
-                    ? parentSize.Height
-                    : 22;
-                var itemHeight = DpiAwareForm.ScaleToCurrentDpi(this, logicalRowHeight);
+                var itemWidth = items
+                    .Where(item => !(item is ToolStripSeparator))
+                    .Select(item => item.GetPreferredSize(Size.Empty).Width)
+                    .DefaultIfEmpty(0)
+                    .Max();
                 foreach (var item in items)
                 {
                     item.AutoSize = false;
+                    var logicalRowHeight = logicalToolStripItemSizes.TryGetValue(item, out var itemSize)
+                        ? itemSize.Height
+                        : logicalToolStripItemSizes.TryGetValue(savedConnectionsToolStripMenuItem, out var parentSize)
+                            ? parentSize.Height
+                            : 22;
+                    var itemHeight = DpiAwareForm.ScaleToCurrentDpi(this, logicalRowHeight);
                     var effectiveSize = new Size(itemWidth, itemHeight);
                     if (item.Size != effectiveSize)
                     {
