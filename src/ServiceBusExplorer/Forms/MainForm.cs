@@ -239,6 +239,8 @@ namespace ServiceBusExplorer.Forms
         private readonly HashSet<ToolStripItem> autoSizedToolStripItems = new HashSet<ToolStripItem>();
         private readonly HashSet<ToolStripDropDownItem> dpiAwareDropDownItems = new HashSet<ToolStripDropDownItem>();
         private readonly HashSet<ToolStripItem> mainMenuToolStripItems = new HashSet<ToolStripItem>();
+        private readonly Dictionary<ToolStripDropDown, int> mainMenuDropDownLayoutDpis =
+            new Dictionary<ToolStripDropDown, int>();
         private bool dpiLayoutInitialized;
         private bool dpiLayoutUpdatePending;
         private int dpiLayoutRevision;
@@ -508,9 +510,9 @@ namespace ServiceBusExplorer.Forms
                     menuItem.Click += SavedConnectionToolStripMenuItem_Click;
 
                     savedConnectionsToolStripMenuItem.DropDownItems.Add(menuItem);
+                    mainMenuToolStripItems.Add(menuItem);
                     CaptureToolStripItemFont(
                         menuItem, logicalToolStripItemFonts[savedConnectionsToolStripMenuItem], captureSize: false);
-                    mainMenuToolStripItems.Add(menuItem);
                     SetToolStripItemMetrics(menuItem, logicalToolStripItemFonts[menuItem]);
                 }
             }
@@ -6976,7 +6978,7 @@ namespace ServiceBusExplorer.Forms
             SetFontSize(linkLabelNewVersionAvailable, newVersionFontSize);
             SetFontSize(filterTreeViewTextBox, 8.25m);
             SetFontSize(clearFilterButton, 9m);
-            ApplyToolStripItemMetrics();
+            ApplyToolStripItemMetrics(forceMenuLayout: true);
 
             SetHeaderPanelFont(panelTreeView, treePanelHeaderFontSize);
             SetHeaderPanelFont(panelMain, mainPanelHeaderFontSize);
@@ -7078,6 +7080,10 @@ namespace ServiceBusExplorer.Forms
             if (!logicalToolStripItemFonts.ContainsKey(item))
             {
                 logicalToolStripItemFonts.Add(item, logicalFont ?? item.Font);
+                if (mainMenuToolStripItems.Contains(item) && item.Owner is ToolStripDropDown menuOwner)
+                {
+                    mainMenuDropDownLayoutDpis.Remove(menuOwner);
+                }
             }
 
             if (!captureSize)
@@ -7125,8 +7131,12 @@ namespace ServiceBusExplorer.Forms
                 previousFont?.Dispose();
             }
 
-            if (autoSizedToolStripItems.Contains(item) ||
-                (mainMenuToolStripItems.Contains(item) && item.Owner is ToolStripDropDown))
+            if (mainMenuToolStripItems.Contains(item) && item.Owner is ToolStripDropDown)
+            {
+                return;
+            }
+
+            if (autoSizedToolStripItems.Contains(item))
             {
                 item.AutoSize = true;
             }
@@ -7161,18 +7171,19 @@ namespace ServiceBusExplorer.Forms
             return effectiveFontSize;
         }
 
-        private void ApplyToolStripItemMetrics()
+        private void ApplyToolStripItemMetrics(bool forceMenuLayout = false)
         {
             foreach (var itemFont in logicalToolStripItemFonts)
             {
                 SetToolStripItemMetrics(itemFont.Key, itemFont.Value);
             }
 
-            LayoutMainMenuDropDowns();
+            LayoutMainMenuDropDowns(forceMenuLayout);
         }
 
-        private void LayoutMainMenuDropDowns()
+        private void LayoutMainMenuDropDowns(bool forceLayout)
         {
+            var currentDpi = DpiAwareForm.GetCurrentDpi(this);
             var owners = mainMenuToolStripItems
                 .Select(item => item.Owner as ToolStripDropDown)
                 .Where(owner => owner != null && owner.IsHandleCreated)
@@ -7180,12 +7191,25 @@ namespace ServiceBusExplorer.Forms
                 .ToArray();
             foreach (var owner in owners)
             {
+                if (!forceLayout &&
+                    mainMenuDropDownLayoutDpis.TryGetValue(owner, out var layoutDpi) &&
+                    layoutDpi == currentDpi)
+                {
+                    continue;
+                }
+
                 var items = mainMenuToolStripItems
                     .Where(item => ReferenceEquals(item.Owner, owner))
                     .ToArray();
                 if (items.Length == 0)
                 {
                     continue;
+                }
+
+                foreach (var item in items)
+                {
+                    item.AutoSize = true;
+                    item.Size = Size.Empty;
                 }
 
                 owner.AutoSize = true;
@@ -7195,6 +7219,7 @@ namespace ServiceBusExplorer.Forms
                     .Select(item => item.GetPreferredSize(Size.Empty).Width)
                     .DefaultIfEmpty(0)
                     .Max();
+                itemWidth = Math.Max(itemWidth, 1);
                 foreach (var item in items)
                 {
                     item.AutoSize = false;
@@ -7212,6 +7237,7 @@ namespace ServiceBusExplorer.Forms
                 }
 
                 owner.PerformLayout();
+                mainMenuDropDownLayoutDpis[owner] = currentDpi;
             }
         }
 
@@ -7240,6 +7266,11 @@ namespace ServiceBusExplorer.Forms
 
         private void ForgetToolStripItemMetrics(ToolStripItem item)
         {
+            if (item.Owner is ToolStripDropDown owner)
+            {
+                mainMenuDropDownLayoutDpis.Remove(owner);
+            }
+
             if (item is ToolStripDropDownItem dropDownItem)
             {
                 foreach (ToolStripItem child in dropDownItem.DropDownItems)
