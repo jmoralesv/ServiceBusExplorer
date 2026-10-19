@@ -7094,6 +7094,7 @@ namespace ServiceBusExplorer.Forms
             if (item is ToolStripDropDownItem dropDownItem && dpiAwareDropDownItems.Add(dropDownItem))
             {
                 dropDownItem.DropDownOpening += MainMenu_DropDownOpening;
+                dropDownItem.DropDownOpened += MainMenu_DropDownOpened;
             }
         }
 
@@ -7120,8 +7121,11 @@ namespace ServiceBusExplorer.Forms
                 previousFont?.Dispose();
             }
 
-            if (!autoSizedToolStripItems.Contains(item) &&
-                logicalToolStripItemSizes.TryGetValue(item, out var logicalSize))
+            if (autoSizedToolStripItems.Contains(item))
+            {
+                SetMeasuredSavedConnectionMenuItemSize(item);
+            }
+            else if (logicalToolStripItemSizes.TryGetValue(item, out var logicalSize))
             {
                 item.AutoSize = false;
                 var effectiveSize = new Size(
@@ -7134,15 +7138,49 @@ namespace ServiceBusExplorer.Forms
             }
         }
 
+        private void SetMeasuredSavedConnectionMenuItemSize(ToolStripItem item)
+        {
+            if (!(item.Owner is ToolStripDropDown owner) ||
+                !owner.IsHandleCreated ||
+                !logicalToolStripItemSizes.TryGetValue(savedConnectionsToolStripMenuItem, out var logicalParentSize))
+            {
+                return;
+            }
+
+            item.AutoSize = true;
+            owner.PerformLayout();
+            var itemWidth = item.Width;
+            var itemHeight = DpiAwareForm.ScaleToCurrentDpi(this, logicalParentSize.Height);
+            item.AutoSize = false;
+            var effectiveSize = new Size(itemWidth, itemHeight);
+            if (item.Size != effectiveSize)
+            {
+                item.Size = effectiveSize;
+            }
+        }
+
         private void MainMenu_DropDownOpening(object sender, EventArgs e)
         {
             if (sender is ToolStripDropDownItem dropDownItem)
             {
-                CaptureToolStripItemFonts(dropDownItem.DropDownItems);
-                foreach (var itemFont in logicalToolStripItemFonts)
-                {
-                    SetToolStripItemMetrics(itemFont.Key, itemFont.Value);
-                }
+                UpdateDropDownItemMetrics(dropDownItem);
+            }
+        }
+
+        private void MainMenu_DropDownOpened(object sender, EventArgs e)
+        {
+            if (sender is ToolStripDropDownItem dropDownItem)
+            {
+                UpdateDropDownItemMetrics(dropDownItem);
+            }
+        }
+
+        private void UpdateDropDownItemMetrics(ToolStripDropDownItem dropDownItem)
+        {
+            CaptureToolStripItemFonts(dropDownItem.DropDownItems);
+            foreach (var itemFont in logicalToolStripItemFonts)
+            {
+                SetToolStripItemMetrics(itemFont.Key, itemFont.Value);
             }
         }
 
@@ -7157,6 +7195,7 @@ namespace ServiceBusExplorer.Forms
 
                 dpiAwareDropDownItems.Remove(dropDownItem);
                 dropDownItem.DropDownOpening -= MainMenu_DropDownOpening;
+                dropDownItem.DropDownOpened -= MainMenu_DropDownOpened;
             }
 
             if (dpiToolStripItemFonts.TryGetValue(item, out var dpiFont))
