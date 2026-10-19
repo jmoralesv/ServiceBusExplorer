@@ -297,6 +297,7 @@ namespace ServiceBusExplorer.Forms
         public MainForm(string logMessage)
         {
             InitializeComponent();
+            ConfigureMainMenuDropDownMargins();
             Disposed += MainForm_Disposed;
             mainMenuFontSize = (decimal)mainMenuStrip.Font.SizeInPoints;
             statusStripFontSize = (decimal)statusStrip.Font.SizeInPoints;
@@ -7009,7 +7010,7 @@ namespace ServiceBusExplorer.Forms
 
         protected override string GetDpiDiagnosticDetails()
         {
-            return $"fontScale={DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, treeBounds={serviceBusTreeView.Bounds}, treeFont={serviceBusTreeView.Font.SizeInPoints:0.##}pt, configuredTreeFont={treeViewFontSize:0.##}pt, treeItemHeight={serviceBusTreeView.ItemHeight}, menuBounds={mainMenuStrip.Bounds}, menuFont={mainMenuStrip.Font.SizeInPoints:0.##}pt, menuItemFonts={GetMainMenuItemFontDiagnostics()}, menuImageSize={mainMenuStrip.ImageScalingSize}, tabs={mainTabControl.Bounds}, tabFont={mainTabControl.Font.SizeInPoints:0.##}pt, logBounds={lstLog.Bounds}, logFont={lstLog.Font.SizeInPoints:0.##}pt, configuredLogFont={logFontSize:0.##}pt, mainSplitDistance={mainSplitContainer.SplitterDistance}, treeSplitDistance={splitContainer.SplitterDistance}, dashboard=[{dashboardControl.GetDpiDiagnosticDetails()}]";
+            return $"fontScale={DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, treeBounds={serviceBusTreeView.Bounds}, treeFont={serviceBusTreeView.Font.SizeInPoints:0.##}pt, configuredTreeFont={treeViewFontSize:0.##}pt, treeItemHeight={serviceBusTreeView.ItemHeight}, menuBounds={mainMenuStrip.Bounds}, menuFont={mainMenuStrip.Font.SizeInPoints:0.##}pt, menuItemFonts={GetMainMenuItemFontDiagnostics()}, menuImageSize={mainMenuStrip.ImageScalingSize}, menuImageMargins={GetMainMenuImageMarginDiagnostics()}, tabs={mainTabControl.Bounds}, tabFont={mainTabControl.Font.SizeInPoints:0.##}pt, logBounds={lstLog.Bounds}, logFont={lstLog.Font.SizeInPoints:0.##}pt, configuredLogFont={logFontSize:0.##}pt, mainSplitDistance={mainSplitContainer.SplitterDistance}, treeSplitDistance={splitContainer.SplitterDistance}, dashboard=[{dashboardControl.GetDpiDiagnosticDetails()}]";
         }
 
         private void setDefaultLayouToolStripMenuItem_Click(object sender, EventArgs e)
@@ -7299,6 +7300,26 @@ namespace ServiceBusExplorer.Forms
         {
             return string.Join(",", GetToolStripItemDescendants(mainMenuStrip.Items)
                 .Select(item => $"{item.Name}:{item.Font.SizeInPoints:0.##}pt/{item.Size.Width}x{item.Size.Height}/autoSize={item.AutoSize}/bounds={item.Bounds}/ownerDpi={GetToolStripItemOwnerDpi(item)}"));
+        }
+
+        private void ConfigureMainMenuDropDownMargins()
+        {
+            if (fileToolStripMenuItem.DropDown is ToolStripDropDownMenu fileDropDown)
+            {
+                fileDropDown.ShowImageMargin = false;
+            }
+
+            if (savedConnectionsToolStripMenuItem.DropDown is ToolStripDropDownMenu savedConnectionsDropDown)
+            {
+                savedConnectionsDropDown.ShowImageMargin = false;
+            }
+        }
+
+        private string GetMainMenuImageMarginDiagnostics()
+        {
+            var fileDropDown = fileToolStripMenuItem.DropDown as ToolStripDropDownMenu;
+            var savedConnectionsDropDown = savedConnectionsToolStripMenuItem.DropDown as ToolStripDropDownMenu;
+            return $"file={fileDropDown?.ShowImageMargin},savedConnections={savedConnectionsDropDown?.ShowImageMargin}";
         }
 
         private int GetToolStripItemOwnerDpi(ToolStripItem item)
