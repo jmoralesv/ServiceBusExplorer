@@ -64,7 +64,7 @@ applyTo: '**/*.cs'
 
 ## Nullability
 
-- Nullable reference types are **not enabled** project-wide (`net472` / `netstandard2.0` with C# 8). Do not add `#nullable enable` broadly or sprinkle `?` annotations without a deliberate, scoped decision
+- Nullable reference types are **not enabled** project-wide (`net48`, `net472`, and `netstandard2.0` with C# 8). Do not add `#nullable enable` broadly or sprinkle `?` annotations without a deliberate, scoped decision
 - Continue using explicit null checks (`== null` / `!= null`) as the existing code does
 
 ## Error Handling
