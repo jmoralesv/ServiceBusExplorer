@@ -32,6 +32,11 @@ namespace ServiceBusExplorer.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EventGridConnectForm));
+            this.layoutRootPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.contextFieldsTable = new System.Windows.Forms.TableLayoutPanel();
+            this.cloudSettingsTable = new System.Windows.Forms.TableLayoutPanel();
+            this.logoFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttonFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.pbAzure = new System.Windows.Forms.PictureBox();
@@ -52,19 +57,22 @@ namespace ServiceBusExplorer.Forms
             this.txtNamespaceName = new System.Windows.Forms.TextBox();
             this.lblNamespaceName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbAzure)).BeginInit();
+            this.layoutRootPanel.SuspendLayout();
+            this.contextFieldsTable.SuspendLayout();
+            this.cloudSettingsTable.SuspendLayout();
+            this.logoFlowPanel.SuspendLayout();
+            this.buttonFlowPanel.SuspendLayout();
             this.grouperEventGridNamespaceSettings.SuspendLayout();
             this.cloudGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOk
             // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
             this.btnOk.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnOk.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnOk.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOk.Location = new System.Drawing.Point(235, 403);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(72, 24);
             this.btnOk.TabIndex = 46;
@@ -74,14 +82,12 @@ namespace ServiceBusExplorer.Forms
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnCancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(315, 403);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(72, 24);
             this.btnCancel.TabIndex = 47;
@@ -91,11 +97,10 @@ namespace ServiceBusExplorer.Forms
             // 
             // pbAzure
             // 
-            this.pbAzure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbAzure.BackgroundImage = global::ServiceBusExplorer.Properties.Resources.MicrosoftAzureWhiteLogo;
             this.pbAzure.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbAzure.ErrorImage = null;
-            this.pbAzure.Location = new System.Drawing.Point(281, 9);
+            this.pbAzure.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
             this.pbAzure.Name = "pbAzure";
             this.pbAzure.Size = new System.Drawing.Size(110, 14);
             this.pbAzure.TabIndex = 48;
@@ -108,24 +113,15 @@ namespace ServiceBusExplorer.Forms
             this.grouperEventGridNamespaceSettings.BackgroundGradientMode = ServiceBusExplorer.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouperEventGridNamespaceSettings.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.grouperEventGridNamespaceSettings.BorderThickness = 1F;
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.cboApiVersion);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.cloudGroupBox);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.lblCloud);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.txtRetryTimeout);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.lblTimeout);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.txtSubscriptionId);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.lblApiVersion);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.txtResourceGroupName);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.lblResourceGroupName);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.lblSubscriptionId);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.txtNamespaceName);
-            this.grouperEventGridNamespaceSettings.Controls.Add(this.lblNamespaceName);
+            this.grouperEventGridNamespaceSettings.Controls.Add(this.contextFieldsTable);
             this.grouperEventGridNamespaceSettings.CustomGroupBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.grouperEventGridNamespaceSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.grouperEventGridNamespaceSettings.ForeColor = System.Drawing.Color.White;
             this.grouperEventGridNamespaceSettings.GroupImage = null;
             this.grouperEventGridNamespaceSettings.GroupTitle = "Context Settings";
+            this.grouperEventGridNamespaceSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grouperEventGridNamespaceSettings.Location = new System.Drawing.Point(22, 25);
+            this.grouperEventGridNamespaceSettings.Margin = System.Windows.Forms.Padding.Empty;
             this.grouperEventGridNamespaceSettings.Name = "grouperEventGridNamespaceSettings";
             this.grouperEventGridNamespaceSettings.Padding = new System.Windows.Forms.Padding(20);
             this.grouperEventGridNamespaceSettings.PaintGroupBox = true;
@@ -142,25 +138,21 @@ namespace ServiceBusExplorer.Forms
             this.cboApiVersion.Items.AddRange(new object[] {
             "2023-12-15-preview",
             "2023-06-01-preview"});
-            this.cboApiVersion.Location = new System.Drawing.Point(19, 200);
-            this.cboApiVersion.Margin = new System.Windows.Forms.Padding(2);
+            this.cboApiVersion.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cboApiVersion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
             this.cboApiVersion.Name = "cboApiVersion";
             this.cboApiVersion.Size = new System.Drawing.Size(193, 21);
             this.cboApiVersion.TabIndex = 54;
             // 
             // cloudGroupBox
             // 
-            this.cloudGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.cloudGroupBox.BackColor = System.Drawing.Color.Transparent;
-            this.cloudGroupBox.Controls.Add(this.btnPublicCloud);
-            this.cloudGroupBox.Controls.Add(this.btnCustomCloud);
-            this.cloudGroupBox.Controls.Add(this.txtCustomId);
-            this.cloudGroupBox.Location = new System.Drawing.Point(16, 289);
-            this.cloudGroupBox.Margin = new System.Windows.Forms.Padding(2);
+            this.cloudGroupBox.Controls.Add(this.cloudSettingsTable);
+            this.cloudGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cloudGroupBox.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
             this.cloudGroupBox.Name = "cloudGroupBox";
-            this.cloudGroupBox.Padding = new System.Windows.Forms.Padding(2);
-            this.cloudGroupBox.Size = new System.Drawing.Size(335, 45);
+            this.cloudGroupBox.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.cloudGroupBox.Size = new System.Drawing.Size(335, 54);
             this.cloudGroupBox.TabIndex = 53;
             this.cloudGroupBox.TabStop = false;
             // 
@@ -169,7 +161,8 @@ namespace ServiceBusExplorer.Forms
             this.btnPublicCloud.AutoSize = true;
             this.btnPublicCloud.Checked = true;
             this.btnPublicCloud.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnPublicCloud.Location = new System.Drawing.Point(4, 7);
+            this.btnPublicCloud.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnPublicCloud.Margin = System.Windows.Forms.Padding.Empty;
             this.btnPublicCloud.Name = "btnPublicCloud";
             this.btnPublicCloud.Size = new System.Drawing.Size(54, 17);
             this.btnPublicCloud.TabIndex = 40;
@@ -181,7 +174,8 @@ namespace ServiceBusExplorer.Forms
             // 
             this.btnCustomCloud.AutoSize = true;
             this.btnCustomCloud.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnCustomCloud.Location = new System.Drawing.Point(4, 24);
+            this.btnCustomCloud.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnCustomCloud.Margin = System.Windows.Forms.Padding.Empty;
             this.btnCustomCloud.Name = "btnCustomCloud";
             this.btnCustomCloud.Size = new System.Drawing.Size(111, 17);
             this.btnCustomCloud.TabIndex = 40;
@@ -191,11 +185,10 @@ namespace ServiceBusExplorer.Forms
             // 
             // txtCustomId
             // 
-            this.txtCustomId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCustomId.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtCustomId.Enabled = false;
             this.txtCustomId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.txtCustomId.Location = new System.Drawing.Point(121, 19);
+            this.txtCustomId.Margin = System.Windows.Forms.Padding.Empty;
             this.txtCustomId.Name = "txtCustomId";
             this.txtCustomId.Size = new System.Drawing.Size(188, 20);
             this.txtCustomId.TabIndex = 41;
@@ -203,8 +196,9 @@ namespace ServiceBusExplorer.Forms
             // lblCloud
             // 
             this.lblCloud.AutoSize = true;
+            this.lblCloud.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblCloud.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblCloud.Location = new System.Drawing.Point(16, 276);
+            this.lblCloud.Margin = new System.Windows.Forms.Padding(0, 4, 0, 2);
             this.lblCloud.Name = "lblCloud";
             this.lblCloud.Size = new System.Drawing.Size(74, 13);
             this.lblCloud.TabIndex = 51;
@@ -212,10 +206,9 @@ namespace ServiceBusExplorer.Forms
             // 
             // txtRetryTimeout
             // 
-            this.txtRetryTimeout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtRetryTimeout.Dock = System.Windows.Forms.DockStyle.Left;
             this.txtRetryTimeout.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.txtRetryTimeout.Location = new System.Drawing.Point(16, 242);
+            this.txtRetryTimeout.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
             this.txtRetryTimeout.Name = "txtRetryTimeout";
             this.txtRetryTimeout.Size = new System.Drawing.Size(103, 20);
             this.txtRetryTimeout.TabIndex = 19;
@@ -224,8 +217,9 @@ namespace ServiceBusExplorer.Forms
             // lblTimeout
             // 
             this.lblTimeout.AutoSize = true;
+            this.lblTimeout.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTimeout.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblTimeout.Location = new System.Drawing.Point(16, 227);
+            this.lblTimeout.Margin = new System.Windows.Forms.Padding(0, 4, 0, 2);
             this.lblTimeout.Name = "lblTimeout";
             this.lblTimeout.Size = new System.Drawing.Size(90, 13);
             this.lblTimeout.TabIndex = 18;
@@ -233,10 +227,9 @@ namespace ServiceBusExplorer.Forms
             // 
             // txtSubscriptionId
             // 
-            this.txtSubscriptionId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSubscriptionId.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtSubscriptionId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.txtSubscriptionId.Location = new System.Drawing.Point(16, 49);
+            this.txtSubscriptionId.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
             this.txtSubscriptionId.Name = "txtSubscriptionId";
             this.txtSubscriptionId.Size = new System.Drawing.Size(336, 20);
             this.txtSubscriptionId.TabIndex = 0;
@@ -244,8 +237,9 @@ namespace ServiceBusExplorer.Forms
             // lblApiVersion
             // 
             this.lblApiVersion.AutoSize = true;
+            this.lblApiVersion.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblApiVersion.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblApiVersion.Location = new System.Drawing.Point(16, 176);
+            this.lblApiVersion.Margin = new System.Windows.Forms.Padding(0, 4, 0, 2);
             this.lblApiVersion.Name = "lblApiVersion";
             this.lblApiVersion.Size = new System.Drawing.Size(65, 13);
             this.lblApiVersion.TabIndex = 10;
@@ -253,12 +247,10 @@ namespace ServiceBusExplorer.Forms
             // 
             // txtResourceGroupName
             // 
-            this.txtResourceGroupName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtResourceGroupName.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtResourceGroupName.BackColor = System.Drawing.SystemColors.Window;
             this.txtResourceGroupName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.txtResourceGroupName.Location = new System.Drawing.Point(16, 97);
-            this.txtResourceGroupName.Multiline = true;
+            this.txtResourceGroupName.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
             this.txtResourceGroupName.Name = "txtResourceGroupName";
             this.txtResourceGroupName.Size = new System.Drawing.Size(336, 20);
             this.txtResourceGroupName.TabIndex = 1;
@@ -266,8 +258,9 @@ namespace ServiceBusExplorer.Forms
             // lblResourceGroupName
             // 
             this.lblResourceGroupName.AutoSize = true;
+            this.lblResourceGroupName.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblResourceGroupName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblResourceGroupName.Location = new System.Drawing.Point(16, 83);
+            this.lblResourceGroupName.Margin = new System.Windows.Forms.Padding(0, 4, 0, 2);
             this.lblResourceGroupName.Name = "lblResourceGroupName";
             this.lblResourceGroupName.Size = new System.Drawing.Size(119, 13);
             this.lblResourceGroupName.TabIndex = 0;
@@ -276,8 +269,9 @@ namespace ServiceBusExplorer.Forms
             // lblSubscriptionId
             // 
             this.lblSubscriptionId.AutoSize = true;
+            this.lblSubscriptionId.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblSubscriptionId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSubscriptionId.Location = new System.Drawing.Point(16, 34);
+            this.lblSubscriptionId.Margin = new System.Windows.Forms.Padding(0, 4, 0, 2);
             this.lblSubscriptionId.Name = "lblSubscriptionId";
             this.lblSubscriptionId.Size = new System.Drawing.Size(82, 13);
             this.lblSubscriptionId.TabIndex = 6;
@@ -285,10 +279,9 @@ namespace ServiceBusExplorer.Forms
             // 
             // txtNamespaceName
             // 
-            this.txtNamespaceName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtNamespaceName.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtNamespaceName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.txtNamespaceName.Location = new System.Drawing.Point(16, 145);
+            this.txtNamespaceName.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
             this.txtNamespaceName.Name = "txtNamespaceName";
             this.txtNamespaceName.Size = new System.Drawing.Size(336, 20);
             this.txtNamespaceName.TabIndex = 3;
@@ -296,12 +289,114 @@ namespace ServiceBusExplorer.Forms
             // lblNamespaceName
             // 
             this.lblNamespaceName.AutoSize = true;
+            this.lblNamespaceName.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblNamespaceName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblNamespaceName.Location = new System.Drawing.Point(16, 133);
+            this.lblNamespaceName.Margin = new System.Windows.Forms.Padding(0, 4, 0, 2);
             this.lblNamespaceName.Name = "lblNamespaceName";
             this.lblNamespaceName.Size = new System.Drawing.Size(98, 13);
             this.lblNamespaceName.TabIndex = 2;
             this.lblNamespaceName.Text = "Namespace Name:";
+            //
+            // contextFieldsTable
+            //
+            this.contextFieldsTable.ColumnCount = 1;
+            this.contextFieldsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.contextFieldsTable.Controls.Add(this.lblSubscriptionId, 0, 0);
+            this.contextFieldsTable.Controls.Add(this.txtSubscriptionId, 0, 1);
+            this.contextFieldsTable.Controls.Add(this.lblResourceGroupName, 0, 2);
+            this.contextFieldsTable.Controls.Add(this.txtResourceGroupName, 0, 3);
+            this.contextFieldsTable.Controls.Add(this.lblNamespaceName, 0, 4);
+            this.contextFieldsTable.Controls.Add(this.txtNamespaceName, 0, 5);
+            this.contextFieldsTable.Controls.Add(this.lblApiVersion, 0, 6);
+            this.contextFieldsTable.Controls.Add(this.cboApiVersion, 0, 7);
+            this.contextFieldsTable.Controls.Add(this.lblTimeout, 0, 8);
+            this.contextFieldsTable.Controls.Add(this.txtRetryTimeout, 0, 9);
+            this.contextFieldsTable.Controls.Add(this.lblCloud, 0, 10);
+            this.contextFieldsTable.Controls.Add(this.cloudGroupBox, 0, 11);
+            this.contextFieldsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contextFieldsTable.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.contextFieldsTable.Margin = System.Windows.Forms.Padding.Empty;
+            this.contextFieldsTable.Name = "contextFieldsTable";
+            this.contextFieldsTable.Padding = System.Windows.Forms.Padding.Empty;
+            this.contextFieldsTable.RowCount = 12;
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.contextFieldsTable.TabIndex = 0;
+            this.contextFieldsTable.TabStop = false;
+            //
+            // cloudSettingsTable
+            //
+            this.cloudSettingsTable.ColumnCount = 2;
+            this.cloudSettingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.cloudSettingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.cloudSettingsTable.Controls.Add(this.btnPublicCloud, 0, 0);
+            this.cloudSettingsTable.Controls.Add(this.btnCustomCloud, 0, 1);
+            this.cloudSettingsTable.Controls.Add(this.txtCustomId, 1, 1);
+            this.cloudSettingsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cloudSettingsTable.Margin = System.Windows.Forms.Padding.Empty;
+            this.cloudSettingsTable.Name = "cloudSettingsTable";
+            this.cloudSettingsTable.Padding = System.Windows.Forms.Padding.Empty;
+            this.cloudSettingsTable.RowCount = 2;
+            this.cloudSettingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.cloudSettingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.cloudSettingsTable.TabIndex = 0;
+            this.cloudSettingsTable.TabStop = false;
+            this.cloudSettingsTable.SetColumnSpan(this.btnPublicCloud, 2);
+            //
+            // logoFlowPanel
+            //
+            this.logoFlowPanel.BackColor = System.Drawing.Color.Transparent;
+            this.logoFlowPanel.Controls.Add(this.pbAzure);
+            this.logoFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logoFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.logoFlowPanel.Margin = System.Windows.Forms.Padding.Empty;
+            this.logoFlowPanel.Name = "logoFlowPanel";
+            this.logoFlowPanel.Padding = System.Windows.Forms.Padding.Empty;
+            this.logoFlowPanel.Size = new System.Drawing.Size(370, 22);
+            this.logoFlowPanel.TabIndex = 0;
+            this.logoFlowPanel.WrapContents = false;
+            //
+            // buttonFlowPanel
+            //
+            this.buttonFlowPanel.AutoSize = true;
+            this.buttonFlowPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.buttonFlowPanel.Controls.Add(this.btnCancel);
+            this.buttonFlowPanel.Controls.Add(this.btnOk);
+            this.buttonFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.buttonFlowPanel.Margin = System.Windows.Forms.Padding.Empty;
+            this.buttonFlowPanel.Name = "buttonFlowPanel";
+            this.buttonFlowPanel.Padding = System.Windows.Forms.Padding.Empty;
+            this.buttonFlowPanel.TabIndex = 2;
+            this.buttonFlowPanel.WrapContents = false;
+            //
+            // layoutRootPanel
+            //
+            this.layoutRootPanel.ColumnCount = 1;
+            this.layoutRootPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.layoutRootPanel.Controls.Add(this.logoFlowPanel, 0, 0);
+            this.layoutRootPanel.Controls.Add(this.grouperEventGridNamespaceSettings, 0, 1);
+            this.layoutRootPanel.Controls.Add(this.buttonFlowPanel, 0, 2);
+            this.layoutRootPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutRootPanel.Margin = System.Windows.Forms.Padding.Empty;
+            this.layoutRootPanel.Name = "layoutRootPanel";
+            this.layoutRootPanel.Padding = new System.Windows.Forms.Padding(22, 3, 22, 12);
+            this.layoutRootPanel.RowCount = 3;
+            this.layoutRootPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.layoutRootPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.layoutRootPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.layoutRootPanel.TabIndex = 0;
+            this.layoutRootPanel.TabStop = false;
             // 
             // EventGridConnectForm
             // 
@@ -311,10 +406,7 @@ namespace ServiceBusExplorer.Forms
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(228)))), ((int)(((byte)(242)))));
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(414, 442);
-            this.Controls.Add(this.pbAzure);
-            this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.grouperEventGridNamespaceSettings);
+            this.Controls.Add(this.layoutRootPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -325,16 +417,28 @@ namespace ServiceBusExplorer.Forms
             this.Text = "Connect to an Event Grid Namespace";
             this.Load += new System.EventHandler(this.EventGridConnectForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbAzure)).EndInit();
+            this.cloudSettingsTable.ResumeLayout(false);
+            this.contextFieldsTable.ResumeLayout(false);
             this.grouperEventGridNamespaceSettings.ResumeLayout(false);
             this.grouperEventGridNamespaceSettings.PerformLayout();
             this.cloudGroupBox.ResumeLayout(false);
             this.cloudGroupBox.PerformLayout();
+            this.logoFlowPanel.ResumeLayout(false);
+            this.buttonFlowPanel.ResumeLayout(false);
+            this.buttonFlowPanel.PerformLayout();
+            this.layoutRootPanel.ResumeLayout(false);
+            this.layoutRootPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private System.Windows.Forms.TableLayoutPanel layoutRootPanel;
+        private System.Windows.Forms.TableLayoutPanel contextFieldsTable;
+        private System.Windows.Forms.TableLayoutPanel cloudSettingsTable;
+        private System.Windows.Forms.FlowLayoutPanel logoFlowPanel;
+        private System.Windows.Forms.FlowLayoutPanel buttonFlowPanel;
         private Controls.Grouper grouperEventGridNamespaceSettings;
         private System.Windows.Forms.Label lblNamespaceName;
         private System.Windows.Forms.Label lblResourceGroupName;
