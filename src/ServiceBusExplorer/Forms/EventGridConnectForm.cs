@@ -22,6 +22,8 @@ namespace ServiceBusExplorer.Forms
         public EventGridConnectForm()
         {
             InitializeComponent();
+            btnOk.Font = lblSubscriptionId.Font;
+            btnCancel.Font = lblSubscriptionId.Font;
         }
 
         private void customCloud_CheckedChanged(object sender, EventArgs e)
