@@ -73,6 +73,8 @@ namespace ServiceBusExplorer.Forms
             this.btnOk.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnOk.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOk.AutoSize = true;
+            this.btnOk.Padding = new System.Windows.Forms.Padding(12, 4, 12, 4);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(72, 24);
             this.btnOk.TabIndex = 46;
@@ -88,6 +90,8 @@ namespace ServiceBusExplorer.Forms
             this.btnCancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.AutoSize = true;
+            this.btnCancel.Padding = new System.Windows.Forms.Padding(12, 4, 12, 4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(72, 24);
             this.btnCancel.TabIndex = 47;
@@ -152,7 +156,7 @@ namespace ServiceBusExplorer.Forms
             this.cloudGroupBox.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
             this.cloudGroupBox.Name = "cloudGroupBox";
             this.cloudGroupBox.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
-            this.cloudGroupBox.Size = new System.Drawing.Size(335, 54);
+            this.cloudGroupBox.Size = new System.Drawing.Size(335, 60);
             this.cloudGroupBox.TabIndex = 53;
             this.cloudGroupBox.TabStop = false;
             // 
@@ -317,7 +321,7 @@ namespace ServiceBusExplorer.Forms
             this.contextFieldsTable.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.contextFieldsTable.Margin = System.Windows.Forms.Padding.Empty;
             this.contextFieldsTable.Name = "contextFieldsTable";
-            this.contextFieldsTable.Padding = System.Windows.Forms.Padding.Empty;
+            this.contextFieldsTable.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             this.contextFieldsTable.RowCount = 12;
             this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
             this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
@@ -376,7 +380,7 @@ namespace ServiceBusExplorer.Forms
             this.buttonFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.buttonFlowPanel.Margin = System.Windows.Forms.Padding.Empty;
             this.buttonFlowPanel.Name = "buttonFlowPanel";
-            this.buttonFlowPanel.Padding = System.Windows.Forms.Padding.Empty;
+            this.buttonFlowPanel.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             this.buttonFlowPanel.TabIndex = 2;
             this.buttonFlowPanel.WrapContents = false;
             //
