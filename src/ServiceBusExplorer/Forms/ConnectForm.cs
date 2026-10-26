@@ -382,11 +382,6 @@ namespace ServiceBusExplorer.Forms
             UpdateUriEditorLayout(UsesRawConnectionStringEditor(connectionStringType, containsStsEndpoint));
         }
 
-        protected override string GetDpiDiagnosticDetails()
-        {
-            return $"fontScale={DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, uriBounds={txtUri.Bounds}, uriParent={txtUri.Parent.Name}, uriParentBounds={txtUri.Parent.Bounds}, uriFont={txtUri.Font.SizeInPoints:0.##}pt, uriMultiline={txtUri.Multiline}, namespaceComboBounds={cboServiceBusNamespace.Bounds}, namespaceParentBounds={grouperServiceBusNamespaces.Bounds}, namespaceDropDownWidth={cboServiceBusNamespace.DropDownWidth}, authComboBounds={cboAuthMode.Bounds}, okFont={btnOk.Font.SizeInPoints:0.##}pt, cancelFont={btnCancel.Font.SizeInPoints:0.##}pt, uriLabelFont={lblUri.Font.SizeInPoints:0.##}pt, grouperFont={grouperServiceBusNamespaceSettings.Font.SizeInPoints:0.##}pt";
-        }
-
         private void CaptureLogicalLayout(Control parent, int layoutDpi)
         {
             foreach (Control child in parent.Controls)

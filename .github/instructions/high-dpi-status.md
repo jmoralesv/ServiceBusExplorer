@@ -77,7 +77,7 @@ The first follow-up build improved the Dashboard toolbar layout, but the user re
 - Reapply the configured TreeView/log fonts and an 8.25pt logical main-tab font after framework scaling; preserve split-container distances using the observed old/new window DPI, including startup-correction cases where `DeviceDpiOld` may not describe the monitor the window was actually on.
 - Keep Dashboard toolbar fonts and button/combo dimensions at their logical sizes per DPI, in addition to its table-based layout and grid metric updates.
 - Capture ConnectForm child bounds/fonts and client size at construction, normalize them to 96-DPI logical units, then restore at the active DPI and recalculate the URI editor. This avoids multiplying an already system-DPI-scaled snapshot a second time.
-- Continue writing timestamped diagnostics to the app log and `%LOCALAPPDATA%\ServiceBusExplorer\DpiDiagnostics\DpiDiagnostics-<timestamp>.log`. Logs include form/monitor DPI, window/control bounds, autoscale dimensions, fonts, splitters, Dashboard metrics, and DPI/size/location transition ordering.
+- Temporary timestamped diagnostics were used during these test rounds. The diagnostic code has since been removed; the saved log files remain under `%LOCALAPPDATA%\ServiceBusExplorer\DpiDiagnostics`.
 
 ## Round 13 screenshot and log review (2026-09-27)
 
@@ -98,8 +98,8 @@ The `d35c01b` DPI reconciliation code was exercised; the Oct 10 logs contain `co
 - Seed MainForm's configured log/TreeView font fields from `MainSettings.SetDefault()` (8.25pt), apply them as point-based fonts, and use those logical fields when opening Options. Missing config keys now resolve to the documented defaults irrespective of startup DPI.
 - Calculate effective MainForm, Dashboard, ConnectForm, and ToolStrip item fonts from `actual window DPI / system DPI`. This keeps the same font scale on a 100% monitor whether the window starts there with stale `DeviceDpi` or moves there after WinForms updates it; logical options remain point sizes, and the original font is restored on return to the system-DPI monitor.
 - The Oct 18 100% logs show Dashboard's header font at 5.5pt but its effective body-cell font remained 8.25pt even though `fontScale=0.6667`; set the grid, row template, row/column styles, and existing rows so each cell uses the logical DPI-adjusted font after the grid handle is created.
-- Use native `ToolStripMenuItem.AutoSize` and popup layout instead of assigning dropdown item bounds by hand. Preserve the image/check margins and update each realized main-menu `ToolStripDropDown.ImageScalingSize` from that popup HWND's DPI before it opens; apply fonts in `DropDownOpening` so reused submenus track monitor moves without reflow on hover.
-- Keep DPI diagnostics for each item's popup-owner DPI, image scaling size, and image margin. WinForms .NET Framework 4.8 high-DPI support is enabled; custom menu code is limited to synchronizing popup image metrics and logical fonts with the actual monitor DPI.
+- After the .NET Framework 4.8 retarget, rely on native ToolStrip/ToolStripItem DPI handling for menu-item fonts, sizes, images, and dropdown layout. MainForm no longer recalculates menu-item metrics or hooks dropdown-opening events; dynamic saved connections use the default autosized menu items.
+- Temporary filter-textbox diagnostics were used to validate direct startup on a monitor with a different DPI from the system DPI and have now been removed with the other instrumentation.
 - Use the standard WinForms FlatStyle for the Dashboard Refresh button and reapply its DPI-adjusted font after its native handle is created. Diagnostics now include the effective button font and DeviceDpi for comparison with the toolbar labels.
 - MainForm and ConnectForm now declare that they manage their child layout themselves. For those forms, keep `AutoScaleDimensions` at WinForms' current `DeviceDpi` so its automatic pass is a no-op; MainForm uses the OS-provided outer bounds, explicit logical child layout, and bounded split ratios, while Connect restores its captured 96-DPI layout. Other forms retain the framework scaling path. This prevents MainForm's child hierarchy from being autoscaled after its dock/anchor layout has already responded to the new window bounds.
 - Re-bound the anchored main split container to logical margins and the menu/status-strip area after startup and monitor changes before laying out descendants and restoring splitter ratios.
@@ -107,13 +107,16 @@ The `d35c01b` DPI reconciliation code was exercised; the Oct 10 logs contain `co
 
 ## Round 25 visual result (2026-10-25)
 
-The user reports that the .NET Framework 4.8 POC's menu items resized correctly when moving the window between 150% and 100% in both directions. The menu-item rescaling issue is considered resolved in the POC. The main window still has oversized fonts or dimensions in headers, DataGridView columns, and group-tab headers. Retest the integrated foundation branch because the POC did not include its accumulated DPI/layout changes.
+The user reports that the integrated .NET Framework 4.8 app generally looks good and its menu items resize when moving between 150% and 100% in both directions. A direct 100% startup with system DPI 150% made the filter textbox look too small. The 19:48:18 diagnostics showed `windowDpi=96`, `systemDpi=144`, and the filter's `SetFontSize` call applying the 5.5pt system-DPI ratio after startup correction; that extra call was removed. The user confirmed the latest post-fix test works.
+
+The screenshot showed `Exception: Parameter is not valid.` around 18:09:02 while the Connect form was opening. The corresponding DPI log recorded ConnectForm startup but not the exception or a stack trace. The user reports the latest test after removing the app-level ToolStrip DPI/font/image scaling workarounds works with native .NET Framework 4.8 handling.
+
+Temporary DPI logging and awareness-check P/Invokes have been removed from the application. The functional `GetDpiForWindow` P/Invoke remains because the DPI rescaling code uses it to determine the window's actual monitor DPI. Existing diagnostic log files are retained outside the repository under `%LOCALAPPDATA%\ServiceBusExplorer\DpiDiagnostics`.
 
 ## What remains before PR1 (upstream)
 
-1. **Integrated .NET 4.8 visual gate**: confirm menu sizing and icon/text alignment on the foundation branch at 100% and 150%, including repeated monitor moves.
-2. **Known residuals**: the user reports oversized fonts or dimensions in headers, DataGridView columns, and group-tab headers. Also recheck whether the "New Version" link overlaps the "Microsoft Azure" header text and verify the 100% tabs and Refresh size.
-3. **Before opening the upstream PR**: remove or explicitly retain the temporary diagnostic P/Invokes and DPI diagnostic file logging after the test cycle; review the new Dashboard/Connect changes; rebase to drop the fork-tooling layer (this file + copilot-instructions.md are fork-only), push, and open the PR to paolosalvatori/ServiceBusExplorer referencing issue #440. Ask maintainers about merge strategy on #440 when the first PR is ready, not before.
+1. **Foundation visual gate**: the user reports that the filter textbox, menus, and exception scenario now work after the latest fixes. Dashboard and Connect changes have already been reviewed visually; the build and 106 tests pass. The ThinkPad P16 4K@250% remains untested (the layer minimum is FullHD@100% plus one 4K monitor).
+2. **Before opening the upstream PR**: review the final Dashboard/Connect changes, detach the feature branch from the fork-only tooling layer (this file and `copilot-instructions.md` are not for upstream), then push and open the PR to `paolosalvatori/ServiceBusExplorer` referencing issue #440. Ask maintainers about merge strategy on #440 when the first PR is ready, not before.
 
 ## Build / test / conventions
 
