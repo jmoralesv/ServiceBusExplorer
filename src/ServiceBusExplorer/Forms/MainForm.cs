@@ -6971,7 +6971,6 @@ namespace ServiceBusExplorer.Forms
             SetFontSize(mainMenuStrip, mainMenuFontSize);
             SetFontSize(statusStrip, statusStripFontSize);
             SetFontSize(linkLabelNewVersionAvailable, newVersionFontSize);
-            SetFontSize(filterTreeViewTextBox, 8.25m);
             SetFontSize(clearFilterButton, 9m);
             ApplyToolStripItemMetrics();
 
@@ -7004,7 +7003,7 @@ namespace ServiceBusExplorer.Forms
 
         protected override string GetDpiDiagnosticDetails()
         {
-            return $"fontScale={DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, treeBounds={serviceBusTreeView.Bounds}, treeFont={serviceBusTreeView.Font.SizeInPoints:0.##}pt, configuredTreeFont={treeViewFontSize:0.##}pt, treeItemHeight={serviceBusTreeView.ItemHeight}, menuBounds={mainMenuStrip.Bounds}, menuFont={mainMenuStrip.Font.SizeInPoints:0.##}pt, menuItemFonts={GetMainMenuItemFontDiagnostics()}, menuImageSize={mainMenuStrip.ImageScalingSize}, tabs={mainTabControl.Bounds}, tabFont={mainTabControl.Font.SizeInPoints:0.##}pt, logBounds={lstLog.Bounds}, logFont={lstLog.Font.SizeInPoints:0.##}pt, configuredLogFont={logFontSize:0.##}pt, mainSplitDistance={mainSplitContainer.SplitterDistance}, treeSplitDistance={splitContainer.SplitterDistance}, dashboard=[{dashboardControl.GetDpiDiagnosticDetails()}]";
+            return $"fontScale={DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, treeBounds={serviceBusTreeView.Bounds}, treeFont={serviceBusTreeView.Font.SizeInPoints:0.##}pt, configuredTreeFont={treeViewFontSize:0.##}pt, treeItemHeight={serviceBusTreeView.ItemHeight}, filterBounds={filterTreeViewTextBox.Bounds}, filterFont={filterTreeViewTextBox.Font.SizeInPoints:0.##}pt, menuBounds={mainMenuStrip.Bounds}, menuFont={mainMenuStrip.Font.SizeInPoints:0.##}pt, menuItemFonts={GetMainMenuItemFontDiagnostics()}, menuImageSize={mainMenuStrip.ImageScalingSize}, tabs={mainTabControl.Bounds}, tabFont={mainTabControl.Font.SizeInPoints:0.##}pt, logBounds={lstLog.Bounds}, logFont={lstLog.Font.SizeInPoints:0.##}pt, configuredLogFont={logFontSize:0.##}pt, mainSplitDistance={mainSplitContainer.SplitterDistance}, treeSplitDistance={splitContainer.SplitterDistance}, dashboard=[{dashboardControl.GetDpiDiagnosticDetails()}]";
         }
 
         private void setDefaultLayouToolStripMenuItem_Click(object sender, EventArgs e)
