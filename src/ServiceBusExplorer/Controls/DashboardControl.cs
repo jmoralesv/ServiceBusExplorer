@@ -154,8 +154,6 @@ namespace ServiceBusExplorer.Controls
                 font.Dispose();
             }
 
-            ServiceBusExplorer.Forms.MainForm.WriteDpiDiagnostic(
-                $"Dashboard metrics updated {GetDpiDiagnosticDetails()}");
         }
 
         private void DataGridView_HandleCreated(object sender, EventArgs e)
@@ -181,15 +179,6 @@ namespace ServiceBusExplorer.Controls
             var scaledFont = new Font(logicalFont.FontFamily, size, logicalFont.Style, GraphicsUnit.Point);
             dpiAdjustedFonts.Add(scaledFont);
             return scaledFont;
-        }
-
-        internal string GetDpiDiagnosticDetails()
-        {
-            var firstRowHeight = dataGridView.Rows.Count > 0 ? dataGridView.Rows[0].Height : 0;
-            var firstCellFont = dataGridView.Rows.Count > 0
-                ? dataGridView.Rows[0].Cells[0].InheritedStyle.Font
-                : null;
-            return $"bounds={Bounds}, toolbar={toolbarPanel.Bounds}, refresh={refreshButton.Bounds}, refreshFont={refreshButton.Font.SizeInPoints:0.##}pt, refreshDeviceDpi={refreshButton.DeviceDpi}, toolbarFont={toolbarPanel.Font.SizeInPoints:0.##}pt/{toolbarFont.SizeInPoints:0.##}pt logical, interval={intervalComboBox.Bounds}, sync={syncWithTreeViewCheckBox.Bounds}, status={statusLabel.Bounds}, grid={dataGridView.Bounds}, headerHeight={dataGridView.ColumnHeadersHeight}, rowTemplateHeight={dataGridView.RowTemplate.Height}, firstRowHeight={firstRowHeight}, fontScale={ServiceBusExplorer.Forms.DpiAwareForm.ScaleFontSizeForCurrentDpi(this, 1F):0.####}, gridFont={dataGridView.Font.SizeInPoints:0.##}pt, headerFont={dataGridView.ColumnHeadersDefaultCellStyle.Font.SizeInPoints:0.##}pt/{headerFont.SizeInPoints:0.##}pt logical, cellFont={dataGridView.DefaultCellStyle.Font.SizeInPoints:0.##}pt/{cellFont.SizeInPoints:0.##}pt logical, firstCellFont={firstCellFont?.SizeInPoints:0.##}pt";
         }
 
         private void InitializeControls()
