@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -11,6 +12,49 @@ namespace ServiceBusExplorer.Tests.Forms
 {
     public class EventGridConnectFormTests
     {
+        [Fact]
+        public void RepeatedDpiLayout_KeepsControlFontsUsable()
+        {
+            RunOnStaThread(() =>
+            {
+                using (var form = new EventGridConnectForm())
+                using (var initialFont = new Font("Microsoft Sans Serif", 10F))
+                {
+                    var input = FindControl<TextBox>(form, "txtSubscriptionId");
+                    input.Font = initialFont;
+                    var updateLayout = typeof(EventGridConnectForm).GetMethod("OnDpiScaleChanged",
+                        BindingFlags.Instance | BindingFlags.NonPublic);
+
+                    updateLayout.Invoke(form, null);
+                    updateLayout.Invoke(form, null);
+
+                    input.Font.GetHeight(96F).Should().BeGreaterThan(0);
+                }
+            });
+        }
+
+        [Fact]
+        public void Show_SelectsSubscriptionIdAndDefaultApiVersion()
+        {
+            RunOnStaThread(() =>
+            {
+                using (var form = new EventGridConnectForm())
+                {
+                    form.Show();
+                    Application.DoEvents();
+
+                    Control selected = form;
+                    while (selected is ContainerControl container && container.ActiveControl != null)
+                    {
+                        selected = container.ActiveControl;
+                    }
+
+                    selected.Should().Be(FindControl<TextBox>(form, "txtSubscriptionId"));
+                    FindControl<ComboBox>(form, "cboApiVersion").SelectedIndex.Should().Be(0);
+                }
+            });
+        }
+
         [Theory]
         [InlineData(false, "Public")]
         [InlineData(true, "Custom Tenant ID")]

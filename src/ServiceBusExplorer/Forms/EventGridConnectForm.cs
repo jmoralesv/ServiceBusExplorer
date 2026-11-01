@@ -36,8 +36,13 @@ namespace ServiceBusExplorer.Forms
             var dpi = GetCurrentDpi(this);
             int ScaleLogical(int value) => ScaleBetweenDpi(value, 96, dpi);
             var previousFont = dpiAdjustedFont;
-            dpiAdjustedFont = new Font("Microsoft Sans Serif",
-                ScaleFontSizeForCurrentDpi(this, 8.25F), FontStyle.Regular, GraphicsUnit.Point);
+            var fontSize = ScaleFontSizeForCurrentDpi(this, 8.25F);
+            // Control.Font may retain an equal existing font, so reuse it until its size changes.
+            if (dpiAdjustedFont == null || Math.Abs(dpiAdjustedFont.SizeInPoints - fontSize) > 0.01F)
+            {
+                dpiAdjustedFont = new Font("Microsoft Sans Serif", fontSize,
+                    FontStyle.Regular, GraphicsUnit.Point);
+            }
 
             SuspendLayoutTree(this);
             try
@@ -73,8 +78,17 @@ namespace ServiceBusExplorer.Forms
             finally
             {
                 ResumeLayoutTree(this);
-                previousFont?.Dispose();
+                if (!ReferenceEquals(previousFont, dpiAdjustedFont))
+                {
+                    previousFont?.Dispose();
+                }
             }
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            txtSubscriptionId.Select();
         }
 
         protected override void Dispose(bool disposing)
