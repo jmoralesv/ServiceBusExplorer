@@ -19,7 +19,8 @@ When working in this fork, assume High DPI correctness is the overarching concer
 ### Technology Stack
 - **Application type**: Windows Forms desktop app (`OutputType=WinExe`, `UseWindowsForms=true`)
 - **Language**: C# 8 (`LangVersion=8`)
-- **Main app framework**: .NET Framework 4.7.2 (`net472`)
+- **Main app and test frameworks**: .NET Framework 4.8 (`net48`)
+- **Shared .NET Framework libraries**: .NET Framework 4.7.2 (`net472`)
 - **Class libraries**: .NET Standard 2.0 (`netstandard2.0`)
 - **Solution file**: `src/ServiceBusExplorer.sln` (legacy .sln format)
 - **Test framework**: xUnit + FluentAssertions
@@ -29,13 +30,13 @@ When working in this fork, assume High DPI correctness is the overarching concer
 
 ```
 src/
-├── ServiceBusExplorer/          # Main WinForms app (net472)
+├── ServiceBusExplorer/          # Main WinForms app (net48)
 │   ├── Controls/                # User controls (Handle*, Test*, Listener, Partition controls)
 │   ├── Forms/                   # Forms (MainForm, ConnectForm, ContainerForm, MessageForm, dialogs)
 │   ├── Helpers/                 # General helpers (GitHubReleaseProvider, etc.)
 │   ├── UIHelpers/               # UI-specific helpers (Grouper, HeaderPanel, ListViewHelper, TabControlHelper, ...)
 │   └── ServiceBusExplorer.csproj
-├── ServiceBusExplorer.Tests/    # xUnit tests (net472)
+├── ServiceBusExplorer.Tests/    # xUnit tests (net48)
 ├── Common/                      # Shared code (net472)
 ├── NotificationHubs/            # Notification Hubs logic (net472)
 ├── ServiceBus/                  # Service Bus logic (netstandard2.0)
@@ -66,18 +67,18 @@ dotnet test -c Release
 .\ServiceBusExplorer\bin\Release\ServiceBusExplorer.exe
 ```
 
-**Note:** This is a .NET Framework 4.7.2 WinForms app built with the modern `dotnet` CLI via SDK-style projects. It builds on Windows only (WinForms + net472). Do not attempt `dotnet run` — build and launch the `.exe`.
+**Note:** The WinForms app and tests target .NET Framework 4.8; shared .NET Framework libraries remain on .NET Framework 4.7.2. The app builds on Windows only. Do not attempt `dotnet run` — build and launch the `.exe`. Windows 8.0 compatibility is not declared; .NET Framework 4.8 requires Windows 8.1 or later, or Windows 7 SP1.
 
 ## High DPI Guidance (Core to This Fork)
 
 ### Approach
-- **DPI awareness mode — DECIDED (2026-09-20): PerMonitorV2**. Chosen over `system` after 5 test rounds on the shared monitor matrix. Under `system` awareness the app renders at the *system* DPI (primary monitor's scale at logon) and Windows bitmap-scales the window on every non-matching monitor — that softness is the blur Erik reported at 100% scale that caused revert #807 (reproduced with log evidence: `DeviceDpi=144` on a 96-DPI FullHD monitor). PerMonitorV2 renders natively per monitor and is migration-forward (.NET 6+ invests in PMv2; note modern .NET still defaults to `SystemAware`, semantically the same as net472 `system`). Cost: PMv2 on net472 needs custom DPI-change handling — the framework auto-rescale does not cover this app's custom-painted controls. Declared in `src/ServiceBusExplorer/app.manifest` (Block A) + `App.config` (`DpiAwareness=PerMonitorV2`).
-- **Required pairing**: `AutoScaleMode.Dpi` with `AutoScaleDimensions = 96F, 96F` + `EnableWindowsFormsHighDpiAutoResizing=true` inside `System.Windows.Forms.ApplicationConfigurationSection` (never in `appSettings` — WinForms silently ignores it there). `AutoScaleMode.Font` is documented as non-linear across DPI changes and mis-scaled this app in testing; do not use it.
+- **DPI awareness mode — PerMonitorV2**. It is configured in `App.config`; the manifest declares supported operating systems only. The .NET Framework 4.8 WinForms implementation provides native per-monitor DPI handling for ToolStrip items.
+- **Autoscaling**: The foundation branch uses `AutoScaleMode.Dpi` with `AutoScaleDimensions = 96F, 96F`. `EnableWindowsFormsHighDpiAutoResizing=true` belongs in `System.Windows.Forms.ApplicationConfigurationSection`, never `appSettings`.
 - **Cross-monitor moves**: custom-painted controls with hardcoded logical sizes (Grouper, HeaderPanel, tab strips) must recompute on `DpiChanged` (form-level or per-control) using the new `DeviceDpi` / `LogicalToDeviceUnits`, then re-layout and repaint.
-- **Framework helpers**: Use .NET Framework 4.7.2 high-DPI APIs such as `LogicalToDeviceUnits` and `ScaleBitmapLogicalToDevice`
+- **Framework helpers**: Use .NET Framework high-DPI APIs such as `LogicalToDeviceUnits` and `ScaleBitmapLogicalToDevice`
 - **Layout strategy**: Prefer `TableLayoutPanel` for scaling/resizing child controls instead of custom paint/resize logic where possible
 - **Centralize calculations**: Put DPI math in helpers (e.g., `HeaderPanel.LogicalToDeviceUnits`) rather than repeating it per form
-- **App config**: `EnableWindowsFormsHighDpiAutoResizing=true` in `App.config` (used by the prior attempt)
+- **App config**: Keep `DpiAwareness=PerMonitorV2` and `EnableWindowsFormsHighDpiAutoResizing=true` in `App.config`.
 
 ### Shared Monitor Test Matrix (Acceptance)
 

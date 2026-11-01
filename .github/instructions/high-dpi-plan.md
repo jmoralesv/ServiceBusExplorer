@@ -122,6 +122,10 @@ I analyzed all 52 commits in `high-dpi-commits` (chronological) and grouped them
 14. When the **first** PR is ready to target upstream, ask the maintainers on issue #440 about the merge strategy (incremental merges of partial High-DPI work into upstream `main`, given #797's revert) — not before
 15. Wait for merge before opening the next upstream PR (avoids the stacked-merge-to-main risk that caused the #797 revert)
 
+## Current Status (2026-11-01)
+
+Layer 440-1 has passed its visual gate, including the Event Grid Connect dialog. See `high-dpi-status.md` ("What remains before PR1") for the current next steps: final diff review, creating `pr/440-1-foundation` from `upstream/main` with consolidated product commits, then opening the upstream PR. The sections below are historical.
+
 ## Current Progress (as of 2026-09-07)
 
 **Completed:**

@@ -1,4 +1,4 @@
-# High DPI Work — Status Summary (2026-09-24)
+# High DPI Work — Status Summary (2026-11-01)
 
 Handover document for the fork's work on paolosalvatori/ServiceBusExplorer#440.
 Read this together with `.github/copilot-instructions.md` (project/fork overview, monitor test matrix).
@@ -8,9 +8,10 @@ Read this together with `.github/copilot-instructions.md` (project/fork overview
 - Chosen over `system` awareness after 10 test rounds on the shared monitor matrix (4K@150%, 4K@100%, FullHD@100%).
 - `system` awareness renders at the *system* DPI (primary monitor's scale at logon) and Windows bitmap-scales the window on every other monitor → that softness is the blur behind revert #807, reproduced with log evidence (`DeviceDpi=144` reported on a 96-DPI FullHD monitor).
 - PMv2 renders natively per monitor and is migration-forward (.NET 6+ invests in PMv2; note modern .NET still defaults to `SystemAware`, semantically the same as net472 `system`).
-- Cost: PMv2 on net472 needs custom DPI-change handling — the framework auto-rescale does not cover this app's custom-painted controls (Grouper, HeaderPanel, strips).
-- Declared in `src/ServiceBusExplorer/app.manifest` (PerMonitorV2 block active) + `App.config` (`DpiAwareness=PerMonitorV2`).
-- **Required pairing**: `AutoScaleMode.Dpi` with `AutoScaleDimensions = 96F, 96F` (flipped globally, commit `49af677`) + `EnableWindowsFormsHighDpiAutoResizing=true`. All three keys must live in `<System.Windows.Forms.ApplicationConfigurationSection>` in App.config — WinForms **silently ignores them in `appSettings`** (the same ineffective placement PR #797 had). `AutoScaleMode.Font` is non-linear across DPI changes — do not use.
+- The app and tests now target .NET Framework 4.8 (`net48`); shared .NET Framework libraries remain on `net472`.
+- PerMonitorV2 and `EnableWindowsFormsHighDpiAutoResizing` are configured in `App.config`. The manifest declares supported operating systems only, including Windows 8.1 but not Windows 8.0.
+- Custom-painted controls and application-specific layout still need DPI-change handling; .NET Framework 4.8's native ToolStrip DPI support does not resolve the remaining font and layout issues.
+- **Required pairing**: `AutoScaleMode.Dpi` with `AutoScaleDimensions = 96F, 96F` (flipped globally, commit `8122382`) + `EnableWindowsFormsHighDpiAutoResizing=true`. Both DPI settings must live in `<System.Windows.Forms.ApplicationConfigurationSection>` in App.config — WinForms **silently ignores them in `appSettings`** (the same ineffective placement PR #797 had). `AutoScaleMode.Font` is non-linear across DPI changes — do not use.
 
 ## Layer plan (9 stacked layers → sequential upstream PRs, one at a time)
 
@@ -28,22 +29,9 @@ Read this together with `.github/copilot-instructions.md` (project/fork overview
 
 Do NOT blind cherry-pick: the 2024 base is far behind current `main` (Dashboard tab, TreeView filter box, and the entire Event Grid feature are new since 2024 and have zero High DPI coverage — test them on every layer). Merge commits 25/33/36 are dropped.
 
-## 440-1-foundation — current branch (12 commits on top of fork-tooling)
+## 440-1-foundation — current branch
 
-| Commit | Content |
-|---|---|
-| `ec0f3bd` | PMv2 foundation: app.manifest, ApplicationConfigurationSection, runtime SKU 4.7.2, AutoScaleMode.Dpi on MainForm/ContainerForm |
-| `49c7a91` | **TEMP** DPI diagnostics in MainForm.cs (drop before upstream PR) |
-| `2d2da00` | HeaderPanel DPI-aware + MainForm 17 call sites + TreeView ItemHeight sites |
-| `6e791ea` | ConnectForm connection-string box sizing |
-| `dbf0e20` | ChangeStatus/Clipboard/Delete/ParameterForm dialogs |
-| `4ce117d` | NewVersionForm TableLayoutPanel + static HttpClient |
-| `6a23ced` | Grouper header arc |
-| `49af677` | Global AutoScaleMode.Font→Dpi flip (44 designer files) |
-| `e61154a` | DpiAwareForm base + 28 forms reparented |
-| `cb3f900` | GetDpiForWindow probe fix + OnDpiScaleChanged hook + metric recompute (HeaderPanel/Grouper/dialogs/MainForm/DashboardControl) + TEMP metric logging |
-| `9b36cb1` | Explicit mainMenuStrip (20 logical) + statusStrip (24 logical) ImageScalingSize normalization |
-| `079ccaa` | TreeView rows = Max(font line height, scaled designer 20px); SelectEntityForm honors treeViewFontSize + recomputes on DPI change (adapts old d18235a) |
+The branch is based on `fork-tooling` and contains product changes only; all fork documentation lives on `fork-tooling`. Its initial commit enables PerMonitorV2 with `AutoScaleMode.Dpi` and targets .NET Framework 4.8. Later commits restore native ToolStrip dropdown layout and finish with the Event Grid Connect dialog fixes. The branch history contains the preceding DPI and layout iterations; consolidate them when creating `pr/440-1-foundation`.
 
 ## DpiAwareForm mechanism (`src/ServiceBusExplorer/Forms/DpiAwareForm.cs`)
 
@@ -55,8 +43,8 @@ Do NOT blind cherry-pick: the 2024 base is far behind current `main` (Dashboard 
 
 ## Root causes already found (do not rediscover)
 
-1. **net472 startup DPI leak**: `Control.DeviceDpi`/`LogicalToDeviceUnits` report **system DPI** (fixed at logon) at handle creation even when the window is created on a different-DPI monitor; the framework initial autoscale also uses system DPI, and no `DpiChanged` fires. `GetDpiForWindow(Handle)` is the OS truth.
-2. **components.Components gotcha**: only controls constructed with the `IContainer` overload (e.g. `new ContextMenuStrip(this.components)`) are reachable via `components.Components`; `mainMenuStrip`/`statusStrip` are `new XxxStrip()` (MainForm.Designer.cs:57) and were missed by the ImageScalingSize loop → normalize them explicitly (`9b36cb1`).
+1. **Original net472 startup DPI leak**: In the original net472 tests, `Control.DeviceDpi`/`LogicalToDeviceUnits` reported **system DPI** (fixed at logon) at handle creation even when the window was created on a different-DPI monitor; the framework initial autoscale also used system DPI, and no `DpiChanged` fired. `GetDpiForWindow(Handle)` is the OS truth. Revalidate this behavior on net48 before removing or retaining the correction.
+2. **components.Components gotcha**: only controls constructed with the `IContainer` overload (e.g. `new ContextMenuStrip(this.components)`) are reachable via `components.Components`; `mainMenuStrip`/`statusStrip` are `new XxxStrip()` (MainForm.Designer.cs:57) and were missed by the ImageScalingSize loop → normalize them explicitly (`8920e77`).
 3. **TreeView ItemHeight**: WinForms form autoscale NEVER scales `ItemHeight` (custom property). GA 6.3.1 (chocolatey) has **no DPI declaration at all** → DPI-unaware → designer `ItemHeight=20` fixed forever (MainForm.Designer.cs:716, SelectEntityForm.Designer.cs:177). Font-only heights (old `d18235a`) cram the 16px node icons (Round 10 tiny-tree regression: 13px rows). Current formula in `ScaleTreeViewItemHeight`: `Max(ceil(Font.GetHeight(currentDpi)), ScaleToCurrentDpi(20))` → 20px@100%, 30px@150% — identical physical inches (30/144 = 20/96), which is what PMv2 is for. `Font.GetHeight(dpi)` is exact; `Font.Height` uses the DPI captured when the Font was created.
 4. **Font settings confounder**: the test machine's `UserSettings.config` had `logFontSize=12`/`treeViewFontSize=12` (written months before testing) → dev looked "bigger than GA". Keys removed; defaults are 8.25 (MainSettings.cs:100-101), applied via TwoFilesConfiguration.GetDecimalValue fallback when keys are absent.
 5. **comctl32 TreeView quirk under PMv2**: `TVM_GETITEMHEIGHT` readbacks are scaled/mangled (logs showed 13/9/6 for the same set value) — cosmetic in logs, don't trust the readback.
@@ -71,19 +59,87 @@ Do NOT blind cherry-pick: the 2024 base is far behind current `main` (Dashboard 
 - R4: system mode confirmed = bitmap-scale softness on non-primary-scale monitors (Erik's #807 blur, log-proven).
 - R5: PMv2 + AutoScaleMode.Dpi hypothesis CONFIRMED — startup @150% crisp; residuals scoped to custom-painted controls + cross-monitor moves. **Mode locked: PMv2 + Dpi + custom DPI-change code.**
 - R6–R9: rebuilt 440-1 iterations; GetDpiForWindow startup correction works (`correction=fired` on mismatch launches); menu 33px root-caused (components gotcha) and fixed; settings confounder identified and removed.
-- R10: settings removal verified (8.25pt everywhere, sxs matches GA for menus/toolbar/grid/log); tiny-treeview regression from the font-only ItemHeight formula found and fixed (`079ccaa`).
+- R10: settings removal verified (8.25pt everywhere, sxs matches GA for menus/toolbar/grid/log); tiny-treeview regression from the font-only ItemHeight formula found and fixed (`8ec4289`).
+
+## Round 11 visual results and follow-up implementation (2026-09-27)
+
+The latest side-by-side screenshots confirm that the main window at 150% is the only reported good result. At 100%, the dev build appears larger than GA in tabs, the Refresh button, TreeView text, and grid spacing. Launching on a 100% monitor while the primary is at 150% still looks oversized, and moving 150%→100% with the keyboard shortcut can leave the window badly laid out. Mouse moves also show oversized fonts/spacing in some areas. The Connect dialog looks generally good at 150%, but its URI editor and namespace dropdown are clipped.
+
+The first follow-up build improved the Dashboard toolbar layout, but the user reported little visible difference. The 2026-09-27 diagnostics provide specific causes:
+
+- 100% startup runs report TreeView and tab fonts at 12pt, while 150% startup runs report 8pt. Compare the saved TreeView font setting with GA before judging that font difference; the diagnostic line now records both actual and configured font sizes.
+- After 150%→100%, a single `DpiChanged` callback is logged (`144→96`), so the move is detected. However, the callback ends with `AutoScaleDimensions` still at 144, the TreeView/tab fonts reduced to 5.33pt, and splitter distances still at 1.5× their 96-DPI logical values. The remaining failure is stale/re-scaled layout state after the event, not a missing DPI notification.
+- In the 100%-startup correction scenario, `ConnectForm`'s child controls did not retain their designer-relative bounds after the whole form was scaled.
+
+**Round 11 implementation at that point (build/tests passed; visual gate pending then):**
+
+- Synchronize DPI `AutoScaleDimensions` after startup correction and DPI changes.
+- Reapply the configured TreeView/log fonts and an 8.25pt logical main-tab font after framework scaling; preserve split-container distances using the observed old/new window DPI, including startup-correction cases where `DeviceDpiOld` may not describe the monitor the window was actually on.
+- Keep Dashboard toolbar fonts and button/combo dimensions at their logical sizes per DPI, in addition to its table-based layout and grid metric updates.
+- Capture ConnectForm child bounds/fonts and client size at construction, normalize them to 96-DPI logical units, then restore at the active DPI and recalculate the URI editor. This avoids multiplying an already system-DPI-scaled snapshot a second time.
+- Temporary timestamped diagnostics were used during these test rounds. The diagnostic code has since been removed; the saved log files remain under `%LOCALAPPDATA%\ServiceBusExplorer\DpiDiagnostics`.
+
+## Round 13 screenshot and log review (2026-09-27)
+
+The latest 100% side-by-side screenshots still show larger TreeView text in the dev build. The matching 100%-startup diagnostics identify the configured TreeView font as 12pt; compare at the same Options value (8.25pt for a default comparison) before changing the app's user-configurable font behavior.
+
+The shortcut move is now visibly improved: the diagnostics show one `144→96` transition and finish with 96-DPI splitter distances (`566` and `372` logical pixels), 8pt TreeView text, and an 8.25pt tab font. The Connect dialog is the remaining regression from this iteration. At 150%, its `ClientSize` grew from `1176×716` to `1764×1074`; the logical-layout snapshot was captured after the designer had already scaled it to 144 DPI and was then scaled again. The snapshot is now normalized to 96 DPI when captured. **That correction is included in the current commit but still needs a visual retest.**
+
+## Round 15 screenshots/logs and DPI reconciliation (2026-10-04)
+
+The Connect dialog's outer size and editor bounds are now correct: at 144 DPI the logs show client `1176×716`, URI `(24,72,504,26)`, and namespace selector/dropdown width `504`; at 96 DPI they show client `784×477`, URI `(16,48,336,20)`, and selector width `336`. However, OK/Cancel remain at 5.5pt while neighboring labels are 8.25pt.
+
+The Options screenshot shows Tree View Font Size 5.50, but `UserSettings.config` contains no `treeViewFontSize` or `logFontSize` override. The 5.5pt value came from MainForm initializing the configured value from live `Font.Size`, then using it as the fallback when no config setting exists. `MainSettings.SetDefault()` specifies 8.25pt. This is an application default-initialization bug, not a deliberate user setting.
+
+The `d35c01b` DPI reconciliation code was exercised; the Oct 10 logs contain `correctiveScaleFactor=1`. At 23:07:06, the 96→144 event starts with a 3840×2065 form, then finishes with TreeView about `2551×3595`, tabs `6981×3673`, and log `9538×1340`. The deferred pass reports a split-container client of about `9554×5069`. On the return 144→96 transition, children remain larger than the 1920×998 form client. This matches the giant/blank-window screenshot. The event DPI ratio matched the actual window ratio, but WinForms' base autoscale still magnified a child hierarchy that had already expanded with the incoming window bounds.
+
+**Oct 18 DPI-font implementation (Release build succeeded; visual validation pending at that time):**
+
+- Seed MainForm's configured log/TreeView font fields from `MainSettings.SetDefault()` (8.25pt), apply them as point-based fonts, and use those logical fields when opening Options. Missing config keys now resolve to the documented defaults irrespective of startup DPI.
+- Calculate effective MainForm, Dashboard, ConnectForm, and ToolStrip item fonts from `actual window DPI / system DPI`. This keeps the same font scale on a 100% monitor whether the window starts there with stale `DeviceDpi` or moves there after WinForms updates it; logical options remain point sizes, and the original font is restored on return to the system-DPI monitor.
+- The Oct 18 100% logs show Dashboard's header font at 5.5pt but its effective body-cell font remained 8.25pt even though `fontScale=0.6667`; set the grid, row template, row/column styles, and existing rows so each cell uses the logical DPI-adjusted font after the grid handle is created.
+- After the .NET Framework 4.8 retarget, rely on native ToolStrip/ToolStripItem DPI handling for menu-item fonts, sizes, images, and dropdown layout. MainForm no longer recalculates menu-item metrics or hooks dropdown-opening events; dynamic saved connections use the default autosized menu items.
+- Temporary filter-textbox diagnostics were used to validate direct startup on a monitor with a different DPI from the system DPI and have now been removed with the other instrumentation.
+- Use the standard WinForms FlatStyle for the Dashboard Refresh button and reapply its DPI-adjusted font after its native handle is created. Diagnostics now include the effective button font and DeviceDpi for comparison with the toolbar labels.
+- MainForm and ConnectForm now declare that they manage their child layout themselves. For those forms, keep `AutoScaleDimensions` at WinForms' current `DeviceDpi` so its automatic pass is a no-op; MainForm uses the OS-provided outer bounds, explicit logical child layout, and bounded split ratios, while Connect restores its captured 96-DPI layout. Other forms retain the framework scaling path. This prevents MainForm's child hierarchy from being autoscaled after its dock/anchor layout has already responded to the new window bounds.
+- Re-bound the anchored main split container to logical margins and the menu/status-strip area after startup and monitor changes before laying out descendants and restoring splitter ratios.
+- Set Connect's OK/Cancel and Save/Rename/Delete buttons to the standard 8.25pt dialog label font before storing their logical layout.
+
+## Round 25 visual result (2026-10-25)
+
+The user reports that the integrated .NET Framework 4.8 app generally looks good and its menu items resize when moving between 150% and 100% in both directions. A direct 100% startup with system DPI 150% made the filter textbox look too small. The 19:48:18 diagnostics showed `windowDpi=96`, `systemDpi=144`, and the filter's `SetFontSize` call applying the 5.5pt system-DPI ratio after startup correction; that extra call was removed. The user confirmed the latest post-fix test works.
+
+The screenshot showed `Exception: Parameter is not valid.` around 18:09:02 while the Connect form was opening. The corresponding DPI log recorded ConnectForm startup but not the exception or a stack trace. The user reports the latest test after removing the app-level ToolStrip DPI/font/image scaling workarounds works with native .NET Framework 4.8 handling.
+
+Temporary DPI logging and awareness-check P/Invokes have been removed from the application. The functional `GetDpiForWindow` P/Invoke remains because the DPI rescaling code uses it to determine the window's actual monitor DPI. Existing diagnostic log files are retained outside the repository under `%LOCALAPPDATA%\ServiceBusExplorer\DpiDiagnostics`.
+
+## Event Grid Connect dialog (2026-11-01)
+
+Side-by-side comparison with GA 6.3.1 found a shorter API version dropdown, taller OK/Cancel buttons, fields offset upward at 100%, and a clipped Cloud Tenant group box. Causes and fixes:
+
+- A docked ComboBox in an AutoSize `TableLayoutPanel` row shrinks to its preferred width (116 instead of 193 logical pixels). The combo and retry textbox are now anchored, and the combo has a 193px minimum width.
+- The tenant group box had a fixed height, and padded AutoSize buttons grew across monitor moves. The tenant group box and its table now autosize, and the buttons have fixed logical sizes (72×24).
+- The dialog now follows the ConnectForm pattern: `HandlesDpiScaleManually => true`, and `OnDpiScaleChanged` restores the 96-DPI logical client size (414×442), paddings, editor widths, button sizes, and an 8.25pt DPI-adjusted font on every DPI callback.
+- `Exception: Parameter is not valid.` was logged on open because repeated DPI callbacks at the same DPI created an equal Font; `Control.Font` kept the earlier equal object, which was then disposed, and `Font.ToLogFont` failed during child handle creation. The dialog now reuses the font when the size is unchanged and disposes only replaced fonts.
+- Subscription ID receives focus on open, as in GA. The tenant lookup now reads from `cloudSettingsTable`.
+- Regression tests: `EventGridConnectFormTests` (tenant selection, repeated DPI layout font usability, initial focus and default API version).
+
+The user visually confirmed the dialog matches GA at 100% and 150%, launched on or moved to either monitor, and that the exception is gone.
+
+**Automated UI validation is available**: a temporary probe executable (compiled with `csc.exe` and the app manifest, beside a copy of the app `.exe.config` so PerMonitorV2 applies) can load the app assembly, open `MainForm`, invoke menu items, move windows between monitors, dump control bounds/focus/log text, and capture screenshots. Keep probes in the session folder, not in the repository.
 
 ## What remains before PR1 (upstream)
 
-1. **Round 11 visual gate** (short): (a) launch 4K@100% sxs GA → roomy tree, log `treeView.ItemHeight=20`; (b) launch 4K@150% → `ItemHeight=30`; (c) move 150%↔100% both ways → tree stays correct; (d) launch FullHD w/ primary@150% (correction path) → tree correct + `menuStrip.ImageScalingSize=20`; (e) dead-letter Move/transfer dialog (SelectEntityForm) tree at 150%; (f) optional: Options → treeViewFontSize=12 → rows grow in MainForm AND SelectEntityForm.
-2. **Known residuals (not blocking)**: Dashboard/Explorer tabs slightly chunky (vanilla TabControl — layer 440-4 TabControlHelper territory); interval combo clipped ("in") only on the correction-fired path (DashboardControl toolbar fixed-px layout, DashboardControl.cs:97-134); "New Version" link overlaps "Microsoft Azure" header text (dev builds only); window keeps 150% size after move to 100% (content correct, acceptable).
-3. **Before opening the upstream PR**: drop TEMP code (commit `49c7a91` + the TEMP log lines in `DpiAwareForm.OnHandleCreated` and `MainForm.OnDpiScaleChanged`), rebase to drop the fork-tooling layer (this file + copilot-instructions.md are fork-only), push, open PR to paolosalvatori/ServiceBusExplorer referencing issue #440. Ask maintainers about merge strategy on #440 when the first PR is ready, not before.
+1. **Foundation visual gate**: done. The user has confirmed the filter textbox, menus, Dashboard, Connect, and Event Grid Connect dialogs. The ThinkPad P16 4K@250% remains untested (the layer minimum is FullHD@100% plus one 4K monitor).
+2. **Final diff review**: the user reviews the `440-1-foundation` product diff against `upstream/main` (GitHub compare view or Visual Studio).
+3. **Create `pr/440-1-foundation`**: start from a fresh `upstream/main`, then cherry-pick and consolidate the product commits from `440-1-foundation` into a few reviewable commits. Do not include `fork-tooling` files (this file, `high-dpi-plan.md`, `copilot-instructions.md`, `csharp.instructions.md`).
+4. **Open the upstream PR** to `paolosalvatori/ServiceBusExplorer` referencing issue #440, only after the user approves. Ask maintainers about the merge strategy on #440 at that point, not before.
 
 ## Build / test / conventions
 
 - Build: `dotnet build src\ServiceBusExplorer.sln -c Release` (pre-existing MSB3884 ruleset warning is benign).
-- Test: `$env:FILE_VERSION='1.0.0.1'; dotnet test src\ServiceBusExplorer.sln -c Release` — 106/106 passing (FILE_VERSION needed locally for the CI version test).
-- Run: `src\ServiceBusExplorer\bin\Release\net472\ServiceBusExplorer.exe`.
+- Test: `$env:FILE_VERSION='1.0.0.1'; dotnet test src\ServiceBusExplorer.sln -c Release` — all tests passing (FILE_VERSION needed locally for the CI version test).
+- Run: `src\ServiceBusExplorer\bin\Release\ServiceBusExplorer.exe`.
 - Commits: English, **no Co-authored-by Copilot trailer**, reference paolosalvatori/ServiceBusExplorer#440 in the body.
 - TreatWarningsAsErrors=true; no new `#region`; minimal comments; CRLF; 4-space indent.
 - Monitor matrix: ThinkVision E28u-20 4K@150%/100% (primary), ThinkPad P73 FullHD@100%, ThinkPad P16 4K@250% (untested); Erik: Dell 3440×1440@100% primary, Surface@125%/150%. The 100%-scale entries are mandatory per layer (the #807 revert was a 100%-scale regression).
