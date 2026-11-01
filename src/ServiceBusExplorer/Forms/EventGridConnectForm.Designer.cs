@@ -73,8 +73,6 @@ namespace ServiceBusExplorer.Forms
             this.btnOk.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnOk.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOk.AutoSize = true;
-            this.btnOk.Padding = new System.Windows.Forms.Padding(12, 4, 12, 4);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(72, 24);
             this.btnOk.TabIndex = 46;
@@ -90,8 +88,6 @@ namespace ServiceBusExplorer.Forms
             this.btnCancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.AutoSize = true;
-            this.btnCancel.Padding = new System.Windows.Forms.Padding(12, 4, 12, 4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(72, 24);
             this.btnCancel.TabIndex = 47;
@@ -104,7 +100,7 @@ namespace ServiceBusExplorer.Forms
             this.pbAzure.BackgroundImage = global::ServiceBusExplorer.Properties.Resources.MicrosoftAzureWhiteLogo;
             this.pbAzure.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbAzure.ErrorImage = null;
-            this.pbAzure.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
+            this.pbAzure.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.pbAzure.Name = "pbAzure";
             this.pbAzure.Size = new System.Drawing.Size(110, 14);
             this.pbAzure.TabIndex = 48;
@@ -112,6 +108,7 @@ namespace ServiceBusExplorer.Forms
             // 
             // grouperEventGridNamespaceSettings
             // 
+            this.grouperEventGridNamespaceSettings.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.grouperEventGridNamespaceSettings.BackgroundColor = System.Drawing.Color.White;
             this.grouperEventGridNamespaceSettings.BackgroundGradientColor = System.Drawing.Color.White;
             this.grouperEventGridNamespaceSettings.BackgroundGradientMode = ServiceBusExplorer.Controls.Grouper.GroupBoxGradientMode.None;
@@ -127,7 +124,7 @@ namespace ServiceBusExplorer.Forms
             this.grouperEventGridNamespaceSettings.Location = new System.Drawing.Point(22, 25);
             this.grouperEventGridNamespaceSettings.Margin = System.Windows.Forms.Padding.Empty;
             this.grouperEventGridNamespaceSettings.Name = "grouperEventGridNamespaceSettings";
-            this.grouperEventGridNamespaceSettings.Padding = new System.Windows.Forms.Padding(20);
+            this.grouperEventGridNamespaceSettings.Padding = new System.Windows.Forms.Padding(16, 30, 16, 12);
             this.grouperEventGridNamespaceSettings.PaintGroupBox = true;
             this.grouperEventGridNamespaceSettings.RoundCorners = 4;
             this.grouperEventGridNamespaceSettings.ShadowColor = System.Drawing.Color.DarkGray;
@@ -142,14 +139,17 @@ namespace ServiceBusExplorer.Forms
             this.cboApiVersion.Items.AddRange(new object[] {
             "2023-12-15-preview",
             "2023-06-01-preview"});
-            this.cboApiVersion.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cboApiVersion.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left;
             this.cboApiVersion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
+            this.cboApiVersion.MinimumSize = new System.Drawing.Size(193, 0);
             this.cboApiVersion.Name = "cboApiVersion";
             this.cboApiVersion.Size = new System.Drawing.Size(193, 21);
             this.cboApiVersion.TabIndex = 54;
             // 
             // cloudGroupBox
             // 
+            this.cloudGroupBox.AutoSize = true;
+            this.cloudGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.cloudGroupBox.BackColor = System.Drawing.Color.Transparent;
             this.cloudGroupBox.Controls.Add(this.cloudSettingsTable);
             this.cloudGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
@@ -210,9 +210,9 @@ namespace ServiceBusExplorer.Forms
             // 
             // txtRetryTimeout
             // 
-            this.txtRetryTimeout.Dock = System.Windows.Forms.DockStyle.Left;
+            this.txtRetryTimeout.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left;
             this.txtRetryTimeout.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.txtRetryTimeout.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
+            this.txtRetryTimeout.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this.txtRetryTimeout.Name = "txtRetryTimeout";
             this.txtRetryTimeout.Size = new System.Drawing.Size(103, 20);
             this.txtRetryTimeout.TabIndex = 19;
@@ -233,7 +233,7 @@ namespace ServiceBusExplorer.Forms
             // 
             this.txtSubscriptionId.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtSubscriptionId.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.txtSubscriptionId.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
+            this.txtSubscriptionId.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this.txtSubscriptionId.Name = "txtSubscriptionId";
             this.txtSubscriptionId.Size = new System.Drawing.Size(336, 20);
             this.txtSubscriptionId.TabIndex = 0;
@@ -254,7 +254,7 @@ namespace ServiceBusExplorer.Forms
             this.txtResourceGroupName.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtResourceGroupName.BackColor = System.Drawing.SystemColors.Window;
             this.txtResourceGroupName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.txtResourceGroupName.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
+            this.txtResourceGroupName.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this.txtResourceGroupName.Name = "txtResourceGroupName";
             this.txtResourceGroupName.Size = new System.Drawing.Size(336, 20);
             this.txtResourceGroupName.TabIndex = 1;
@@ -285,7 +285,7 @@ namespace ServiceBusExplorer.Forms
             // 
             this.txtNamespaceName.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtNamespaceName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.txtNamespaceName.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
+            this.txtNamespaceName.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this.txtNamespaceName.Name = "txtNamespaceName";
             this.txtNamespaceName.Size = new System.Drawing.Size(336, 20);
             this.txtNamespaceName.TabIndex = 3;
@@ -321,7 +321,7 @@ namespace ServiceBusExplorer.Forms
             this.contextFieldsTable.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.contextFieldsTable.Margin = System.Windows.Forms.Padding.Empty;
             this.contextFieldsTable.Name = "contextFieldsTable";
-            this.contextFieldsTable.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.contextFieldsTable.Padding = System.Windows.Forms.Padding.Empty;
             this.contextFieldsTable.RowCount = 12;
             this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
             this.contextFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
@@ -340,13 +340,15 @@ namespace ServiceBusExplorer.Forms
             //
             // cloudSettingsTable
             //
+            this.cloudSettingsTable.AutoSize = true;
+            this.cloudSettingsTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.cloudSettingsTable.ColumnCount = 2;
             this.cloudSettingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
             this.cloudSettingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.cloudSettingsTable.Controls.Add(this.btnPublicCloud, 0, 0);
             this.cloudSettingsTable.Controls.Add(this.btnCustomCloud, 0, 1);
             this.cloudSettingsTable.Controls.Add(this.txtCustomId, 1, 1);
-            this.cloudSettingsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cloudSettingsTable.Dock = System.Windows.Forms.DockStyle.Top;
             this.cloudSettingsTable.Margin = System.Windows.Forms.Padding.Empty;
             this.cloudSettingsTable.Name = "cloudSettingsTable";
             this.cloudSettingsTable.Padding = System.Windows.Forms.Padding.Empty;
