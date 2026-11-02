@@ -29,6 +29,23 @@ Read this together with `.github/copilot-instructions.md` (project/fork overview
 
 Do NOT blind cherry-pick: the 2024 base is far behind current `main` (Dashboard tab, TreeView filter box, and the entire Event Grid feature are new since 2024 and have zero High DPI coverage — test them on every layer). Merge commits 25/33/36 are dropped.
 
+## Designer baselines other than 96 DPI (visual-test watchlist)
+
+Most forms and controls store 96-DPI layouts (`AutoScaleDimensions = 96F, 96F`). The Event Grid designers below store 150% layouts (`144F, 144F`), so WinForms scales them by `runtime DPI ÷ 144`. Changing only their baseline to 96 would make them 1.5× too large; normalizing them requires converting their stored sizes, locations, margins, and paddings as well.
+
+| Designer file (`src/ServiceBusExplorer/`) | Origin of the 144-DPI baseline |
+|---|---|
+| `Controls/HandleEventGridNamespaceControl.Designer.cs` | `9a5a72a` converted `AutoScaleMode.Font` (9×20, authored at 150%) to `Dpi` with 144×144 |
+| `Controls/HandleEventGridTopicControl.Designer.cs` | Same conversion in `9a5a72a` |
+| `Controls/HandleEventGridSubscriptionControl.Designer.cs` | Same conversion in `9a5a72a` |
+| `Forms/PublishEventForm.Designer.cs` | Same conversion in `9a5a72a` |
+| `Forms/CreateEventGridTopicForm.Designer.cs` | Already `Dpi` with 144×144 upstream |
+| `Forms/CreateEventGridSubscriptionForm.Designer.cs` | Already `Dpi` with 144×144 upstream |
+
+None of these has had a dedicated visual pass. When the Event Grid screens are addressed, compare each one side by side with GA at 100% and 150%, both launched on and moved to each monitor. Then decide whether to keep the 144-DPI baseline or normalize the designer to 96 DPI together with all its stored metrics.
+
+Related exceptions: `HandleRuleControl` intentionally stays at `AutoScaleMode.None` (layer 440-2), and `EventGridConnectForm`'s settings Grouper uses `AutoScaleMode.None` because the dialog restores its logical layout manually.
+
 ## 440-1-foundation — current branch
 
 The branch is based on `fork-tooling` and contains product changes only; all fork documentation lives on `fork-tooling`. Its initial commit enables PerMonitorV2 with `AutoScaleMode.Dpi` and targets .NET Framework 4.8. Later commits restore native ToolStrip dropdown layout and finish with the Event Grid Connect dialog fixes. The branch history contains the preceding DPI and layout iterations; consolidate them when creating `pr/440-1-foundation`.

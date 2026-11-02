@@ -112,6 +112,7 @@ I analyzed all 52 commits in `high-dpi-commits` (chronological) and grouped them
          - **Dashboard tab** (new default tab in MainForm): DataGridView with message counts, auto-refresh, copy-row, sorting
          - **TreeView filter box** (`filterTreeViewTextBox`): filter box above the TreeView + clear button + Ctrl+F
          - **Event Grid** (entire feature): `EventGridConnectForm`, `CreateEventGridTopicForm`, `CreateEventGridSubscriptionForm`, `PublishEventForm`, `ReceiveEventForm`, and `HandleEventGridNamespace/Topic/SubscriptionControl`
+           - Six of these designers use a 144-DPI baseline instead of 96 and need a dedicated side-by-side check against GA; see "Designer baselines other than 96 DPI" in `high-dpi-status.md`
          - MainForm's two-tab layout (Dashboard + Explorer)
     f. Commit, push, move to next layer
 11. If a layer turns out too big while building it, split it (stacked PRs make this cheap — `gh stack add` inserts a new layer on top)
